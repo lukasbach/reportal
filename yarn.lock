@@ -2691,9 +2691,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"TODO-package-name@workspace:.":
+"hellogh@workspace:.":
   version: 0.0.0-use.local
-  resolution: "TODO-package-name@workspace:."
+  resolution: "hellogh@workspace:."
   dependencies:
     "@lukasbach/eslint-config-deps": ^1.0.3
     "@octokit/graphql": ^5.0.5
@@ -2720,7 +2720,7 @@ __metadata:
     typescript: ^5.0.3
     vite: ^4.2.1
   bin:
-    TODO-package-name: TODO lib/cjs/index.js
+    hellogh: TODO lib/cjs/index.js
   languageName: unknown
   linkType: soft
 

@@ -1,5 +1,5 @@
 {
-  "name": "TODO-package-name",
+  "name": "hellogh",
   "version": "0.0.1",
   "description": "TODO",
   "bin": "TODO lib/cjs/index.js",
@@ -7,7 +7,7 @@
   "module": "lib/esm/index.js",
   "esnext": "lib/esnext/index.js",
   "typings": "lib/esm/index.d.ts",
-  "repository": "https://github.com/lukasbach/{NAME}",
+  "repository": "https://github.com/lukasbach/hellogh",
   "author": "Lukas Bach <npm@lukasbach.com>",
   "license": "MIT",
   "files": [

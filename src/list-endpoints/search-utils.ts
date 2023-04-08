@@ -73,19 +73,20 @@ const getSuggestions = (finalPart: string, search: string, endpoint: ListEndpoin
     }
   }
 
-  const clientFilterSuggestions = endpoint.responseFields
-    .filter(({ name }) => testSuggestion(`${name}:`, finalPart))
-    .map(({ name }) => ({
-      text: `${name}:`,
-      newValue: `${searchPrefix}${name}:`,
-    }));
   const serverFilterSuggestions = endpoint.serverFilters
     .filter(({ key }) => testSuggestion(`${key}:`, finalPart))
     .map(({ key }) => ({
       text: `${key}:`,
       newValue: `${searchPrefix}${key}:`,
     }));
-  return [...clientFilterSuggestions, ...serverFilterSuggestions];
+  const clientFilterSuggestions = endpoint.responseFields
+    .filter(({ jsonKey }) => testSuggestion(`${jsonKey}:`, finalPart))
+    .filter(({ jsonKey }) => !endpoint.serverFilters.some((serverFilter) => serverFilter.key === jsonKey))
+    .map(({ jsonKey }) => ({
+      text: `${jsonKey}:`,
+      newValue: `${searchPrefix}${jsonKey}:`,
+    }));
+  return [...serverFilterSuggestions, ...clientFilterSuggestions];
 };
 
 export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any>) => {
@@ -104,7 +105,7 @@ export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any
     .filter(isNotNullish);
   const clientFilters = filters
     .map<FilterValue<ResponseField> | null>((item) => {
-      const filter = endpoint.responseFields.find((clientField) => clientField.name.toLowerCase() === item.key);
+      const filter = endpoint.responseFields.find((clientField) => clientField.jsonKey === item.key);
       return filter
         ? {
             filter,

@@ -98,7 +98,29 @@ export type IssueData = {
 export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
   override readonly name = "Issues";
 
-  override readonly responseFields = [];
+  override readonly defaultFields = ["number", "title", "author.login", "repository.nameWithOwner", "state"];
+
+  override readonly responseFields = [
+    { jsonKey: "number", name: "Number" },
+    { jsonKey: "closed", name: "Closed" },
+    { jsonKey: "author.login", name: "Author" },
+    { jsonKey: "title", name: "Title" },
+    { jsonKey: "repository.nameWithOwner", name: "Repo Name with Owner" },
+    { jsonKey: "repository.description", name: "Repo Description" },
+    { jsonKey: "repository.createdAt", name: "Repo Created Date" },
+    { jsonKey: "repository.homepageUrl", name: "Repo Homepage" },
+    { jsonKey: "repository.name", name: "Repo Name" },
+    { jsonKey: "repository.owner.login", name: "Repo Owner Login" },
+    { jsonKey: "repository.stargazerCount", name: "Repo Stargazer Count" },
+    { jsonKey: "body", name: "Body" },
+    { jsonKey: "closedAt", name: "Closed Date" },
+    { jsonKey: "comments.totalCount", name: "Comments Count" },
+    { jsonKey: "createdAt", name: "Created Date" },
+    { jsonKey: "state", name: "State" },
+    { jsonKey: "stateReason", name: "State Reason" },
+    { jsonKey: "updatedAt", name: "Updated Date" },
+    { jsonKey: "url", name: "URL" },
+  ];
 
   override readonly serverFilters = [
     { key: "type", suggestions: ["issue", "pr"] },

@@ -1,9 +1,8 @@
 import { createHashRouter } from "react-router-dom";
-import { Box } from "@primer/react";
+import React from "react";
 import { HomePage } from "./components/home/home-page";
 import { AppLayout } from "./components/common/app-layout";
 import { authCheckLoader } from "./auth";
-import { SearchInput } from "./components/list/search-input";
 import { IssueSearchEndpoint } from "./list-endpoints/issue-search-endpoint";
 import { ListPage } from "./components/list/list-page";
 
@@ -18,7 +17,7 @@ export const router = createHashRouter([
     children: [
       {
         path: "dashboard",
-        element: <ListPage />,
+        element: <ListPage endpoint={new IssueSearchEndpoint()} />,
         loader: authCheckLoader,
       },
     ],

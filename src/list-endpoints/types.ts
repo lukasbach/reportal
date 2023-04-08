@@ -48,6 +48,8 @@ export type Action<T> = {
 export abstract class ListEndpointDefinition<T> {
   abstract readonly name: string;
 
+  abstract readonly defaultFields: string[];
+
   abstract readonly responseFields: ResponseField[];
 
   abstract readonly serverFilters: ServerFilter[];

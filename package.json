@@ -48,7 +48,7 @@
     "yarn": "3.5.0"
   },
   "eslintConfig": {
-    "extends": "@lukasbach/base",
+    "extends": "@lukasbach/base/react",
     "parserOptions": {
       "project": "./tsconfig.json"
     },

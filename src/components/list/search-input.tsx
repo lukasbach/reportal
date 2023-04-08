@@ -57,6 +57,8 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
         borderColor="border.default"
         borderRadius={2}
         bg="canvas.overlay"
+        maxHeight="300px"
+        overflow="auto"
       >
         <ActionList role="listbox">
           <ActionList.Group>

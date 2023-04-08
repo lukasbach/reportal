@@ -15,7 +15,7 @@ export const useFetchListItems = (endpoint: ListEndpointDefinition<any>, search:
         searchStrings: search.searchTerms,
         filters: search.serverFilters,
       }),
-    [pageSize, octokit, search.searchTerms, search.serverFilters]
+    [endpoint, pageSize, octokit, search.searchTerms, search.serverFilters]
   );
 
   const { fetchNextPage, hasNextPage, isFetching, data, error } = useInfiniteQuery({

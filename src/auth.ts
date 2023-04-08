@@ -1,14 +1,51 @@
 import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 import { create } from "zustand";
 import { redirect } from "react-router";
+import { Octokit } from "@octokit/rest";
 import { firebaseApp } from "./main";
 
-const useAuthStore = create<{ token?: string; displayName?: string; email?: string; isLoggedIn: boolean }>(() => ({
+const useAuthStore = create<{
+  token?: string;
+  displayName?: string;
+  email?: string;
+  kit: Octokit;
+  isLoggedIn: boolean;
+}>(() => ({
   token: undefined,
   displayName: undefined,
   email: undefined,
   isLoggedIn: false,
+  kit: undefined,
 }));
+
+export const setupAuthCallback = () => {
+  console.log("setup");
+  const auth = getAuth(firebaseApp);
+  auth.onAuthStateChanged((user) => {
+    console.log("onAuthStateChanged", user);
+    if (user) {
+      const { displayName, email } = user;
+      const token = localStorage.getItem("token");
+      useAuthStore.setState({
+        token,
+        displayName: displayName ?? undefined,
+        email: email ?? undefined,
+        isLoggedIn: true,
+        kit: new Octokit({ auth: token }),
+      });
+      window.location.href = "#/app/dashboard";
+    } else {
+      localStorage.removeItem("token");
+      useAuthStore.setState({
+        token: undefined,
+        displayName: undefined,
+        email: undefined,
+        isLoggedIn: false,
+        kit: undefined,
+      });
+    }
+  });
+};
 
 export const login = async () => {
   const provider = new GithubAuthProvider();
@@ -20,12 +57,13 @@ export const login = async () => {
   const result = await signInWithPopup(auth, provider);
   const { displayName, email } = result.user;
   const token = GithubAuthProvider.credentialFromResult(result)?.accessToken;
-  console.log("Token", token);
+  localStorage.setItem("token", token ?? "");
   useAuthStore.setState({
     token: token ?? undefined,
     displayName: displayName ?? undefined,
     email: email ?? undefined,
     isLoggedIn: true,
+    kit: new Octokit({ auth: token }),
   });
   window.location.href = "#/app/dashboard";
 };

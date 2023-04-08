@@ -3,8 +3,9 @@ import { Box } from "@primer/react";
 import { HomePage } from "./components/home/home-page";
 import { AppLayout } from "./components/common/app-layout";
 import { authCheckLoader } from "./auth";
-import { SearchInput } from "./components/list-search/search-input";
+import { SearchInput } from "./components/list/search-input";
 import { IssueSearchEndpoint } from "./list-endpoints/issue-search-endpoint";
+import { ListPage } from "./components/list/list-page";
 
 export const router = createHashRouter([
   {
@@ -17,11 +18,7 @@ export const router = createHashRouter([
     children: [
       {
         path: "dashboard",
-        element: (
-          <Box m={8}>
-            <SearchInput endpoint={new IssueSearchEndpoint()} onChange={console.log} />
-          </Box>
-        ),
+        element: <ListPage />,
         loader: authCheckLoader,
       },
     ],

@@ -1,5 +1,6 @@
 /* eslint-disable no-continue */
-import { ListEndpointDefinition, UnclassifiedFilter } from "./types";
+import { FilterValue, ListEndpointDefinition, ResponseField, ServerFilter, UnclassifiedFilter } from "./types";
+import { isNotNullish } from "../utils";
 
 export const parseIntoFilters = (search: string) => {
   const filters: UnclassifiedFilter[] = [];
@@ -84,18 +85,37 @@ const getSuggestions = (finalPart: string, search: string, endpoint: ListEndpoin
       text: `${key}:`,
       newValue: `${searchPrefix}${key}:`,
     }));
-  console.log({ finalPart, search, searchPrefix, clientFilterSuggestions, serverFilterSuggestions });
   return [...clientFilterSuggestions, ...serverFilterSuggestions];
 };
 
 export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any>) => {
   const { filters, searchTerms, finalItem } = parseIntoFilters(search);
-  const serverFilters = filters.filter((filter) =>
-    endpoint.serverFilters.some((serverFilter) => serverFilter.key === filter.key)
-  );
-  const clientFilters = filters.filter((filter) =>
-    endpoint.responseFields.some((clientField) => clientField.name.toLowerCase() === filter.key)
-  );
+  const serverFilters = filters
+    .map<FilterValue<ServerFilter> | null>((item) => {
+      const filter = endpoint.serverFilters.find((serverFilter) => serverFilter.key === item.key);
+      return filter
+        ? {
+            filter,
+            negated: item.negated,
+            value: item.value,
+          }
+        : null;
+    })
+    .filter(isNotNullish);
+  const clientFilters = filters
+    .map<FilterValue<ResponseField> | null>((item) => {
+      const filter = endpoint.responseFields.find((clientField) => clientField.name.toLowerCase() === item.key);
+      return filter
+        ? {
+            filter,
+            negated: item.negated,
+            value: item.value,
+          }
+        : null;
+    })
+    .filter(isNotNullish);
   const suggestions = getSuggestions(finalItem, search, endpoint);
-  return { filters, searchTerms, finalItem, serverFilters, clientFilters, suggestions };
+  return { filters, searchTerms, finalItem, serverFilters, clientFilters, suggestions, search };
 };
+
+export type ParsedSearchResult = ReturnType<typeof parseSearch>;

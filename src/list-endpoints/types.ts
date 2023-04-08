@@ -1,4 +1,5 @@
 import { Octokit } from "@octokit/rest";
+import { QueryFunctionContext, QueryKey } from "@tanstack/react-query";
 
 export type ResponseField = {
   jsonKey: string;
@@ -27,8 +28,19 @@ export type UnclassifiedFilter = {
 export type ListSearchProps = {
   octokit: Octokit;
   filters: FilterValue<ServerFilter>[];
-  page: number;
+  pageSize: number;
   searchStrings: string[];
+};
+
+export type SearchQueryDefinition = {
+  queryKey: any[];
+  queryFn: (ctx: QueryFunctionContext<QueryKey, { cursor: string }>) => Promise<{
+    result: any[];
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    endCursor: string;
+    startCursor: string;
+  }>;
 };
 
 export type Action<T> = {
@@ -43,6 +55,6 @@ export abstract class ListEndpointDefinition<T> {
 
   abstract readonly serverFilters: ServerFilter[];
 
-  abstract search(searchProps: ListSearchProps): Promise<T[]>;
+  abstract getSearchQueries(searchProps: ListSearchProps): SearchQueryDefinition;
   abstract readonly actions: Action<T>[];
 }

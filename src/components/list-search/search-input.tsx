@@ -1,18 +1,23 @@
-import React, { FC, useMemo, useRef, useState } from "react";
-import { ActionList, Autocomplete, Box, Overlay, Popover, TextInput } from "@primer/react";
+import React, { FC, useEffect, useMemo, useRef, useState } from "react";
+import { ActionList, Box, TextInput } from "@primer/react";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
-import { parseIntoFilters, parseSearch } from "../../list-endpoints/search-utils";
+import { ParsedSearchResult, parseSearch } from "../../list-endpoints/search-utils";
 
 export type SearchInputProps = {
   endpoint: ListEndpointDefinition<any>;
+  onChange: (result: ParsedSearchResult) => void;
 };
 
-export const SearchInput: FC<SearchInputProps> = ({ endpoint }) => {
+export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState("");
   const parsed = useMemo(() => parseSearch(value, endpoint), [value]);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    onChange(parsed);
+  }, [parsed]);
 
   return (
     <>

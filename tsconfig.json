@@ -9,6 +9,6 @@
     "moduleResolution": "Node",
     "jsx": "react-jsx"
   },
-  "include": ["src", "vite.config.ts"],
+  "include": ["src", "vite.config.ts", "codegen.ts"],
   "exclude": ["src/**/template-*"]
 }

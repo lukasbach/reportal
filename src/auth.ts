@@ -4,7 +4,7 @@ import { redirect } from "react-router";
 import { Octokit } from "@octokit/rest";
 import { firebaseApp } from "./main";
 
-const useAuthStore = create<{
+export const useAuthStore = create<{
   token?: string;
   displayName?: string;
   email?: string;

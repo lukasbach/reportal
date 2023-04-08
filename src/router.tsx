@@ -19,7 +19,7 @@ export const router = createHashRouter([
         path: "dashboard",
         element: (
           <Box m={8}>
-            <SearchInput endpoint={new IssueSearchEndpoint()} />
+            <SearchInput endpoint={new IssueSearchEndpoint()} onChange={console.log} />
           </Box>
         ),
         loader: authCheckLoader,

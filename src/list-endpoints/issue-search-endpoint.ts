@@ -1,5 +1,65 @@
+import { QueriesOptions } from "@tanstack/react-query/build/lib/useQueries";
+import { QueryFunctionContext, useQueries, useQuery } from "@tanstack/react-query";
 import { Action, ListEndpointDefinition, ResponseField, ServerFilter } from "./types";
+import { graphql } from "../gql";
 
+const issueSearchQuery = /* GraphQL */ `
+  query issueSearchQuery($search: String!, $first: Int!, $after: String) {
+    search(type: ISSUE, query: $search, first: $first, after: $after) {
+      nodes {
+        ... on Issue {
+          number
+          closed
+          author {
+            login
+            avatarUrl(size: 32)
+          }
+          title
+          repository {
+            nameWithOwner
+            description
+            createdAt
+            id
+            homepageUrl
+            name
+            owner {
+              avatarUrl(size: 32)
+              login
+            }
+            stargazerCount
+          }
+          body
+          closedAt
+          comments {
+            totalCount
+          }
+          createdAt
+          id
+          labels(first: 100) {
+            nodes {
+              color
+              createdAt
+              id
+              description
+              name
+            }
+            totalCount
+          }
+          state
+          stateReason
+          updatedAt
+          url
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+    }
+  }
+`;
 export type IssueData = {
   author: {
     login: string;
@@ -55,7 +115,21 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
 
   override readonly actions;
 
-  override async search({}) {
-    return [];
+  override getSearchQueries(props) {
+    const { octokit, filters, searchStrings, pageSize } = props;
+    return {
+      queryKey: ["issueSearch", searchStrings, filters, pageSize],
+      queryFn: async ({ pageParam }) => {
+        const result = await octokit.graphql(issueSearchQuery.toString(), {
+          search: "assignee:lukasbach",
+          first: pageSize,
+          after: pageParam,
+        });
+        return {
+          result: result.search.nodes,
+          ...result.search.pageInfo,
+        };
+      },
+    };
   }
 }

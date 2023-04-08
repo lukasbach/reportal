@@ -119,3 +119,10 @@ export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any
 };
 
 export type ParsedSearchResult = ReturnType<typeof parseSearch>;
+
+export const constructGithubSearch = (searchStrings: string[], filters: FilterValue<ServerFilter>[]) => {
+  return [
+    ...filters.map(({ filter, value, negated }) => `${negated ? "-" : ""}${filter.key}:${value}`),
+    ...searchStrings.map((term) => (term.includes(" ") ? `"${term}"` : term)),
+  ].join(" ");
+};

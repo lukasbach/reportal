@@ -1,7 +1,5 @@
-import { QueriesOptions } from "@tanstack/react-query/build/lib/useQueries";
-import { QueryFunctionContext, useQueries, useQuery } from "@tanstack/react-query";
-import { Action, ListEndpointDefinition, ResponseField, ServerFilter } from "./types";
-import { graphql } from "../gql";
+import { ListEndpointDefinition } from "./types";
+import { constructGithubSearch } from "./search-utils";
 
 const issueSearchQuery = /* GraphQL */ `
   query issueSearchQuery($search: String!, $first: Int!, $after: String) {
@@ -117,19 +115,16 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
 
   override getSearchQueries(props) {
     const { octokit, filters, searchStrings, pageSize } = props;
-    return {
-      queryKey: ["issueSearch", searchStrings, filters, pageSize],
-      queryFn: async ({ pageParam }) => {
-        const result = await octokit.graphql(issueSearchQuery.toString(), {
-          search: "assignee:lukasbach",
-          first: pageSize,
-          after: pageParam,
-        });
-        return {
-          result: result.search.nodes,
-          ...result.search.pageInfo,
-        };
-      },
+    return async ({ pageParam }) => {
+      const result = await octokit.graphql(issueSearchQuery.toString(), {
+        search: constructGithubSearch(searchStrings, filters),
+        first: pageSize,
+        after: pageParam,
+      });
+      return {
+        result: result.search.nodes,
+        ...result.search.pageInfo,
+      };
     };
   }
 }

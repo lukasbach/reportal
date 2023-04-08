@@ -1,14 +1,10 @@
-import { useInfiniteQuery, useQueries } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { ParsedSearchResult } from "./search-utils";
-import { ListEndpointDefinition, SearchQueryDefinition } from "./types";
+import { ListEndpointDefinition } from "./types";
 import { useAuthStore } from "../auth";
 
-export const useFetchListItems = (
-  endpoint: ListEndpointDefinition<any>,
-  search: ParsedSearchResult,
-  pageSize = 100
-) => {
+export const useFetchListItems = (endpoint: ListEndpointDefinition<any>, search: ParsedSearchResult, pageSize = 50) => {
   const { kit: octokit } = useAuthStore();
 
   const queryFn = useMemo(
@@ -18,7 +14,7 @@ export const useFetchListItems = (
         octokit,
         searchStrings: search.searchTerms,
         filters: search.serverFilters,
-      }).queryFn,
+      }),
     [pageSize, octokit, search.searchTerms, search.serverFilters]
   );
 
@@ -29,9 +25,6 @@ export const useFetchListItems = (
     getPreviousPageParam: (page) => (page.hasPreviousPage ? page.startCursor : undefined),
     refetchOnWindowFocus: false,
   });
-
-  console.log("data", data);
-  console.log("error", error);
 
   const list = useMemo(() => {
     if (!data) {

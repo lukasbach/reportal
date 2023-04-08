@@ -32,16 +32,13 @@ export type ListSearchProps = {
   searchStrings: string[];
 };
 
-export type SearchQueryDefinition = {
-  queryKey: any[];
-  queryFn: (ctx: QueryFunctionContext<QueryKey, { cursor: string }>) => Promise<{
-    result: any[];
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
-    endCursor: string;
-    startCursor: string;
-  }>;
-};
+export type SearchQueryDefinition = (ctx: QueryFunctionContext<QueryKey, { cursor: string }>) => Promise<{
+  result: any[];
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  endCursor: string;
+  startCursor: string;
+}>;
 
 export type Action<T> = {
   name: string;

@@ -1,4 +1,5 @@
 import { createHashRouter } from "react-router-dom";
+import { Box } from "@primer/react";
 import { HomePage } from "./components/home/home-page";
 import { AppLayout } from "./components/common/app-layout";
 import { authCheckLoader } from "./auth";
@@ -17,9 +18,9 @@ export const router = createHashRouter([
       {
         path: "dashboard",
         element: (
-          <div>
+          <Box m={8}>
             <SearchInput endpoint={new IssueSearchEndpoint()} />
-          </div>
+          </Box>
         ),
         loader: authCheckLoader,
       },

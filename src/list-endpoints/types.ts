@@ -18,6 +18,12 @@ export type FilterValue<K> = {
   negated: boolean;
 };
 
+export type UnclassifiedFilter = {
+  key: string;
+  value: string;
+  negated: boolean;
+};
+
 export type ListSearchProps = {
   octokit: Octokit;
   filters: FilterValue<ServerFilter>[];

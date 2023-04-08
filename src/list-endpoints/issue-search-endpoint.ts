@@ -40,7 +40,7 @@ export type IssueData = {
 export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
   override readonly name = "Issues";
 
-  override readonly responseFields;
+  override readonly responseFields = [];
 
   override readonly serverFilters = [
     { key: "type", suggestions: ["issue", "pr"] },

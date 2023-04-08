@@ -1,0 +1,7 @@
+repositories:
+  - lukasbach/scaffold-cli/templates/react
+templates:
+  react-fc:
+    source: lukasbach/scaffold-cli/templates/react/react-fc
+    defaults:
+      importReactSymbols: true

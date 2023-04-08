@@ -6,8 +6,9 @@
     "esModuleInterop": true,
     "module": "CommonJS",
     "target": "ES6",
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src", "vite.config.ts"],
   "exclude": ["src/**/template-*"]
 }

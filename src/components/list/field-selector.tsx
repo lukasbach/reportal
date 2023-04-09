@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import { ActionMenu, ActionList } from "@primer/react";
-import { GoCheck } from "react-icons/all";
+import React, { FC, useMemo, useState } from "react";
+import { SelectPanel, Button } from "@primer/react";
+import { GoTriangleDown } from "react-icons/all";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
 
 export type FieldSelectorProps = {
@@ -9,30 +9,40 @@ export type FieldSelectorProps = {
   setFields: (fields: string[]) => void;
 };
 
+// TODO update only on close dialog
 export const FieldSelector: FC<FieldSelectorProps> = ({ endpoint, fields, setFields }) => {
+  const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState("");
+
+  const items = useMemo(
+    () =>
+      endpoint.responseFields.map(({ name, jsonKey }) => ({
+        text: name,
+        id: jsonKey,
+      })),
+    [endpoint.responseFields]
+  );
+
+  const filteredItems = useMemo(() => {
+    if (!filter) return items;
+    return items.filter((item) => item.text.toLowerCase().indexOf(filter.toLowerCase()) >= 0);
+  }, [filter, items]);
+
   return (
-    <ActionMenu>
-      <ActionMenu.Button aria-label="Choose columns...">Choose columns...</ActionMenu.Button>
-      <ActionMenu.Overlay width="small">
-        <ActionList selectionVariant="single" sx={{ maxHeight: "400px", overflow: "auto" }}>
-          {endpoint.responseFields.map(({ name, jsonKey }) => {
-            const isSelected = fields.indexOf(jsonKey) >= 0;
-            return (
-              <ActionList.Item
-                key={jsonKey}
-                selected={isSelected}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setFields(isSelected ? fields.filter((f) => f !== jsonKey) : [...fields, jsonKey]);
-                }}
-              >
-                {name}
-              </ActionList.Item>
-            );
-          })}
-        </ActionList>
-      </ActionMenu.Overlay>
-    </ActionMenu>
+    <SelectPanel
+      renderAnchor={({ children, "aria-labelledby": ariaLabelledBy, ...anchorProps }) => (
+        <Button trailingAction={GoTriangleDown} aria-labelledby={`${ariaLabelledBy}`} {...anchorProps}>
+          {fields.length} columns
+        </Button>
+      )}
+      placeholderText="Choose columns..."
+      open={open}
+      onOpenChange={setOpen}
+      items={filteredItems}
+      selected={fields.map((f) => items.find((i) => i.id === f))}
+      onSelectedChange={(items) => setFields(items.map((i) => i.id as string))}
+      onFilterChange={setFilter}
+      overlayProps={{ width: "small", height: "large" }}
+    />
   );
 };

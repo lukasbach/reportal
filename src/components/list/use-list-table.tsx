@@ -21,5 +21,6 @@ export const useListTable = (endpoint: ListEndpointDefinition<any>, fields: stri
     data,
     columns: columnConfig,
     getCoreRowModel: getCoreRowModel(),
+    columnResizeMode: "onChange",
   });
 };

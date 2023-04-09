@@ -12,8 +12,8 @@ export type SearchInputProps = {
 
 export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: previousValue }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState("");
-  const parsed = useMemo(() => parseSearch(value, endpoint), [value]);
+  const [value, setValue] = useState("type:issue assignee:lukasbach state:open ");
+  const parsed = useMemo(() => parseSearch(value, endpoint), [endpoint, value]);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
 

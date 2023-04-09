@@ -4,22 +4,28 @@ import { ParsedSearchResult } from "./search-utils";
 import { ListEndpointDefinition } from "./types";
 import { useAuthStore } from "../auth";
 
-export const useFetchListItems = (endpoint: ListEndpointDefinition<any>, search: ParsedSearchResult, pageSize = 50) => {
+export const useFetchListItems = (
+  endpoint: ListEndpointDefinition<any>,
+  search: ParsedSearchResult | null,
+  pageSize = 50
+) => {
   const { kit: octokit } = useAuthStore();
 
   const queryFn = useMemo(
     () =>
-      endpoint.getSearchQueries({
-        pageSize,
-        octokit,
-        searchStrings: search.searchTerms,
-        filters: search.serverFilters,
-      }),
-    [endpoint, pageSize, octokit, search.searchTerms, search.serverFilters]
+      search
+        ? endpoint.getSearchQueries({
+            pageSize,
+            octokit,
+            searchStrings: search.searchTerms,
+            filters: search.serverFilters,
+          })
+        : async () => ({ result: [], hasNextPage: false, hasPreviousPage: false, endCursor: "", startCursor: "" }),
+    [search, endpoint, pageSize, octokit]
   );
 
   const { fetchNextPage, hasNextPage, isFetching, data, error } = useInfiniteQuery({
-    queryKey: [endpoint.name, search.searchTerms, search.serverFilters],
+    queryKey: [endpoint.name, search?.searchTerms ?? "", search?.serverFilters ?? ""],
     queryFn,
     getNextPageParam: (page: any) => (page.hasNextPage ? page.endCursor : undefined),
     getPreviousPageParam: (page) => (page.hasPreviousPage ? page.startCursor : undefined),

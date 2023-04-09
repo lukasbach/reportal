@@ -126,6 +126,8 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
     { key: "type", suggestions: ["issue", "pr"] },
     { key: "in", suggestions: ["title", "body", "comments"], multiple: true },
     { key: "user" },
+    { key: "assignee" },
+    { key: "author" }, // TODO ?
     { key: "org" },
     { key: "repo" },
     { key: "state", suggestions: ["open", "closed"] },

@@ -2,7 +2,7 @@ import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 import { create } from "zustand";
 import { redirect } from "react-router";
 import { Octokit } from "@octokit/rest";
-import { firebaseApp } from "./main";
+import { firebaseApp } from "./firebase-app";
 
 export const useAuthStore = create<{
   token: string;
@@ -80,3 +80,5 @@ export const authCheckLoader = () => {
 };
 
 export const checkRedirectLoader = () => {};
+
+setupAuthCallback();

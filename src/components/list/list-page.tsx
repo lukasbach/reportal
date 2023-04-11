@@ -18,9 +18,11 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
   const { list } = useFetchListItems(endpoint, search ?? null);
   return (
     <ListProvider onChangeFields={setFields} data={list} fields={fields} endpoint={endpoint}>
-      <Box m={2}>
-        <SearchInput endpoint={endpoint} onChange={setSearch} value={search} />
-        <FieldSelector endpoint={endpoint} fields={fields} setFields={setFields} />
+      <Box display="flex" flexDirection="column" overflow="auto" height="100%">
+        <Box p={2}>
+          <SearchInput endpoint={endpoint} onChange={setSearch} value={search} />
+          <FieldSelector endpoint={endpoint} fields={fields} setFields={setFields} />
+        </Box>
         <ListTable />
       </Box>
     </ListProvider>

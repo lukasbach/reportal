@@ -13,9 +13,13 @@ const baseStyles = {
 export const tableStyles = {
   table: {
     width: "fit-content",
+    overflow: "auto",
   },
   tableRow: { display: "flex", width: "fit-content" },
   tableHead: { position: "relative", ":hover .resize-handle": { opacity: 1 }, ...baseStyles.noWrap },
+  tableBody: {
+    overflow: "auto",
+  },
   resizeHandle: {
     position: "absolute",
     right: 0,

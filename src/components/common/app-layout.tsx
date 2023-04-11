@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Outlet } from "react-router";
-import { Avatar, Header } from "@primer/react";
+import { Avatar, Box, Header } from "@primer/react";
 
 export const AppLayout: FC = () => {
   return (
-    <>
+    <Box display="flex" flexDirection="column" height="100%">
       <Header>
         <Header.Item>
           <Header.Link href="#">
@@ -16,7 +16,9 @@ export const AppLayout: FC = () => {
           <Avatar src="https://github.com/octocat.png" size={20} square alt="@octocat" />
         </Header.Item>
       </Header>
-      <Outlet />
-    </>
+      <Box flexGrow={1} overflow="auto">
+        <Outlet />
+      </Box>
+    </Box>
   );
 };

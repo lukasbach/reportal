@@ -3,11 +3,11 @@ import { useDrag, useDrop } from "react-dnd";
 import { Box } from "@primer/react";
 import { Column, flexRender, Header, RowData, Table } from "@tanstack/react-table";
 import { tableStyles } from "./table-styles";
+import { useListContext } from "./list-context";
 
 export type DataTableHeadProps = {
   header: Header<RowData, unknown>;
   table: Table<RowData>;
-  onChangeFields: (fields: string[]) => void;
 };
 
 const reorderColumn = (draggedColumnId: string, targetColumnId: string, columnOrder: string[]): string[] => {
@@ -19,19 +19,16 @@ const reorderColumn = (draggedColumnId: string, targetColumnId: string, columnOr
   return [...columnOrder];
 };
 
-export const DataTableHead: FC<DataTableHeadProps> = ({ header, table, onChangeFields }) => {
-  const { getState, setColumnOrder } = table;
-  const { columnOrder } = getState();
+export const DataTableHead: FC<DataTableHeadProps> = ({ header, table }) => {
+  const { fields, onChangeFields } = useListContext();
   const { column } = header;
 
   const [, dropRef] = useDrop({
     accept: "column",
     drop: (draggedColumn: Column<RowData>) => {
-      console.log("drop", draggedColumn);
-      const newColumnOrder = reorderColumn(draggedColumn.id, column.id, columnOrder);
+      const newColumnOrder = reorderColumn(draggedColumn.id, column.id, fields);
       onChangeFields(newColumnOrder);
     },
-    hover: console.log,
   });
 
   const [{ isDragging }, dragRef, previewRef] = useDrag({
@@ -40,10 +37,7 @@ export const DataTableHead: FC<DataTableHeadProps> = ({ header, table, onChangeF
     }),
     item: () => column,
     type: "column",
-    end: console.log,
   });
-
-  console.log(isDragging, column);
 
   return (
     <Box

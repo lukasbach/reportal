@@ -2,18 +2,12 @@ import React, { FC } from "react";
 import { flexRender } from "@tanstack/react-table";
 import { Box } from "@primer/react";
 import { useListTable } from "./use-list-table";
-import { ListEndpointDefinition } from "../../list-endpoints/types";
 import { tableStyles } from "./table-styles";
 import { DataTableHead } from "./data-table-head";
+import { useListContext } from "./list-context";
 
-export type ListTableProps = {
-  endpoint: ListEndpointDefinition<any>;
-  fields: string[];
-  data: any[];
-  onChangeFields: (fields: string[]) => void;
-};
-
-export const ListTable: FC<ListTableProps> = ({ data, endpoint, fields, onChangeFields }) => {
+export const ListTable: FC<{}> = () => {
+  const { data, endpoint, fields, onChangeFields } = useListContext();
   const table = useListTable(endpoint, fields, data);
   return (
     <Box as="table" sx={tableStyles.table}>
@@ -21,7 +15,7 @@ export const ListTable: FC<ListTableProps> = ({ data, endpoint, fields, onChange
         {table.getHeaderGroups().map((headerGroup) => (
           <Box as="tr" sx={tableStyles.tableRow} key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <DataTableHead header={header} table={table} onChangeFields={onChangeFields} key={header.id} />
+              <DataTableHead header={header} table={table} key={header.id} />
             ))}
           </Box>
         ))}

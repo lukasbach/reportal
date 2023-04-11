@@ -5,3 +5,9 @@ templates:
     source: lukasbach/scaffold-cli/templates/react/react-fc
     defaults:
       importReactSymbols: true
+  react-context:
+    source: lukasbach/scaffold-cli/templates/react/react-context
+    defaults:
+      importReactSymbols: true
+      deconstructProps: true
+      propsType: type

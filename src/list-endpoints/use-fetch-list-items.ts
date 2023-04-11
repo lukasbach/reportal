@@ -3,11 +3,14 @@ import { useCallback, useMemo } from "react";
 import { ParsedSearchResult } from "./search-utils";
 import { ListEndpointDefinition } from "./types";
 import { useAuthStore } from "../auth";
+import { useFetchInitialPage } from "../components/list/use-fetch-initial-page";
+import { useRefCopy } from "../utils";
 
 export const useFetchListItems = (
   endpoint: ListEndpointDefinition<any>,
   search: ParsedSearchResult | null,
-  pageSize = 50
+  displayPageSize: number,
+  loadingPageSize = 50
 ) => {
   const { kit: octokit } = useAuthStore();
 
@@ -15,7 +18,7 @@ export const useFetchListItems = (
     () =>
       search
         ? endpoint.getSearchQueries({
-            pageSize,
+            pageSize: loadingPageSize,
             octokit,
             searchStrings: search.searchTerms,
             filters: search.serverFilters,
@@ -28,7 +31,7 @@ export const useFetchListItems = (
             startCursor: "",
             resultCount: 0,
           }),
-    [search, endpoint, pageSize, octokit]
+    [search, endpoint, loadingPageSize, octokit]
   );
 
   const { fetchNextPage, hasNextPage, isFetching, data, error } = useInfiniteQuery({
@@ -38,6 +41,8 @@ export const useFetchListItems = (
     getPreviousPageParam: (page) => (page.hasPreviousPage ? page.startCursor : undefined),
     refetchOnWindowFocus: false,
   });
+
+  const isFetchingRef = useRefCopy(isFetching);
 
   const list = useMemo(() => {
     if (!data) {
@@ -51,15 +56,27 @@ export const useFetchListItems = (
 
   const fetchUntil = useCallback(
     async (targetItemCount: number) => {
+      while (isFetchingRef.current) {
+        await new Promise<void>((r) => {
+          setTimeout(r, 100);
+        });
+      }
+
       let i = loadedCount;
       while (i < targetItemCount) {
+        if (i >= totalCount || !totalCount) {
+          return;
+        }
+
         const result = await fetchNextPage();
         const pages = result.data?.pages ?? [];
-        i = pages.reduce((acc, page) => acc + page.resultCount, 0) ?? i;
+        i = pages.reduce((acc, page) => acc + page.result.length, 0) ?? i;
       }
     },
-    [fetchNextPage, loadedCount]
+    [isFetchingRef, loadedCount, totalCount, fetchNextPage]
   );
+
+  useFetchInitialPage(search, displayPageSize, totalCount, fetchUntil);
 
   return { fetchNextPage, hasNextPage, isFetching, list, error, totalCount, loadedCount, fetchUntil };
 };

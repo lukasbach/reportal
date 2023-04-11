@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { useDebouncedEffect } from "@react-hookz/web";
 
 export const usePagination = (
   pageSize: number,
@@ -21,6 +22,13 @@ export const usePagination = (
       }
     },
     [fetchUntil, loadedItemCount, pageSize]
+  );
+  useDebouncedEffect(
+    () => {
+      fetchUntil((page + 1) * pageSize);
+    },
+    [pageSize],
+    2000
   );
 
   const nextPage = useCallback(async () => {

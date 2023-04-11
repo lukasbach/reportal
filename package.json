@@ -61,6 +61,7 @@
     "@octokit/graphql": "^5.0.5",
     "@octokit/rest": "^19.0.7",
     "@primer/react": "^35.24.0",
+    "@react-hookz/web": "^23.0.0",
     "@tanstack/react-query": "^4.28.0",
     "@tanstack/react-table": "^8.8.5",
     "firebase": "^9.19.1",

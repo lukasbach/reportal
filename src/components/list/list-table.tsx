@@ -14,33 +14,31 @@ export type ListTableProps = {
 export const ListTable: FC<ListTableProps> = ({ pagination, pageCount }) => {
   const table = useListTable(pagination, pageCount);
   return (
-    <Box flexGrow={1} overflow="auto">
-      <Box as="table" sx={tableStyles.table}>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <Box as="tr" sx={tableStyles.tableRow} key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <DataTableHead header={header} table={table} key={header.id} />
-              ))}
-            </Box>
-          ))}
-        </thead>
-        <Box as="tbody" sx={tableStyles.tableBody}>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <Box
-                  as="td"
-                  key={cell.id}
-                  style={{ width: cell.column.getSize(), maxWidth: cell.column.getSize() }}
-                  sx={tableStyles.cell}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </Box>
-              ))}
-            </tr>
-          ))}
-        </Box>
+    <Box as="table" sx={tableStyles.table}>
+      <thead>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <Box as="tr" sx={tableStyles.tableRow} key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
+              <DataTableHead header={header} table={table} key={header.id} />
+            ))}
+          </Box>
+        ))}
+      </thead>
+      <Box as="tbody" sx={tableStyles.tableBody}>
+        {table.getRowModel().rows.map((row) => (
+          <tr key={row.id}>
+            {row.getVisibleCells().map((cell) => (
+              <Box
+                as="td"
+                key={cell.id}
+                style={{ width: cell.column.getSize(), maxWidth: cell.column.getSize() }}
+                sx={tableStyles.cell}
+              >
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </Box>
+            ))}
+          </tr>
+        ))}
       </Box>
     </Box>
   );

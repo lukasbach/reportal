@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
-import { Box, Button } from "@primer/react";
-import { PaginationState } from "@tanstack/react-table";
+import { Box } from "@primer/react";
 import { SearchInput } from "./search-input";
 import { ParsedSearchResult } from "../../list-endpoints/search-utils";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
@@ -9,6 +8,7 @@ import { ListTable } from "./list-table";
 import { useFetchListItems } from "../../list-endpoints/use-fetch-list-items";
 import { ListProvider } from "./list-context";
 import { usePagination } from "./use-pagination";
+import { useCalcPageSize } from "./use-calc-page-size";
 
 export type ListPageProps = {
   endpoint: ListEndpointDefinition<any>;
@@ -17,8 +17,8 @@ export type ListPageProps = {
 export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
   const [search, setSearch] = useState<ParsedSearchResult>();
   const [fields, setFields] = useState<string[]>(endpoint.defaultFields);
-  const { list, loadedCount, totalCount, fetchUntil } = useFetchListItems(endpoint, search ?? null, 10);
-  const itemsPerPage = 10;
+  const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(27);
+  const { list, loadedCount, totalCount, fetchUntil } = useFetchListItems(endpoint, search ?? null, itemsPerPage, 10);
   const { pagination, nextPage, previousPage, page, totalPages } = usePagination(
     itemsPerPage,
     totalCount,
@@ -33,7 +33,9 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
           <SearchInput endpoint={endpoint} onChange={setSearch} value={search} />
           <FieldSelector endpoint={endpoint} fields={fields} setFields={setFields} />
         </Box>
-        <ListTable pagination={pagination} pageCount={Math.floor(totalCount / itemsPerPage)} />
+        <Box flexGrow={1} overflow="auto" ref={listContainerRef}>
+          <ListTable pagination={pagination} pageCount={Math.floor(totalCount / itemsPerPage)} />
+        </Box>
         <Box p={2}>
           {loadedCount}/{totalCount}
           <button onClick={() => fetchUntil(loadedCount + 10)}>Fetch next</button>

@@ -15,7 +15,7 @@ export type ListPageProps = {
 export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
   const [search, setSearch] = useState<ParsedSearchResult>();
   const [fields, setFields] = useState<string[]>(endpoint.defaultFields);
-  const { list } = useFetchListItems(endpoint, search ?? null);
+  const { list, loadedCount, totalCount, fetchUntil } = useFetchListItems(endpoint, search ?? null, 10);
   return (
     <ListProvider onChangeFields={setFields} data={list} fields={fields} endpoint={endpoint}>
       <Box display="flex" flexDirection="column" overflow="auto" height="100%">
@@ -24,6 +24,10 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
           <FieldSelector endpoint={endpoint} fields={fields} setFields={setFields} />
         </Box>
         <ListTable />
+        <Box p={2}>
+          {loadedCount}/{totalCount}
+          <button onClick={() => fetchUntil(loadedCount + 10)}>Fetch next</button>
+        </Box>
       </Box>
     </ListProvider>
   );

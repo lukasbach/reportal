@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { ParsedSearchResult } from "./search-utils";
 import { ListEndpointDefinition } from "./types";
 import { useAuthStore } from "../auth";
@@ -20,7 +20,14 @@ export const useFetchListItems = (
             searchStrings: search.searchTerms,
             filters: search.serverFilters,
           })
-        : async () => ({ result: [], hasNextPage: false, hasPreviousPage: false, endCursor: "", startCursor: "" }),
+        : async () => ({
+            result: [],
+            hasNextPage: false,
+            hasPreviousPage: false,
+            endCursor: "",
+            startCursor: "",
+            resultCount: 0,
+          }),
     [search, endpoint, pageSize, octokit]
   );
 
@@ -39,5 +46,20 @@ export const useFetchListItems = (
     return data.pages.flatMap((page) => page.result);
   }, [data]);
 
-  return { fetchNextPage, hasNextPage, isFetching, list, error };
+  const totalCount = useMemo(() => data?.pages[0]?.resultCount, [data]);
+  const loadedCount = useMemo(() => list.length, [list]);
+
+  const fetchUntil = useCallback(
+    async (targetItemCount: number) => {
+      let i = loadedCount;
+      while (i < targetItemCount) {
+        const result = await fetchNextPage();
+        const pages = result.data?.pages ?? [];
+        i = pages.reduce((acc, page) => acc + page.resultCount, 0) ?? i;
+      }
+    },
+    [fetchNextPage, loadedCount]
+  );
+
+  return { fetchNextPage, hasNextPage, isFetching, list, error, totalCount, loadedCount, fetchUntil };
 };

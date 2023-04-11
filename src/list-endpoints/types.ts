@@ -38,6 +38,7 @@ export type SearchQueryDefinition = (ctx: QueryFunctionContext<QueryKey, { curso
   hasPreviousPage: boolean;
   endCursor: string;
   startCursor: string;
+  resultCount: number;
 }>;
 
 export type Action<T> = {

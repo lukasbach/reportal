@@ -55,6 +55,7 @@ const issueSearchQuery = /* GraphQL */ `
         hasPreviousPage
         startCursor
       }
+      issueCount
     }
   }
 `;
@@ -147,6 +148,7 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
       });
       return {
         result: result.search.nodes,
+        resultCount: result.search.issueCount,
         ...result.search.pageInfo,
       };
     };

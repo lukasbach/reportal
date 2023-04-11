@@ -8,15 +8,34 @@ const baseStyles = {
     minWidth: 0,
     display: "inline-block",
   },
+  cellSpacing: {
+    paddingY: 1,
+    paddingX: 2,
+  },
 } satisfies Record<string, BetterSystemStyleObject>;
 
 export const tableStyles = {
   table: {
     width: "fit-content",
+    minWidth: "100%",
     overflow: "auto",
+    fontSize: 1,
   },
-  tableRow: { display: "flex", width: "fit-content" },
-  tableHead: { position: "relative", ":hover .resize-handle": { opacity: 1 }, ...baseStyles.noWrap },
+  headerGroup: {
+    bg: "canvas.inset",
+    borderTop: "1px solid",
+    borderBottom: "1px solid",
+    borderColor: "border.default",
+  },
+  tableHead: {},
+  tableHeadCell: {
+    position: "relative",
+    textAlign: "left",
+    paddingY: 2,
+    paddingX: 2,
+    ":hover .resize-handle": { opacity: 1 },
+    ...baseStyles.noWrap,
+  },
   tableBody: {
     overflow: "auto",
   },
@@ -24,19 +43,40 @@ export const tableStyles = {
     position: "absolute",
     right: 0,
     top: 0,
-    height: "100%",
-    width: "8px",
-    background: "rgba(0,0,0,0.5)",
+    bottom: 0,
+    width: "12px",
+    // background: "rgba(0,0,0,0.1)",
     opacity: 0,
     cursor: "col-resize",
     // "user-select": "none",
     // "touch-action": "none",
+
+    "> div": {
+      height: "100%",
+      marginRight: 1,
+      borderRight: "1px solid",
+      borderColor: "border.default",
+    },
   },
   resizeHandleActive: {
-    background: "blue",
     opacity: 1,
+    "> div": {
+      height: "100%",
+      marginRight: 1,
+      borderRight: "3px solid",
+      borderColor: "accent.fg",
+    },
+  },
+  row: {
+    cursor: "pointer",
+    borderBottom: "1px solid",
+    borderColor: "border.muted",
+    ":hover": { bg: "accent.subtle" },
+    // ":nth-child(2n)": { bg: "canvas.subtle" },
+    // ":nth-child(2n):hover": { bg: "accent.subtle" },
   },
   cell: {
+    ...baseStyles.cellSpacing,
     ...baseStyles.noWrap,
   },
 } satisfies Record<string, BetterSystemStyleObject>;

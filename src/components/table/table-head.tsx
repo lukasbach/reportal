@@ -45,7 +45,7 @@ export const TableHead: FC<DataTableHeadProps> = ({ header, table }) => {
       ref={dropRef}
       key={header.id}
       style={{ width: header.getSize(), maxWidth: header.getSize() }}
-      sx={tableStyles.tableHead}
+      sx={tableStyles.tableHeadCell}
     >
       <div ref={previewRef}>
         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -59,7 +59,9 @@ export const TableHead: FC<DataTableHeadProps> = ({ header, table }) => {
           ...tableStyles.resizeHandle,
           ...(header.column.getIsResizing() && tableStyles.resizeHandleActive),
         }}
-      />
+      >
+        <div />
+      </Box>
     </Box>
   );
 };

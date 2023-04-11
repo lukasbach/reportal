@@ -17,7 +17,7 @@ export const ListTable: FC<ListTableProps> = ({ pagination, pageCount }) => {
     <Box as="table" sx={tableStyles.table}>
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
-          <Box as="tr" sx={tableStyles.tableRow} key={headerGroup.id}>
+          <Box as="tr" sx={tableStyles.headerGroup} key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
               <TableHead header={header} table={table} key={header.id} />
             ))}
@@ -26,7 +26,7 @@ export const ListTable: FC<ListTableProps> = ({ pagination, pageCount }) => {
       </thead>
       <Box as="tbody" sx={tableStyles.tableBody}>
         {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
+          <Box as="tr" key={row.id} sx={tableStyles.row}>
             {row.getVisibleCells().map((cell) => (
               <Box
                 as="td"
@@ -37,7 +37,7 @@ export const ListTable: FC<ListTableProps> = ({ pagination, pageCount }) => {
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </Box>
             ))}
-          </tr>
+          </Box>
         ))}
       </Box>
     </Box>

@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Box } from "@primer/react";
 import { Column, flexRender, Header, RowData, Table } from "@tanstack/react-table";
+import { GoGrabber } from "react-icons/go";
 import { tableStyles } from "./table-styles";
 import { useListContext } from "../list/list-context";
 
@@ -23,7 +24,8 @@ export const TableHead: FC<DataTableHeadProps> = ({ header, table }) => {
   const { fields, onChangeFields } = useListContext();
   const { column } = header;
 
-  const [, dropRef] = useDrop({
+  const [{ isOver }, dropRef] = useDrop({
+    collect: (monitor) => ({ isOver: monitor.isOver() }),
     accept: "column",
     drop: (draggedColumn: Column<RowData>) => {
       const newColumnOrder = reorderColumn(draggedColumn.id, column.id, fields);
@@ -45,12 +47,12 @@ export const TableHead: FC<DataTableHeadProps> = ({ header, table }) => {
       ref={dropRef}
       key={header.id}
       style={{ width: header.getSize(), maxWidth: header.getSize() }}
-      sx={tableStyles.tableHeadCell}
+      sx={{ ...tableStyles.tableHeadCell, ...(isOver && tableStyles.tableHeadCellDropping) }}
     >
-      <div ref={previewRef}>
-        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-        <span ref={dragRef}>drag</span>
-      </div>
+      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+      <Box as="span" sx={tableStyles.grabber} ref={dragRef} className="grab-handle">
+        <GoGrabber />
+      </Box>
       <Box
         onMouseDown={header.getResizeHandler()}
         onTouchStart={header.getResizeHandler()}

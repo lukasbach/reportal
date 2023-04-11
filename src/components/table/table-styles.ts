@@ -16,6 +16,7 @@ const baseStyles = {
 
 export const tableStyles = {
   table: {
+    height: "100%",
     width: "fit-content",
     minWidth: "100%",
     overflow: "auto",
@@ -34,10 +35,15 @@ export const tableStyles = {
     paddingY: 2,
     paddingX: 2,
     ":hover .resize-handle": { opacity: 1 },
+    ":hover .grab-handle": { opacity: 1 },
     ...baseStyles.noWrap,
   },
+  tableHeadCellDropping: {
+    bg: "accent.subtle",
+  },
   tableBody: {
-    overflow: "auto",
+    overflowY: "auto",
+    flexGrow: 1,
   },
   resizeHandle: {
     position: "absolute",
@@ -71,6 +77,7 @@ export const tableStyles = {
     cursor: "pointer",
     borderBottom: "1px solid",
     borderColor: "border.muted",
+    minWidth: "100%",
     ":hover": { bg: "accent.subtle" },
     // ":nth-child(2n)": { bg: "canvas.subtle" },
     // ":nth-child(2n):hover": { bg: "accent.subtle" },
@@ -78,5 +85,16 @@ export const tableStyles = {
   cell: {
     ...baseStyles.cellSpacing,
     ...baseStyles.noWrap,
+  },
+  grabber: {
+    opacity: 0,
+    cursor: "grab",
+    position: "absolute",
+    top: "10px",
+    right: 2,
+    borderRadius: "4px",
+    ":hover": {
+      bg: "default.muted",
+    },
   },
 } satisfies Record<string, BetterSystemStyleObject>;

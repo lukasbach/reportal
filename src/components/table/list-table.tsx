@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, MutableRefObject } from "react";
 import { flexRender, PaginationState } from "@tanstack/react-table";
 import { Box } from "@primer/react";
 import { useListTable } from "./use-list-table";
@@ -9,9 +9,10 @@ import { useListContext } from "../list/list-context";
 export type ListTableProps = {
   pagination: PaginationState;
   pageCount: number;
+  scrollRef: MutableRefObject<any>;
 };
 
-export const ListTable: FC<ListTableProps> = ({ pagination, pageCount }) => {
+export const ListTable: FC<ListTableProps> = ({ pagination, pageCount, scrollRef }) => {
   const table = useListTable(pagination, pageCount);
   return (
     <Box as="table" sx={tableStyles.table}>
@@ -24,7 +25,7 @@ export const ListTable: FC<ListTableProps> = ({ pagination, pageCount }) => {
           </Box>
         ))}
       </thead>
-      <Box as="tbody" sx={tableStyles.tableBody}>
+      <Box as="tbody" sx={tableStyles.tableBody} ref={scrollRef}>
         {table.getRowModel().rows.map((row) => (
           <Box as="tr" key={row.id} sx={tableStyles.row}>
             {row.getVisibleCells().map((cell) => (

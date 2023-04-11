@@ -17,7 +17,7 @@ export type ListPageProps = {
 export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
   const [search, setSearch] = useState<ParsedSearchResult>();
   const [fields, setFields] = useState<string[]>(endpoint.defaultFields);
-  const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(27);
+  const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(29);
   const { list, loadedCount, totalCount, fetchUntil } = useFetchListItems(endpoint, search ?? null, itemsPerPage, 30);
   const { pagination, nextPage, previousPage, page, totalPages } = usePagination(
     itemsPerPage,
@@ -33,8 +33,12 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
           <SearchInput endpoint={endpoint} onChange={setSearch} value={search} />
           <FieldSelector endpoint={endpoint} fields={fields} setFields={setFields} />
         </Box>
-        <Box flexGrow={1} overflow="auto" ref={listContainerRef}>
-          <ListTable pagination={pagination} pageCount={Math.floor(totalCount / itemsPerPage)} />
+        <Box flexGrow={1} overflow="auto">
+          <ListTable
+            pagination={pagination}
+            pageCount={Math.floor(totalCount / itemsPerPage)}
+            scrollRef={listContainerRef}
+          />
         </Box>
         <Box p={2}>
           {loadedCount}/{totalCount}

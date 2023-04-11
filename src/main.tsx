@@ -5,6 +5,8 @@ import { initializeApp } from "firebase/app";
 import { RouterProvider } from "react-router";
 import { BaseStyles, ThemeProvider } from "@primer/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 import { router } from "./router";
 import { setupAuthCallback } from "./auth";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -24,7 +26,8 @@ setupAuthCallback();
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <DndProvider backend={HTML5Backend}>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <BaseStyles>
@@ -32,5 +35,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         </BaseStyles>
       </ThemeProvider>
     </QueryClientProvider>
-  </React.StrictMode>
+  </DndProvider>
+  // </React.StrictMode>
 );

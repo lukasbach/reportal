@@ -1,14 +1,18 @@
 import React, { FC } from "react";
-import { flexRender } from "@tanstack/react-table";
+import { flexRender, PaginationState } from "@tanstack/react-table";
 import { Box } from "@primer/react";
 import { useListTable } from "./use-list-table";
 import { tableStyles } from "./table-styles";
 import { DataTableHead } from "./data-table-head";
 import { useListContext } from "./list-context";
 
-export const ListTable: FC<{}> = () => {
-  const { data, endpoint, fields } = useListContext();
-  const table = useListTable(endpoint, fields, data);
+export type ListTableProps = {
+  pagination: PaginationState;
+  pageCount: number;
+};
+
+export const ListTable: FC<ListTableProps> = ({ pagination, pageCount }) => {
+  const table = useListTable(pagination, pageCount);
   return (
     <Box flexGrow={1} overflow="auto">
       <Box as="table" sx={tableStyles.table}>

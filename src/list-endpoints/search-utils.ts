@@ -57,7 +57,6 @@ const getSuggestions = (finalPart: string, search: string, endpoint: ListEndpoin
   const searchPrefix = search.slice(0, search.length - finalPart.length);
 
   if (finalPart.includes(":")) {
-    console.log(2, { finalPart, search, searchPrefix });
     const [filterKey, filterValuePrefix] = finalPart.split(":", 2);
     const filter =
       endpoint.serverFilters.find((serverFilter) => serverFilter.key === filterKey) ??

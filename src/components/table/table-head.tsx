@@ -3,7 +3,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { Box } from "@primer/react";
 import { Column, flexRender, Header, RowData, Table } from "@tanstack/react-table";
 import { tableStyles } from "./table-styles";
-import { useListContext } from "./list-context";
+import { useListContext } from "../list/list-context";
 
 export type DataTableHeadProps = {
   header: Header<RowData, unknown>;
@@ -19,7 +19,7 @@ const reorderColumn = (draggedColumnId: string, targetColumnId: string, columnOr
   return [...columnOrder];
 };
 
-export const DataTableHead: FC<DataTableHeadProps> = ({ header, table }) => {
+export const TableHead: FC<DataTableHeadProps> = ({ header, table }) => {
   const { fields, onChangeFields } = useListContext();
   const { column } = header;
 

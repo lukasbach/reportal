@@ -4,7 +4,7 @@ import { SearchInput } from "./search-input";
 import { ParsedSearchResult } from "../../list-endpoints/search-utils";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
 import { FieldSelector } from "./field-selector";
-import { ListTable } from "./list-table";
+import { ListTable } from "../table/list-table";
 import { useFetchListItems } from "../../list-endpoints/use-fetch-list-items";
 import { ListProvider } from "./list-context";
 import { usePagination } from "./use-pagination";
@@ -18,7 +18,7 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
   const [search, setSearch] = useState<ParsedSearchResult>();
   const [fields, setFields] = useState<string[]>(endpoint.defaultFields);
   const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(27);
-  const { list, loadedCount, totalCount, fetchUntil } = useFetchListItems(endpoint, search ?? null, itemsPerPage, 10);
+  const { list, loadedCount, totalCount, fetchUntil } = useFetchListItems(endpoint, search ?? null, itemsPerPage, 30);
   const { pagination, nextPage, previousPage, page, totalPages } = usePagination(
     itemsPerPage,
     totalCount,

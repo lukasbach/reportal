@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { createColumnHelper, getCoreRowModel, PaginationState, useReactTable } from "@tanstack/react-table";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
 import { resolveRecursiveSubitem } from "../../utils";
-import { useListContext } from "./list-context";
+import { useListContext } from "../list/list-context";
 
 export const useListTable = (pagination: PaginationState, pageCount: number) => {
   const { data, endpoint, fields } = useListContext();

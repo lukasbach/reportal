@@ -3,8 +3,8 @@ import { flexRender, PaginationState } from "@tanstack/react-table";
 import { Box } from "@primer/react";
 import { useListTable } from "./use-list-table";
 import { tableStyles } from "./table-styles";
-import { DataTableHead } from "./data-table-head";
-import { useListContext } from "./list-context";
+import { TableHead } from "./table-head";
+import { useListContext } from "../list/list-context";
 
 export type ListTableProps = {
   pagination: PaginationState;
@@ -19,7 +19,7 @@ export const ListTable: FC<ListTableProps> = ({ pagination, pageCount }) => {
         {table.getHeaderGroups().map((headerGroup) => (
           <Box as="tr" sx={tableStyles.tableRow} key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <DataTableHead header={header} table={table} key={header.id} />
+              <TableHead header={header} table={table} key={header.id} />
             ))}
           </Box>
         ))}

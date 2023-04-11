@@ -25,8 +25,8 @@ export const tableStyles = {
     background: "rgba(0,0,0,0.5)",
     opacity: 0,
     cursor: "col-resize",
-    "user-select": "none",
-    "touch-action": "none",
+    // "user-select": "none",
+    // "touch-action": "none",
   },
   resizeHandleActive: {
     background: "blue",

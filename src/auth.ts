@@ -5,18 +5,21 @@ import { Octokit } from "@octokit/rest";
 import { firebaseApp } from "./main";
 
 export const useAuthStore = create<{
-  token?: string;
-  displayName?: string;
-  email?: string;
+  token: string;
+  displayName: string;
+  email: string;
   kit: Octokit;
   isLoggedIn: boolean;
-}>(() => ({
-  token: undefined,
-  displayName: undefined,
-  email: undefined,
-  isLoggedIn: false,
-  kit: undefined,
-}));
+}>(
+  () =>
+    ({
+      token: undefined,
+      displayName: undefined,
+      email: undefined,
+      isLoggedIn: false,
+      kit: undefined,
+    } as any)
+);
 
 export const setupAuthCallback = () => {
   console.log("setup");
@@ -27,7 +30,7 @@ export const setupAuthCallback = () => {
       const { displayName, email } = user;
       const token = localStorage.getItem("token");
       useAuthStore.setState({
-        token,
+        token: token ?? undefined,
         displayName: displayName ?? undefined,
         email: email ?? undefined,
         isLoggedIn: true,

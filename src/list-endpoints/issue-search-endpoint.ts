@@ -1,4 +1,4 @@
-import { ListEndpointDefinition } from "./types";
+import { ListEndpointDefinition, SearchQueryDefinition } from "./types";
 import { constructGithubSearch } from "./search-utils";
 
 const issueSearchQuery = /* GraphQL */ `
@@ -137,7 +137,7 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
 
   override readonly actions;
 
-  override getSearchQueries(props) {
+  override getSearchQueries(props): SearchQueryDefinition {
     const { octokit, filters, searchStrings, pageSize } = props;
     return async ({ pageParam }) => {
       const result = await octokit.graphql(issueSearchQuery.toString(), {

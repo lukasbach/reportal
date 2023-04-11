@@ -3,18 +3,17 @@ import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/re
 import { ListEndpointDefinition } from "../../list-endpoints/types";
 import { resolveRecursiveSubitem } from "../../utils";
 
-export const useListTable = (endpoint: ListEndpointDefinition<any>, fields: string[], data: any[]) => {
+export const useListTable = (endpoint: ListEndpointDefinition, fields: string[], data: any[]) => {
   const columnConfig = useMemo(() => {
     const columnHelper = createColumnHelper();
-    const defaultColumns = fields.map((field) => {
+    return fields.map((field) => {
       const fieldDef = endpoint.responseFields.find((responseField) => responseField.jsonKey === field);
       return columnHelper.accessor((row) => resolveRecursiveSubitem(row, field), {
         id: field,
         cell: (info) => info.getValue(),
-        header: () => <span>{fieldDef.name}</span>,
+        header: () => <span>{fieldDef?.name}</span>,
       });
     });
-    return defaultColumns;
   }, [endpoint.responseFields, fields]);
 
   return useReactTable({

@@ -7,12 +7,12 @@ export const AppLayout: FC = () => {
     <>
       <Header>
         <Header.Item>
-          <Header.Link href="#" fontSize={2}>
+          <Header.Link href="#">
             <span>GitHub</span>
           </Header.Link>
         </Header.Item>
         <Header.Item full>Menu</Header.Item>
-        <Header.Item mr={0}>
+        <Header.Item>
           <Avatar src="https://github.com/octocat.png" size={20} square alt="@octocat" />
         </Header.Item>
       </Header>

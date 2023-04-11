@@ -1,6 +1,7 @@
 import React, { FC, useMemo, useState } from "react";
 import { SelectPanel, Button } from "@primer/react";
-import { GoTriangleDown } from "react-icons/all";
+import { GoTriangleDown } from "react-icons/go";
+
 import { ListEndpointDefinition } from "../../list-endpoints/types";
 
 export type FieldSelectorProps = {
@@ -39,7 +40,7 @@ export const FieldSelector: FC<FieldSelectorProps> = ({ endpoint, fields, setFie
       open={open}
       onOpenChange={setOpen}
       items={filteredItems}
-      selected={fields.map((f) => items.find((i) => i.id === f))}
+      selected={fields.map((f) => items.find((i) => i.id === f)!)}
       onSelectedChange={(items) => setFields(items.map((i) => i.id as string))}
       onFilterChange={setFilter}
       overlayProps={{ width: "small", height: "large" }}

@@ -12,14 +12,14 @@ export type ListPageProps = {
 };
 
 export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
-  const [search, setSearch] = useState<ParsedSearchResult>(null);
+  const [search, setSearch] = useState<ParsedSearchResult>();
   const [fields, setFields] = useState<string[]>(endpoint.defaultFields);
-  const { list } = useFetchListItems(endpoint, search);
+  const { list } = useFetchListItems(endpoint, search ?? null);
   return (
     <Box m={2}>
       <SearchInput endpoint={endpoint} onChange={setSearch} value={search} />
       <FieldSelector endpoint={endpoint} fields={fields} setFields={setFields} />
-      <ListTable endpoint={endpoint} fields={fields} data={list} />
+      <ListTable endpoint={endpoint} fields={fields} data={list} onChangeFields={setFields} />
     </Box>
   );
 };

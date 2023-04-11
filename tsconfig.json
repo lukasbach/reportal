@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "outDir": "lib",
-    "declaration": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
-    "module": "CommonJS",
-    "target": "ES6",
+    "noImplicitOverride": true,
+    "module": "ESNext",
+    "target": "ESNext",
     "moduleResolution": "Node",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "skipLibCheck": true
   },
   "include": ["src", "vite.config.ts", "codegen.ts"],
   "exclude": ["src/**/template-*"]

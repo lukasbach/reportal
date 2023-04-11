@@ -45,7 +45,7 @@ export type Action<T> = {
   action: (items: T[], octokit: Octokit) => Promise<void>;
 };
 
-export abstract class ListEndpointDefinition<T> {
+export abstract class ListEndpointDefinition<T = any> {
   abstract readonly name: string;
 
   abstract readonly defaultFields: string[];

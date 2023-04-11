@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import { ActionList, Box, IconButton, TextInput } from "@primer/react";
-import { GoSearch } from "react-icons/all";
+import { GoSearch } from "react-icons/go";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
 import { ParsedSearchResult, parseSearch } from "../../list-endpoints/search-utils";
 
 export type SearchInputProps = {
-  endpoint: ListEndpointDefinition<any>;
+  endpoint: ListEndpointDefinition;
   value?: ParsedSearchResult;
   onChange: (result: ParsedSearchResult) => void;
 };

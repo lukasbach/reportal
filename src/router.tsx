@@ -5,6 +5,7 @@ import { AppLayout } from "./components/common/app-layout";
 import { authCheckLoader } from "./auth";
 import { IssueSearchEndpoint } from "./list-endpoints/issue-search-endpoint";
 import { ListPage } from "./components/list/list-page";
+import { ListsOverviewPage } from "./components/lists/lists-overview-page";
 
 export const router = createHashRouter([
   {
@@ -18,6 +19,11 @@ export const router = createHashRouter([
       {
         path: "dashboard",
         element: <ListPage endpoint={new IssueSearchEndpoint()} />,
+        loader: authCheckLoader,
+      },
+      {
+        path: "lists",
+        element: <ListsOverviewPage />,
         loader: authCheckLoader,
       },
     ],

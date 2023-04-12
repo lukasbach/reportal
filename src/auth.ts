@@ -5,6 +5,7 @@ import { Octokit } from "@octokit/rest";
 import { firebaseApp } from "./firebase-app";
 
 export const useAuthStore = create<{
+  uid: string;
   token: string;
   displayName: string;
   email: string;
@@ -13,6 +14,7 @@ export const useAuthStore = create<{
 }>(
   () =>
     ({
+      uid: undefined,
       token: undefined,
       displayName: undefined,
       email: undefined,
@@ -27,16 +29,17 @@ export const setupAuthCallback = () => {
   auth.onAuthStateChanged((user) => {
     console.log("onAuthStateChanged", user);
     if (user) {
-      const { displayName, email } = user;
+      const { displayName, email, uid } = user;
       const token = localStorage.getItem("token");
       useAuthStore.setState({
         token: token ?? undefined,
         displayName: displayName ?? undefined,
         email: email ?? undefined,
         isLoggedIn: true,
+        uid,
         kit: new Octokit({ auth: token }),
       });
-      window.location.href = "#/app/dashboard";
+      window.location.href = "#/app/lists";
     } else {
       localStorage.removeItem("token");
       useAuthStore.setState({
@@ -45,6 +48,7 @@ export const setupAuthCallback = () => {
         email: undefined,
         isLoggedIn: false,
         kit: undefined,
+        uid: undefined,
       });
     }
   });
@@ -58,7 +62,7 @@ export const login = async () => {
   const auth = getAuth(firebaseApp);
 
   const result = await signInWithPopup(auth, provider);
-  const { displayName, email } = result.user;
+  const { displayName, email, uid } = result.user;
   const token = GithubAuthProvider.credentialFromResult(result)?.accessToken;
   localStorage.setItem("token", token ?? "");
   useAuthStore.setState({
@@ -67,8 +71,9 @@ export const login = async () => {
     email: email ?? undefined,
     isLoggedIn: true,
     kit: new Octokit({ auth: token }),
+    uid,
   });
-  window.location.href = "#/app/dashboard";
+  window.location.href = "#/app/lists";
 };
 
 export const authCheckLoader = () => {

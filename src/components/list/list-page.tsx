@@ -18,6 +18,8 @@ export type ListPageProps = {
 };
 
 export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
+  const [name, setName] = useState("My List");
+  const [pinned, setPinned] = useState(false);
   const [search, setSearch] = useState<ParsedSearchResult>();
   const colSizing = useRef<Record<string, number>>({});
   const [fields, setFields] = useState<string[]>(endpoint.defaultFields);
@@ -36,7 +38,14 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
   );
 
   const markDirty = useTriggerPersist<ListState>(
-    () => ({ endpointId: endpoint.name, search: search?.search ?? "", fields, fieldWidths: colSizing.current }),
+    () => ({
+      endpointId: endpoint.name,
+      search: search?.search ?? "",
+      fields,
+      fieldWidths: colSizing.current,
+      pinned,
+      name,
+    }),
     console.log
   );
 

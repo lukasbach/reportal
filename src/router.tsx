@@ -4,8 +4,8 @@ import { HomePage } from "./components/home/home-page";
 import { AppLayout } from "./components/common/app-layout";
 import { authCheckLoader } from "./auth";
 import { IssueSearchEndpoint } from "./list-endpoints/issue-search-endpoint";
-import { ListPage } from "./components/list/list-page";
-import { ListsOverviewPage } from "./components/lists/lists-overview-page";
+import { FilterListPage } from "./components/filter-list/filter-list-page";
+import { ListsOverviewPage } from "./components/list-overview/lists-overview-page";
 
 export const router = createHashRouter([
   {
@@ -18,7 +18,7 @@ export const router = createHashRouter([
     children: [
       {
         path: "dashboard",
-        element: <ListPage endpoint={new IssueSearchEndpoint()} />,
+        element: <FilterListPage endpoint={new IssueSearchEndpoint()} />,
         loader: authCheckLoader,
       },
       {

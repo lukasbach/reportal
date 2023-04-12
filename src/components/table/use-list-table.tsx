@@ -1,14 +1,14 @@
 import React, { useMemo } from "react";
 import { createColumnHelper, getCoreRowModel, PaginationState, useReactTable } from "@tanstack/react-table";
 import { resolveRecursiveSubitem } from "../../utils";
-import { useListContext } from "../list/list-context";
+import { useFilterListContext } from "../filter-list/filter-list-context";
 
 export const useListTable = (
   pagination: PaginationState,
   pageCount: number,
   onChangeColumnSizing?: (state: Record<string, number>) => void
 ) => {
-  const { data, endpoint, fields } = useListContext();
+  const { data, endpoint, fields } = useFilterListContext();
   const columnConfig = useMemo(() => {
     const columnHelper = createColumnHelper();
     return fields.map((field) => {

@@ -3,17 +3,17 @@ import { addDoc, query, where } from "firebase/firestore";
 import { firebaseApp, listCollection } from "../../firebase-app";
 import { useAuthStore } from "../../auth";
 import { useStableHandler } from "../../utils";
-import { ListStateEntry } from "../list/types";
+import { FilterListStateEntry } from "../filter-list/types";
 
-export const useGetLists = () =>
+export const useGetFilterLists = () =>
   useCollection(query(listCollection, where("user", "==", useAuthStore().uid)), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
-export const useCreateList = () => {
+export const useCreateFilterList = () => {
   const { uid } = useAuthStore();
   return useStableHandler(async () => {
-    const entry: ListStateEntry = {
+    const entry: FilterListStateEntry = {
       user: uid,
       state: {
         search: "type:issue assignee:@me state:open",

@@ -4,7 +4,7 @@ import { Box } from "@primer/react";
 import { Column, flexRender, Header, RowData, Table } from "@tanstack/react-table";
 import { GrabberIcon } from "@primer/octicons-react";
 import { tableStyles } from "./table-styles";
-import { useListContext } from "../list/list-context";
+import { useFilterListContext } from "../filter-list/filter-list-context";
 
 export type DataTableHeadProps = {
   header: Header<RowData, unknown>;
@@ -21,7 +21,7 @@ const reorderColumn = (draggedColumnId: string, targetColumnId: string, columnOr
 };
 
 export const TableHead: FC<DataTableHeadProps> = ({ header, table }) => {
-  const { fields, onChangeFields } = useListContext();
+  const { fields, onChangeFields } = useFilterListContext();
   const { column } = header;
 
   const [{ isOver }, dropRef] = useDrop({

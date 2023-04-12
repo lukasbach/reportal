@@ -7,17 +7,17 @@ import { ListEndpointDefinition } from "../../list-endpoints/types";
 import { FieldSelector } from "./field-selector";
 import { ListTable } from "../table/list-table";
 import { useFetchListItems } from "../../list-endpoints/use-fetch-list-items";
-import { ListProvider } from "./list-context";
+import { FilterListProvider } from "./filter-list-context";
 import { usePagination } from "./use-pagination";
 import { useCalcPageSize } from "./use-calc-page-size";
 import { useTriggerPersist } from "./use-trigger-persist";
-import { ListState } from "./types";
+import { FilterListState } from "./types";
 
-export type ListPageProps = {
+export type FilterListPageProps = {
   endpoint: ListEndpointDefinition<any>;
 };
 
-export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
+export const FilterListPage: FC<FilterListPageProps> = ({ endpoint }) => {
   const [name, setName] = useState("My List");
   const [pinned, setPinned] = useState(false);
   const [search, setSearch] = useState<ParsedSearchResult>();
@@ -37,7 +37,7 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
     fetchUntil
   );
 
-  const markDirty = useTriggerPersist<ListState>(
+  const markDirty = useTriggerPersist<FilterListState>(
     () => ({
       endpointId: endpoint.name,
       search: search?.search ?? "",
@@ -52,7 +52,7 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
   useEffect(markDirty, [markDirty, endpoint.name, search, fields]);
 
   return (
-    <ListProvider onChangeFields={setFields} data={list} fields={fields} endpoint={endpoint}>
+    <FilterListProvider onChangeFields={setFields} data={list} fields={fields} endpoint={endpoint}>
       <Box display="flex" flexDirection="column" overflow="auto" height="100%">
         <Box p={2}>
           <SearchInput endpoint={endpoint} onChange={setSearch} value={search} isLoading={isFetching} />
@@ -82,6 +82,6 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
           </ButtonGroup>
         </Box>
       </Box>
-    </ListProvider>
+    </FilterListProvider>
   );
 };

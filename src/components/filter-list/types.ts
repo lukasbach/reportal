@@ -1,4 +1,4 @@
-export type ListState = {
+export type FilterListState = {
   endpointId: string;
   search: string;
   fields: string[];
@@ -7,7 +7,7 @@ export type ListState = {
   pinned: boolean;
 };
 
-export type ListStateEntry = {
-  state: ListState;
+export type FilterListStateEntry = {
+  state: FilterListState;
   user: string;
 };

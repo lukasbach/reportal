@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react";
 import { ParsedSearchResult } from "./search-utils";
 import { ListEndpointDefinition } from "./types";
 import { useAuthStore } from "../auth";
-import { useFetchInitialPage } from "../components/list/use-fetch-initial-page";
+import { useFetchInitialPage } from "../components/filter-list/use-fetch-initial-page";
 import { useRefCopy } from "../utils";
 
 export const useFetchListItems = (

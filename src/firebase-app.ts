@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { collection, getFirestore } from "firebase/firestore";
 import { CollectionReference } from "@firebase/firestore";
-import { ListStateEntry } from "./components/list/types";
+import { FilterListStateEntry } from "./components/filter-list/types";
 
 export const firebaseApp = initializeApp({
   apiKey: "AIzaSyDoZH7_ayqubAq909vnrlzMCqGnDkj1sNc",
@@ -14,4 +14,7 @@ export const firebaseApp = initializeApp({
 
 export const db = getFirestore(firebaseApp);
 
-export const listCollection = collection(getFirestore(firebaseApp), "lists") as CollectionReference<ListStateEntry>;
+export const listCollection = collection(
+  getFirestore(firebaseApp),
+  "lists"
+) as CollectionReference<FilterListStateEntry>;

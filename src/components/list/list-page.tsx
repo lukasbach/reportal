@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { Box, Button, ButtonGroup, IconButton } from "@primer/react";
-import { GoChevronLeft, GoChevronRight } from "react-icons/all";
+import { ChevronLeftIcon, ChevronRightIcon } from "@primer/octicons-react";
 import { SearchInput } from "./search-input";
 import { ParsedSearchResult } from "../../list-endpoints/search-utils";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
@@ -48,9 +48,9 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
               onClick={previousPage}
               disabled={!previousPage}
               aria-label="Previous Page"
-              icon={GoChevronLeft}
+              icon={ChevronLeftIcon}
             />
-            <IconButton onClick={nextPage} disabled={!nextPage} aria-label="Next Page" icon={GoChevronRight} />
+            <IconButton onClick={nextPage} disabled={!nextPage} aria-label="Next Page" icon={ChevronRightIcon} />
           </ButtonGroup>
         </Box>
       </Box>

@@ -1,7 +1,7 @@
 import React, { FC, useMemo, useState } from "react";
 import { SelectPanel, Button } from "@primer/react";
-import { GoTriangleDown } from "react-icons/go";
 
+import { TriangleDownIcon } from "@primer/octicons-react";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
 
 export type FieldSelectorProps = {
@@ -32,7 +32,7 @@ export const FieldSelector: FC<FieldSelectorProps> = ({ endpoint, fields, setFie
   return (
     <SelectPanel
       renderAnchor={({ children, "aria-labelledby": ariaLabelledBy, ...anchorProps }) => (
-        <Button trailingAction={GoTriangleDown} aria-labelledby={`${ariaLabelledBy}`} {...anchorProps}>
+        <Button trailingAction={TriangleDownIcon} aria-labelledby={`${ariaLabelledBy}`} {...anchorProps}>
           {fields.length} columns
         </Button>
       )}

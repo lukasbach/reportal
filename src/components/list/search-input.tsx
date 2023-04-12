@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import { ActionList, Box, IconButton, TextInput } from "@primer/react";
-import { GoSearch } from "react-icons/go";
+import { SearchIcon } from "@primer/octicons-react";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
 import { ParsedSearchResult, parseSearch } from "../../list-endpoints/search-utils";
 
@@ -37,7 +37,7 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
         {parsed.search !== previousValue?.search && (
           <IconButton
             aria-label="Search"
-            icon={GoSearch}
+            icon={SearchIcon}
             onClick={() => {
               onChange(parsed);
             }}

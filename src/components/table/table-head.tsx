@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Box } from "@primer/react";
 import { Column, flexRender, Header, RowData, Table } from "@tanstack/react-table";
-import { GoGrabber } from "react-icons/go";
+import { GrabberIcon } from "@primer/octicons-react";
 import { tableStyles } from "./table-styles";
 import { useListContext } from "../list/list-context";
 
@@ -51,7 +51,7 @@ export const TableHead: FC<DataTableHeadProps> = ({ header, table }) => {
     >
       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
       <Box as="span" sx={tableStyles.grabber} ref={dragRef} className="grab-handle">
-        <GoGrabber />
+        <GrabberIcon size={16} />
       </Box>
       <Box
         onMouseDown={header.getResizeHandler()}

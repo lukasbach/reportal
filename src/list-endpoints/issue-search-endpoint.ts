@@ -1,5 +1,6 @@
 import { ListEndpointDefinition, SearchQueryDefinition } from "./types";
 import { constructGithubSearch } from "./search-utils";
+import { cellRenderers } from "./cell-renderers";
 
 const issueSearchQuery = /* GraphQL */ `
   query issueSearchQuery($search: String!, $first: Int!, $after: String) {
@@ -104,22 +105,22 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
   override readonly responseFields = [
     { jsonKey: "number", name: "Number" },
     { jsonKey: "closed", name: "Closed" },
-    { jsonKey: "author.login", name: "Author" },
-    { jsonKey: "title", name: "Title" },
+    { jsonKey: "author.login", name: "Author", renderCell: cellRenderers.author },
+    { jsonKey: "title", name: "Title", renderCell: cellRenderers.issueTitle },
     { jsonKey: "repository.nameWithOwner", name: "Repo Name with Owner" },
     { jsonKey: "repository.description", name: "Repo Description" },
-    { jsonKey: "repository.createdAt", name: "Repo Created Date" },
+    { jsonKey: "repository.createdAt", name: "Repo Created Date", renderCell: cellRenderers.date },
     { jsonKey: "repository.homepageUrl", name: "Repo Homepage" },
     { jsonKey: "repository.name", name: "Repo Name" },
     { jsonKey: "repository.owner.login", name: "Repo Owner Login" },
     { jsonKey: "repository.stargazerCount", name: "Repo Stargazer Count" },
     { jsonKey: "body", name: "Body" },
-    { jsonKey: "closedAt", name: "Closed Date" },
+    { jsonKey: "closedAt", name: "Closed Date", renderCell: cellRenderers.date },
     { jsonKey: "comments.totalCount", name: "Comments Count" },
-    { jsonKey: "createdAt", name: "Created Date" },
+    { jsonKey: "createdAt", name: "Created Date", renderCell: cellRenderers.date },
     { jsonKey: "state", name: "State" },
     { jsonKey: "stateReason", name: "State Reason" },
-    { jsonKey: "updatedAt", name: "Updated Date" },
+    { jsonKey: "updatedAt", name: "Updated Date", renderCell: cellRenderers.date },
     { jsonKey: "url", name: "URL" },
   ];
 

@@ -10,11 +10,18 @@ export const useListTable = (pagination: PaginationState, pageCount: number) => 
     const columnHelper = createColumnHelper();
     return fields.map((field) => {
       const fieldDef = endpoint.responseFields.find((responseField) => responseField.jsonKey === field);
-      return columnHelper.accessor((row) => resolveRecursiveSubitem(row, field), {
-        id: field,
-        cell: (info) => info.getValue(),
-        header: () => <span>{fieldDef?.name}</span>,
-      });
+      return columnHelper.accessor(
+        (row) => {
+          const value = resolveRecursiveSubitem(row, field);
+          return fieldDef?.renderCell ? fieldDef.renderCell(value, row) : value;
+        },
+        {
+          id: field,
+          cell: (info) => info.getValue(),
+
+          header: () => <span>{fieldDef?.name}</span>,
+        }
+      );
     });
   }, [endpoint.responseFields, fields]);
 

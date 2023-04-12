@@ -5,6 +5,7 @@ export type ResponseField = {
   jsonKey: string;
   name: string;
   suggestions?: string[];
+  renderCell?: (value: string, dataObject: any) => JSX.Element | string;
 };
 
 export type ServerFilter = {

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useMemo, useRef, useState } from "react";
-import { ActionList, Box, IconButton, TextInput } from "@primer/react";
-import { SearchIcon } from "@primer/octicons-react";
+import { ActionList, Box, IconButton, Spinner, TextInput, Token } from "@primer/react";
+import { PencilIcon, SearchIcon } from "@primer/octicons-react";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
 import { ParsedSearchResult, parseSearch } from "../../list-endpoints/search-utils";
 
@@ -8,18 +8,19 @@ export type SearchInputProps = {
   endpoint: ListEndpointDefinition;
   value?: ParsedSearchResult;
   onChange: (result: ParsedSearchResult) => void;
+  isLoading: boolean;
 };
 
-export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: previousValue }) => {
+export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: previousValue, isLoading }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState("type:issue assignee:lukasbach state:open ");
+  const [value, setValue] = useState("type:issue assignee:lukasbach state:open");
   const parsed = useMemo(() => parseSearch(value, endpoint), [endpoint, value]);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <Box position="relative">
-      <Box display="flex">
+      <Box display="flex" alignItems="center">
         <TextInput
           sx={{ flexGrow: 1 }}
           value={value}
@@ -29,20 +30,21 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
           onFocus={() => setIsFocused(true)}
           onBlur={(e) => {
             if (overlayRef.current?.contains(e.relatedTarget as any)) {
+              inputRef.current?.focus();
               return;
             }
             setIsFocused(false);
+            onChange(parsed);
           }}
         />
-        {parsed.search !== previousValue?.search && (
-          <IconButton
-            aria-label="Search"
-            icon={SearchIcon}
-            onClick={() => {
-              onChange(parsed);
-            }}
-            sx={{ ml: 2 }}
-          />
+        {isLoading ? (
+          <Spinner size="small" sx={{ ml: 2 }} />
+        ) : (
+          parsed.search !== previousValue?.search && (
+            <Box ml={2}>
+              <PencilIcon size={16} />
+            </Box>
+          )
         )}
       </Box>
       <Box

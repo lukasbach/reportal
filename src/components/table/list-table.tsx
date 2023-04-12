@@ -9,10 +9,11 @@ export type ListTableProps = {
   pagination: PaginationState;
   pageCount: number;
   scrollRef: MutableRefObject<any>;
+  onChangeColumnSizing?: (state: Record<string, number>) => void;
 };
 
-export const ListTable: FC<ListTableProps> = ({ pagination, pageCount, scrollRef }) => {
-  const table = useListTable(pagination, pageCount);
+export const ListTable: FC<ListTableProps> = ({ pagination, pageCount, scrollRef, onChangeColumnSizing }) => {
+  const table = useListTable(pagination, pageCount, onChangeColumnSizing);
   return (
     <Box as="table" sx={tableStyles.table}>
       <thead>

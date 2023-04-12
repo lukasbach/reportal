@@ -1,10 +1,13 @@
 import React, { useMemo } from "react";
 import { createColumnHelper, getCoreRowModel, PaginationState, useReactTable } from "@tanstack/react-table";
-import { ListEndpointDefinition } from "../../list-endpoints/types";
 import { resolveRecursiveSubitem } from "../../utils";
 import { useListContext } from "../list/list-context";
 
-export const useListTable = (pagination: PaginationState, pageCount: number) => {
+export const useListTable = (
+  pagination: PaginationState,
+  pageCount: number,
+  onChangeColumnSizing?: (state: Record<string, number>) => void
+) => {
   const { data, endpoint, fields } = useListContext();
   const columnConfig = useMemo(() => {
     const columnHelper = createColumnHelper();
@@ -30,14 +33,28 @@ export const useListTable = (pagination: PaginationState, pageCount: number) => 
     [data, pagination.pageIndex, pagination.pageSize]
   );
 
-  return useReactTable({
+  const table = useReactTable({
     data: slicedData,
     columns: columnConfig,
     getCoreRowModel: getCoreRowModel(),
     columnResizeMode: "onChange",
 
+    onColumnSizingChange: (updaterOrValue) => {
+      const updater = <T,>(input: T): T =>
+        typeof updaterOrValue === "function" ? (updaterOrValue as (input: T) => T)(input) : (updaterOrValue as T);
+      table.setState((old) => {
+        const columnSizing = updater(old.columnSizing);
+        onChangeColumnSizing?.(columnSizing);
+        return {
+          ...old,
+          columnSizing,
+        };
+      });
+    },
+
     manualPagination: true,
     pageCount,
     state: { pagination },
   });
+  return table;
 };

@@ -64,14 +64,21 @@ export const useConfirm = (title: string, body: JSX.Element | string, yes = "Yes
   return { confirm, ...dialog };
 };
 
-export const usePrompt = (title: string, placeholder: string, yes = "Okay", no = "Cancel", danger = false) => {
+export const usePrompt = (
+  title: string,
+  placeholder: string,
+  label: string,
+  yes = "Okay",
+  no = "Cancel",
+  danger = false
+) => {
   const [value, setValue] = useState("");
   const valueCopy = useRefCopy(value);
   const inputRef = useRef<HTMLInputElement>(null);
   const dialog = useConfirm(
     title,
     <FormControl>
-      <FormControl.Label>Icon action</FormControl.Label>
+      <FormControl.Label>{label}</FormControl.Label>
       <TextInput
         placeholder={placeholder}
         value={value}

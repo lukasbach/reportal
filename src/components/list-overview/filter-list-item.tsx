@@ -23,7 +23,7 @@ export const FilterListItem: FC<FilterListItemProps> = ({ entry, id }) => {
     "No",
     true
   );
-  const { dialog: renameDialog, prompt: promptRename } = usePrompt("Rename list", "List Name");
+  const { dialog: renameDialog, prompt: promptRename } = usePrompt("Rename list", "List Name", "New name");
 
   const handleDelete = () => {
     confirmDelete().then(() => {

@@ -9,7 +9,7 @@ const baseStyles = {
     display: "inline-block",
   },
   cellSpacing: {
-    paddingY: 1,
+    paddingY: "8px",
     paddingX: 2,
   },
 } satisfies Record<string, BetterSystemStyleObject>;
@@ -27,6 +27,7 @@ export const tableStyles = {
     borderTop: "1px solid",
     borderBottom: "1px solid",
     borderColor: "border.default",
+    boxShadow: "primer.shadow.inset",
   },
   tableHead: {},
   tableHeadCell: {
@@ -79,12 +80,26 @@ export const tableStyles = {
     borderColor: "border.muted",
     minWidth: "100%",
     ":hover": { bg: "accent.subtle" },
+    ":hover .checkbox-cell": {
+      borderColor: "accent.fg",
+    },
     // ":nth-child(2n)": { bg: "canvas.subtle" },
     // ":nth-child(2n):hover": { bg: "accent.subtle" },
   },
   cell: {
     ...baseStyles.cellSpacing,
     ...baseStyles.noWrap,
+  },
+  checkboxCell: {
+    ...baseStyles.cellSpacing,
+    ...baseStyles.noWrap,
+    width: "30px",
+    height: "100%",
+    borderLeft: "3px solid",
+    borderColor: "transparent",
+  },
+  checkbox: {
+    bg: "canvas.default",
   },
   grabber: {
     opacity: 0,

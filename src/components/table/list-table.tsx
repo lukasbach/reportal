@@ -1,10 +1,9 @@
 import React, { FC, MutableRefObject } from "react";
 import { flexRender, PaginationState } from "@tanstack/react-table";
-import { Box } from "@primer/react";
+import { Box, Checkbox } from "@primer/react";
 import { useListTable } from "./use-list-table";
 import { tableStyles } from "./table-styles";
 import { TableHead } from "./table-head";
-import { useListContext } from "../list/list-context";
 
 export type ListTableProps = {
   pagination: PaginationState;
@@ -19,6 +18,7 @@ export const ListTable: FC<ListTableProps> = ({ pagination, pageCount, scrollRef
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <Box as="tr" sx={tableStyles.headerGroup} key={headerGroup.id}>
+            <Box as="th" sx={tableStyles.checkboxCell} />
             {headerGroup.headers.map((header) => (
               <TableHead header={header} table={table} key={header.id} />
             ))}
@@ -28,6 +28,9 @@ export const ListTable: FC<ListTableProps> = ({ pagination, pageCount, scrollRef
       <Box as="tbody" sx={tableStyles.tableBody} ref={scrollRef}>
         {table.getRowModel().rows.map((row) => (
           <Box as="tr" key={row.id} sx={tableStyles.row}>
+            <Box as="td" sx={tableStyles.checkboxCell} className="checkbox-cell">
+              <Checkbox sx={tableStyles.checkbox} />
+            </Box>
             {row.getVisibleCells().map((cell) => (
               <Box
                 as="td"

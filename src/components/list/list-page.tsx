@@ -17,7 +17,7 @@ export type ListPageProps = {
 export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
   const [search, setSearch] = useState<ParsedSearchResult>();
   const [fields, setFields] = useState<string[]>(endpoint.defaultFields);
-  const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(29);
+  const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(37);
   const { list, loadedCount, totalCount, fetchUntil } = useFetchListItems(endpoint, search ?? null, itemsPerPage, 30);
   const { pagination, nextPage, previousPage, page, totalPages } = usePagination(
     itemsPerPage,

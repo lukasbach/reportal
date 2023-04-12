@@ -49,7 +49,7 @@ export const FilterListItem: FC<FilterListItemProps> = ({ entry, id }) => {
         <Text fontSize="1" color="fg.muted">
           Issues and Pull Requests
         </Text>
-        <Link to={`/app/filterlist/${id}`} className="unstyled-link" ref={linkRef}>
+        <Link to={`/app/filterlists/${id}`} className="unstyled-link" ref={linkRef}>
           <Box fontSize="3" color="fg.default" sx={{ textDecoration: "none" }}>
             {entry.state.name}
           </Box>

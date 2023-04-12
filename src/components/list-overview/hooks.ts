@@ -1,6 +1,6 @@
-import { useCollection } from "react-firebase-hooks/firestore";
-import { addDoc, query, where } from "firebase/firestore";
-import { firebaseApp, listCollection } from "../../firebase-app";
+import { useCollection, useDocument } from "react-firebase-hooks/firestore";
+import { deleteDoc, addDoc, updateDoc, query, where } from "firebase/firestore";
+import { getListDoc, listCollection } from "../../firebase-app";
 import { useAuthStore } from "../../auth";
 import { useStableHandler } from "../../utils";
 import { FilterListStateEntry } from "../filter-list/types";
@@ -9,6 +9,7 @@ export const useGetFilterLists = () =>
   useCollection(query(listCollection, where("user", "==", useAuthStore().uid)), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
+export const useFilterListData = (id: string | null) => useDocument<FilterListStateEntry>(id ? getListDoc(id) : null);
 
 export const useCreateFilterList = () => {
   const { uid } = useAuthStore();
@@ -25,5 +26,17 @@ export const useCreateFilterList = () => {
       },
     };
     await addDoc(listCollection, entry);
+  });
+};
+
+export const useDeleteFilterList = () => {
+  return useStableHandler(async (id: string) => {
+    await deleteDoc(getListDoc(id));
+  });
+};
+
+export const useUpdateFilterList = () => {
+  return useStableHandler(async (id: string, list: FilterListStateEntry) => {
+    await updateDoc(getListDoc(id), list);
   });
 };

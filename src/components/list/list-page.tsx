@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
-import { Box } from "@primer/react";
+import { Box, Button, ButtonGroup, IconButton } from "@primer/react";
+import { GoChevronLeft, GoChevronRight } from "react-icons/all";
 import { SearchInput } from "./search-input";
 import { ParsedSearchResult } from "../../list-endpoints/search-utils";
 import { ListEndpointDefinition } from "../../list-endpoints/types";
@@ -40,12 +41,17 @@ export const ListPage: FC<ListPageProps> = ({ endpoint }) => {
             scrollRef={listContainerRef}
           />
         </Box>
-        <Box p={2}>
-          {loadedCount}/{totalCount}
-          <button onClick={() => fetchUntil(loadedCount + 10)}>Fetch next</button>
-          <button onClick={nextPage}>Next</button>
-          <button onClick={previousPage}>Previous</button>
-          Page {page} of {totalPages}
+        <Box p={2} color="fg.subtle" fontSize={1} display="flex" justifyContent="flex-end" alignItems="center">
+          {totalCount} items. Page {page + 1} of {totalPages}.
+          <ButtonGroup sx={{ ml: 2 }}>
+            <IconButton
+              onClick={previousPage}
+              disabled={!previousPage}
+              aria-label="Previous Page"
+              icon={GoChevronLeft}
+            />
+            <IconButton onClick={nextPage} disabled={!nextPage} aria-label="Next Page" icon={GoChevronRight} />
+          </ButtonGroup>
         </Box>
       </Box>
     </ListProvider>

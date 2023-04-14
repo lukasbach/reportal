@@ -1,11 +1,12 @@
 import React, { FC, useRef } from "react";
 import { Box, Button, ButtonGroup, Text } from "@primer/react";
-import { IssueOpenedIcon } from "@primer/octicons-react";
+import { IssueOpenedIcon, PinIcon } from "@primer/octicons-react";
 import { Link } from "react-router-dom";
 import { FilterListStateEntry } from "../filter-list/types";
 import { useConfirm, usePrompt } from "../../dialogs";
 import { useDeleteFilterList, useUpdateFilterList } from "./hooks";
 import { getEndpoint } from "../../list-endpoints/endpoints";
+import { EndpointIcon } from "../common/endpoint-icon";
 
 export type FilterListItemProps = {
   entry: FilterListStateEntry;
@@ -69,6 +70,9 @@ export const FilterListItem: FC<FilterListItemProps> = ({ entry, id }) => {
           ":hover .actions": {
             display: "flex",
           },
+          ":hover .pin": {
+            display: "none",
+          },
           ":active": {
             bg: "canvas.inset",
           },
@@ -80,7 +84,7 @@ export const FilterListItem: FC<FilterListItemProps> = ({ entry, id }) => {
         }}
       >
         <Box mr={3}>
-          <IssueOpenedIcon size={24} />
+          <EndpointIcon endpointId={endpoint.id} size={24} />
         </Box>
         <Box flexGrow={1}>
           <Text fontSize="1" color="fg.muted">
@@ -95,6 +99,7 @@ export const FilterListItem: FC<FilterListItemProps> = ({ entry, id }) => {
             {entry.state.search}
           </Box>
         </Box>
+        <Box className="pin">{entry.state.pinned && <PinIcon size={16} />}</Box>
         <Box
           onClick={(e) => {
             e.stopPropagation();

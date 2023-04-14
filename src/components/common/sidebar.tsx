@@ -2,6 +2,7 @@ import React, { FC, ReactNode } from "react";
 import { ActionList, Box, Text } from "@primer/react";
 import { Link, NavLink } from "react-router-dom";
 import { useGetPinnedFilterLists } from "../list-overview/hooks";
+import { EndpointIcon } from "./endpoint-icon";
 
 export type SidebarProps = {};
 
@@ -28,10 +29,16 @@ export const Sidebar: FC<SidebarProps> = ({}) => {
         <ActionList.Group title="Filter Lists">
           {filterLists?.docs.map((item) => (
             <NavLink to={`/app/filterlists/${item.id}`} key={item.id} className="unstyled-link">
-              {({ isActive }) => <ActionList.Item active={isActive}>{item.data().state.name}</ActionList.Item>}
+              {({ isActive }) => (
+                <ActionList.Item active={isActive}>
+                  <ActionList.LeadingVisual>
+                    <EndpointIcon endpointId={item.data().state.endpointId} size={16} />
+                  </ActionList.LeadingVisual>
+                  {item.data().state.name}
+                </ActionList.Item>
+              )}
             </NavLink>
           ))}
-          <ActionList.Divider sx={{ mx: 3 }} />
           <NavLink to="/app/filterlists" className="unstyled-link" end>
             {({ isActive }) => <ActionList.Item active={isActive}>Show all</ActionList.Item>}
           </NavLink>

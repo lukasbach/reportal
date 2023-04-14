@@ -12,9 +12,9 @@ export const useGetPinnedFilterLists = () =>
   useCollection(query(listCollection, where("user", "==", useAuthStore().uid), where("state.pinned", "==", true)));
 export const useFilterListData = (id: string | null) => useDocument<FilterListStateEntry>(id ? getListDoc(id) : null);
 
-export const useCreateFilterList = (endpoint: ListEndpointDefinition) => {
+export const useCreateFilterList = () => {
   const { uid } = useAuthStore();
-  return useStableHandler(async () => {
+  return useStableHandler(async (endpoint: ListEndpointDefinition) => {
     const entry: FilterListStateEntry = {
       user: uid,
       state: endpoint.defaultData,

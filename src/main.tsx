@@ -8,6 +8,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { router } from "./router";
 
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
+
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

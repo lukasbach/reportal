@@ -1,6 +1,7 @@
 import React, { FC, ReactNode } from "react";
 import { ActionList, Box, Text } from "@primer/react";
 import { Link, NavLink } from "react-router-dom";
+import { GraphIcon } from "@primer/octicons-react";
 import { useGetPinnedFilterLists } from "../list-overview/hooks";
 import { EndpointIcon } from "./endpoint-icon";
 
@@ -20,10 +21,16 @@ export const Sidebar: FC<SidebarProps> = ({}) => {
       </Box>
       <ActionList>
         <ActionList.Group title="Dashboards">
-          <ActionList.Item>My Dashboard</ActionList.Item>
-          <ActionList.Item>My Dashboard</ActionList.Item>
-          <ActionList.Item>My Dashboard</ActionList.Item>
-          <ActionList.Item>My Dashboard</ActionList.Item>
+          <NavLink to="/app/dashboards" className="unstyled-link" end>
+            {({ isActive }) => (
+              <ActionList.Item active={isActive}>
+                <ActionList.LeadingVisual>
+                  <GraphIcon size={16} />
+                </ActionList.LeadingVisual>
+                Home
+              </ActionList.Item>
+            )}
+          </NavLink>
         </ActionList.Group>
         <ActionList.Divider />
         <ActionList.Group title="Filter Lists">

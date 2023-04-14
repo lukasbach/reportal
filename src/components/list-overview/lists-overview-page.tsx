@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { ActionList, ActionMenu, Box, Button } from "@primer/react";
+import { ActionList, ActionMenu, Box } from "@primer/react";
 import { useCreateFilterList, useGetFilterLists } from "./hooks";
 import { FilterListItem } from "./filter-list-item";
 import { endpoints } from "../../list-endpoints/endpoints";

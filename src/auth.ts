@@ -42,7 +42,7 @@ export const setupAuthCallback = () => {
         uid,
         kit: new Octokit({ auth: token }),
       });
-      window.location.href = "#/app/filterlists";
+      window.location.href = "#/app/dashboards";
     } else {
       localStorage.removeItem("token");
       useAuthStore.setState({
@@ -77,7 +77,7 @@ export const login = async () => {
     kit: new Octokit({ auth: token }),
     uid,
   });
-  window.location.href = "#/app/filterlists";
+  window.location.href = "#/app/dashboards";
 };
 
 export const authCheckLoader = () => {

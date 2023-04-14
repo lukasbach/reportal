@@ -11,6 +11,7 @@ export const useAuthStore = create<{
   email: string;
   kit: Octokit;
   isLoggedIn: boolean;
+  ghName: string;
 }>(
   () =>
     ({
@@ -20,6 +21,7 @@ export const useAuthStore = create<{
       email: undefined,
       isLoggedIn: false,
       kit: undefined,
+      ghName: undefined,
     } as any)
 );
 
@@ -29,6 +31,7 @@ export const setupAuthCallback = () => {
   auth.onAuthStateChanged((user) => {
     console.log("onAuthStateChanged", user);
     if (user) {
+      console.log("!!!", user);
       const { displayName, email, uid } = user;
       const token = localStorage.getItem("token");
       useAuthStore.setState({
@@ -49,6 +52,7 @@ export const setupAuthCallback = () => {
         isLoggedIn: false,
         kit: undefined,
         uid: undefined,
+        ghName: undefined,
       });
     }
   });

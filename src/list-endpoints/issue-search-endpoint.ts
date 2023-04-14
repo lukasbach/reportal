@@ -115,16 +115,16 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
   override readonly responseFields = [
     { jsonKey: "number", name: "Number" },
     { jsonKey: "closed", name: "Closed" },
-    { jsonKey: "author.login", name: "Author", renderCell: cellRenderers.author },
-    { jsonKey: "title", name: "Title", renderCell: cellRenderers.issueTitle },
+    { jsonKey: "author.login", name: "Author", renderCell: cellRenderers.author("author", "avatarUrl") },
+    { jsonKey: "title", name: "Title", renderCell: cellRenderers.issueTitle() },
     ...repositoryResponseFields,
     { jsonKey: "body", name: "Body" },
-    { jsonKey: "closedAt", name: "Closed Date", renderCell: cellRenderers.date },
+    { jsonKey: "closedAt", name: "Closed Date", renderCell: cellRenderers.date() },
     { jsonKey: "comments.totalCount", name: "Comments Count" },
-    { jsonKey: "createdAt", name: "Created Date", renderCell: cellRenderers.date },
+    { jsonKey: "createdAt", name: "Created Date", renderCell: cellRenderers.date() },
     { jsonKey: "state", name: "State" },
     { jsonKey: "stateReason", name: "State Reason" },
-    { jsonKey: "updatedAt", name: "Updated Date", renderCell: cellRenderers.date },
+    { jsonKey: "updatedAt", name: "Updated Date", renderCell: cellRenderers.date() },
     { jsonKey: "url", name: "URL" },
   ];
 

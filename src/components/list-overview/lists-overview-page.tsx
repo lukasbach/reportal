@@ -8,6 +8,7 @@ export const ListsOverviewPage: FC = () => {
   const [value] = useGetFilterLists();
   const createIssueItem = useCreateFilterList(endpoints.issues);
   const createNotificationItem = useCreateFilterList(endpoints.notifications);
+  const createEventList = useCreateFilterList(endpoints.events);
   return (
     <Box p={4}>
       {value?.docs
@@ -18,6 +19,8 @@ export const ListsOverviewPage: FC = () => {
       <Button onClick={createIssueItem}>Create new Filter List for Issues</Button>
       <br />
       <Button onClick={createNotificationItem}>Create new Filter List for Notifications</Button>
+      <br />
+      <Button onClick={createEventList}>Create new Filter List for Events</Button>
     </Box>
   );
 };

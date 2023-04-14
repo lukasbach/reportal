@@ -70,7 +70,8 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
           />
         </Box>
         <Box p={2} color="fg.subtle" fontSize={1} display="flex" justifyContent="flex-end" alignItems="center">
-          {totalCount} items. Page {page + 1} of {totalPages}.
+          {totalCount ? `${totalCount} items. ` : ""}Page {page + 1}
+          {totalPages ? ` of ${totalPages}` : ""}.
           <ButtonGroup sx={{ ml: 2 }}>
             <IconButton
               onClick={previousPage}

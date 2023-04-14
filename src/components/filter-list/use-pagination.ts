@@ -8,9 +8,12 @@ export const usePagination = (
   fetchUntil: (item: number) => Promise<void>
 ) => {
   const [page, setPage] = useState(0);
-  const total = useMemo(() => Math.ceil(totalItemCount / pageSize), [pageSize, totalItemCount]);
+  const total = useMemo(
+    () => (totalItemCount ? Math.ceil(totalItemCount / pageSize) : null),
+    [pageSize, totalItemCount]
+  );
 
-  const hasNextPage = useMemo(() => page < total - 1, [page, total]);
+  const hasNextPage = useMemo(() => (total ? page < total - 1 : true), [page, total]);
   const hasPreviousPage = useMemo(() => page > 0, [page]);
 
   const pageChange = useCallback(

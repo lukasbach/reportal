@@ -64,7 +64,7 @@ export const useFetchListItems = (
 
       let i = loadedCount;
       while (i < targetItemCount) {
-        if (i >= totalCount || !totalCount) {
+        if (i >= totalCount /* || !totalCount */) {
           return;
         }
 

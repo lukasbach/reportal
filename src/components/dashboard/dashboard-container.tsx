@@ -1,8 +1,11 @@
 import React, { FC, ReactNode } from "react";
 import GridLayout from "react-grid-layout";
-import { Box } from "@primer/react";
+import { ActionList, ActionMenu, Box } from "@primer/react";
 import { PinIcon } from "@primer/octicons-react";
 import { WidgetContainer } from "./widget-container";
+import { endpoints } from "../../list-endpoints/endpoints";
+import { EndpointIcon } from "../common/endpoint-icon";
+import { widgets } from "../../widgets/widgets";
 
 export type DashboardContainerProps = {};
 
@@ -21,6 +24,20 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
         },
       }}
     >
+      <ActionMenu>
+        <ActionMenu.Button variant="primary" size="large" sx={{ m: 2 }}>
+          Add Widget
+        </ActionMenu.Button>
+
+        <ActionMenu.Overlay>
+          <ActionList sx={{ width: "240px" }}>
+            {Object.values(widgets).map((widget) => (
+              <ActionList.Item key={widget.id}>{widget.name}</ActionList.Item>
+            ))}
+          </ActionList>
+        </ActionMenu.Overlay>
+      </ActionMenu>
+
       <GridLayout
         className="layout"
         layout={layout}

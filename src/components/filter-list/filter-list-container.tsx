@@ -3,7 +3,6 @@ import { Box, ButtonGroup, IconButton } from "@primer/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@primer/octicons-react";
 import { SearchInput } from "./search-input";
 import { ParsedSearchResult, parseSearch } from "../../list-endpoints/search-utils";
-import { ListEndpointDefinition } from "../../list-endpoints/types";
 import { FieldSelector } from "./field-selector";
 import { ListTable } from "../table/list-table";
 import { useFetchListItems } from "../../list-endpoints/use-fetch-list-items";
@@ -16,10 +15,11 @@ import { IssueSearchEndpoint } from "../../list-endpoints/issue-search-endpoint"
 
 export type FilterListPageProps = {
   data: FilterListState;
-  onUpdate: (data: FilterListState) => void;
+  onUpdate: (id: string, data: FilterListState) => void;
+  id: string;
 };
 
-export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate }) => {
+export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, id }) => {
   const [endpoint] = useState(new IssueSearchEndpoint());
   const [name, setName] = useState(data.name);
   const [pinned, setPinned] = useState(data.pinned);
@@ -40,17 +40,14 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate })
     fetchUntil
   );
 
-  const markDirty = useTriggerPersist<FilterListState>(
-    () => ({
-      endpointId: endpoint.name,
-      search: search?.search ?? "",
-      fields,
-      fieldWidths: colSizing.current,
-      pinned,
-      name,
-    }),
-    onUpdate
-  );
+  const markDirty = useTriggerPersist<FilterListState>(id, onUpdate, {
+    endpointId: endpoint.name,
+    search: search?.search ?? "",
+    fields,
+    fieldWidths: colSizing.current,
+    pinned,
+    name,
+  });
 
   useEffect(markDirty, [markDirty, endpoint.name, search, fields]);
 

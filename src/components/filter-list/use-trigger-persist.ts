@@ -1,26 +1,43 @@
 import { useEffect, useRef } from "react";
-import { useDebouncedCallback } from "@react-hookz/web";
-import { useStableHandler } from "../../utils";
+import { useDebouncedCallback, usePrevious } from "@react-hookz/web";
+import { useRefCopy, useStableHandler } from "../../utils";
 
 const s = 1000;
 
-export const useTriggerPersist = <T>(getData: () => T, persist: (state: T) => void) => {
+export const useTriggerPersist = <T>(id: string, persist: (id: string, state: T) => void, currentData: T) => {
   const dirty = useRef(false);
+
+  const previousId = usePrevious(id);
+  const previousIdRef = useRefCopy(previousId);
+  const previousData = usePrevious(currentData);
+  const previousDataRef = useRefCopy(previousData);
 
   const save = useStableHandler(() => {
     if (!dirty.current) {
       return;
     }
-    persist(getData());
+    persist(id, currentData);
     dirty.current = false;
   });
 
   const delayedSave = useDebouncedCallback(save, [save], s * 15, s * 60 * 2);
 
-  useEffect(() => save, [save]);
+  useEffect(
+    () => () => {
+      if (!dirty.current) {
+        return;
+      }
+      if (!previousIdRef.current || !previousDataRef.current) {
+        return;
+      }
+      persist(previousIdRef.current, previousDataRef.current);
+      dirty.current = false;
+    },
+    [persist, previousDataRef, previousIdRef]
+  );
+
   return useStableHandler(() => {
     dirty.current = true;
-    console.log("Set dirty");
     delayedSave();
   });
 };

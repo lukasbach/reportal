@@ -9,7 +9,7 @@ export const ListsOverviewPage: FC = () => {
   return (
     <Box p={4}>
       {value?.docs
-        ?.sort((a, b) => a.data().state.name.localeCompare(b.data().state.name))
+        ?.sort((a, b) => a.data().state.name?.localeCompare(b.data().state.name))
         .map((item) => (
           <FilterListItem entry={item.data()} id={item.id} key={item.id} />
         ))}

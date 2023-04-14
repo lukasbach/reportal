@@ -13,10 +13,11 @@ export const FilterListPage: FC = () => {
   }
   return (
     <FilterListContainer
+      id={id}
       data={data.state}
-      onUpdate={(newData) => {
-        console.log("Updating", newData.name, "to firebase");
-        update(id, { state: newData, user: data.user });
+      onUpdate={(newId, newData) => {
+        console.log("Updating", newId, newData.name, "to firebase");
+        update(newId, { state: newData, user: data.user });
       }}
     />
   );

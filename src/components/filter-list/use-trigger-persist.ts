@@ -15,14 +15,12 @@ export const useTriggerPersist = <T>(getData: () => T, persist: (state: T) => vo
     dirty.current = false;
   });
 
+  const delayedSave = useDebouncedCallback(save, [save], s * 15, s * 60 * 2);
+
   useEffect(() => save, [save]);
-  return useDebouncedCallback(
-    () => {
-      dirty.current = true;
-      save();
-    },
-    [save],
-    s * 15,
-    s * 60 * 2
-  );
+  return useStableHandler(() => {
+    dirty.current = true;
+    console.log("Set dirty");
+    delayedSave();
+  });
 };

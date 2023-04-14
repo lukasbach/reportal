@@ -8,7 +8,7 @@ type FilterListWidgetConfig = {
   filterListId: string;
 };
 
-const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ config }) => {
+const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ payload }) => {
   return <div>Filter List Widget</div>;
 };
 

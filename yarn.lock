@@ -3599,6 +3599,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-grid-layout@npm:^1.3.2":
+  version: 1.3.2
+  resolution: "@types/react-grid-layout@npm:1.3.2"
+  dependencies:
+    "@types/react": "*"
+  checksum: 190492acb69186c651bb99f19028dcd4c65129eae7de6efd41f51b6a6711af490e7b99ad7156b8731b11ecf2ec7c22bcf13c782bfe65be4b4e5c3362b97095bf
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*, @types/react@npm:^18.0.33":
   version: 18.0.33
   resolution: "@types/react@npm:18.0.33"
@@ -6439,6 +6448,7 @@ __metadata:
     "@types/node": ^18.8.5
     "@types/react": ^18.0.33
     "@types/react-dom": ^18.0.11
+    "@types/react-grid-layout": ^1.3.2
     "@vitejs/plugin-react": ^3.1.0
     eslint: ^8.25.0
     firebase: ^9.19.1

@@ -39,6 +39,10 @@ export const FilterListItem: FC<FilterListItemProps> = ({ entry, id }) => {
     });
   };
 
+  const togglePin = () => {
+    updateList(id, { state: { ...entry.state, pinned: !entry.state.pinned }, user: entry.user });
+  };
+
   return (
     <>
       {deleteDialog}
@@ -98,8 +102,8 @@ export const FilterListItem: FC<FilterListItemProps> = ({ entry, id }) => {
         >
           <ButtonGroup>
             <Button onClick={handleRename}>Rename</Button>
-            <Button>Pin</Button>
-            <Button>Edit</Button>
+            <Button onClick={togglePin}>{entry.state.pinned ? "Unpin" : "Pin"}</Button>
+            <Button onClick={() => linkRef.current?.click?.()}>Edit</Button>
             <Button onClick={handleDelete}>Delete</Button>
           </ButtonGroup>
         </Box>

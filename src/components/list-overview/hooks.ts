@@ -5,10 +5,10 @@ import { useAuthStore } from "../../auth";
 import { useStableHandler } from "../../utils";
 import { FilterListStateEntry } from "../filter-list/types";
 
-export const useGetFilterLists = () =>
-  useCollection(query(listCollection, where("user", "==", useAuthStore().uid)), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+export const useGetFilterLists = () => useCollection(query(listCollection, where("user", "==", useAuthStore().uid)));
+
+export const useGetPinnedFilterLists = () =>
+  useCollection(query(listCollection, where("user", "==", useAuthStore().uid), where("state.pinned", "==", true)));
 export const useFilterListData = (id: string | null) => useDocument<FilterListStateEntry>(id ? getListDoc(id) : null);
 
 export const useCreateFilterList = () => {

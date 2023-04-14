@@ -6,14 +6,14 @@ import { ParsedSearchResult, parseSearch } from "../../list-endpoints/search-uti
 
 export type SearchInputProps = {
   endpoint: ListEndpointDefinition;
-  value?: ParsedSearchResult;
+  value: ParsedSearchResult;
   onChange: (result: ParsedSearchResult) => void;
   isLoading: boolean;
 };
 
 export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: previousValue, isLoading }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState("type:issue assignee:lukasbach state:open");
+  const [value, setValue] = useState(previousValue.search);
   const parsed = useMemo(() => parseSearch(value, endpoint), [endpoint, value]);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);

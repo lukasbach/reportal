@@ -5,12 +5,14 @@ export type ResponseField = {
   jsonKey: string;
   name: string;
   suggestions?: string[];
+  isBoolean?: boolean;
   renderCell?: (value: string, dataObject: any) => JSX.Element | string;
 };
 
 export type ServerFilter = {
   key: string;
   suggestions?: string[];
+  isBoolean?: boolean;
   multiple?: boolean;
 };
 
@@ -39,7 +41,7 @@ export type SearchQueryDefinition = (ctx: QueryFunctionContext<QueryKey, { curso
   hasPreviousPage: boolean;
   endCursor: string;
   startCursor: string;
-  resultCount: number;
+  resultCount?: number;
 }>;
 
 export type Action<T> = {
@@ -58,4 +60,11 @@ export abstract class ListEndpointDefinition<T = any> {
 
   abstract getSearchQueries(searchProps: ListSearchProps): SearchQueryDefinition;
   abstract readonly actions: Action<T>[];
+
+  protected getFiltersAsMap(filters: FilterValue<ServerFilter>[]) {
+    return filters.reduce<Record<string, FilterValue<ServerFilter>>>((acc, filter) => {
+      acc[filter.filter.key] = filter;
+      return acc;
+    }, {});
+  }
 }

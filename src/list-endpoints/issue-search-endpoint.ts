@@ -1,6 +1,7 @@
 import { ListEndpointDefinition, SearchQueryDefinition } from "./types";
 import { constructGithubSearch } from "./search-utils";
 import { cellRenderers } from "./cell-renderers";
+import { repositoryResponseFields } from "./common-response-fields";
 
 const issueSearchQuery = /* GraphQL */ `
   query issueSearchQuery($search: String!, $first: Int!, $after: String) {
@@ -107,13 +108,7 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
     { jsonKey: "closed", name: "Closed" },
     { jsonKey: "author.login", name: "Author", renderCell: cellRenderers.author },
     { jsonKey: "title", name: "Title", renderCell: cellRenderers.issueTitle },
-    { jsonKey: "repository.nameWithOwner", name: "Repo Name with Owner" },
-    { jsonKey: "repository.description", name: "Repo Description" },
-    { jsonKey: "repository.createdAt", name: "Repo Created Date", renderCell: cellRenderers.date },
-    { jsonKey: "repository.homepageUrl", name: "Repo Homepage" },
-    { jsonKey: "repository.name", name: "Repo Name" },
-    { jsonKey: "repository.owner.login", name: "Repo Owner Login" },
-    { jsonKey: "repository.stargazerCount", name: "Repo Stargazer Count" },
+    ...repositoryResponseFields,
     { jsonKey: "body", name: "Body" },
     { jsonKey: "closedAt", name: "Closed Date", renderCell: cellRenderers.date },
     { jsonKey: "comments.totalCount", name: "Comments Count" },

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { FilterListStateEntry } from "../filter-list/types";
 import { useConfirm, usePrompt } from "../../dialogs";
 import { useDeleteFilterList, useUpdateFilterList } from "./hooks";
+import { getEndpoint } from "../../list-endpoints/endpoints";
 
 export type FilterListItemProps = {
   entry: FilterListStateEntry;
@@ -15,6 +16,7 @@ export const FilterListItem: FC<FilterListItemProps> = ({ entry, id }) => {
   const linkRef = useRef<HTMLAnchorElement | null>(null);
   const deleteList = useDeleteFilterList();
   const updateList = useUpdateFilterList();
+  const endpoint = getEndpoint(entry.state.endpointId);
 
   const { dialog: deleteDialog, confirm: confirmDelete } = useConfirm(
     "Delete list?",
@@ -82,7 +84,7 @@ export const FilterListItem: FC<FilterListItemProps> = ({ entry, id }) => {
         </Box>
         <Box flexGrow={1}>
           <Text fontSize="1" color="fg.muted">
-            Issues and Pull Requests
+            {endpoint.name}
           </Text>
           <Link to={`/app/filterlists/${id}`} className="unstyled-link" ref={linkRef}>
             <Box fontSize="3" color="fg.default" sx={{ textDecoration: "none" }}>

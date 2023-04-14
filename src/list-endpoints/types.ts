@@ -1,5 +1,6 @@
 import { Octokit } from "@octokit/rest";
 import { QueryFunctionContext, QueryKey } from "@tanstack/react-query";
+import { FilterListState } from "../components/filter-list/types";
 
 export type ResponseField = {
   jsonKey: string;
@@ -50,9 +51,11 @@ export type Action<T> = {
 };
 
 export abstract class ListEndpointDefinition<T = any> {
+  abstract readonly id: string;
+
   abstract readonly name: string;
 
-  abstract readonly defaultFields: string[];
+  abstract readonly defaultData: FilterListState;
 
   abstract readonly responseFields: ResponseField[];
 

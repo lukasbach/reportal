@@ -3,7 +3,8 @@ import { deleteDoc, addDoc, updateDoc, query, where } from "firebase/firestore";
 import { getListDoc, listCollection } from "../../firebase-app";
 import { useAuthStore } from "../../auth";
 import { useStableHandler } from "../../utils";
-import { FilterListStateEntry } from "../filter-list/types";
+import { FilterListState, FilterListStateEntry } from "../filter-list/types";
+import { ListEndpointDefinition } from "../../list-endpoints/types";
 
 export const useGetFilterLists = () => useCollection(query(listCollection, where("user", "==", useAuthStore().uid)));
 
@@ -11,19 +12,12 @@ export const useGetPinnedFilterLists = () =>
   useCollection(query(listCollection, where("user", "==", useAuthStore().uid), where("state.pinned", "==", true)));
 export const useFilterListData = (id: string | null) => useDocument<FilterListStateEntry>(id ? getListDoc(id) : null);
 
-export const useCreateFilterList = () => {
+export const useCreateFilterList = (endpoint: ListEndpointDefinition) => {
   const { uid } = useAuthStore();
   return useStableHandler(async () => {
     const entry: FilterListStateEntry = {
       user: uid,
-      state: {
-        search: "type:issue assignee:@me state:open",
-        fields: ["number", "title", "author"],
-        fieldWidths: {},
-        endpointId: "",
-        name: "My new List",
-        pinned: false,
-      },
+      state: endpoint.defaultData,
     };
     await addDoc(listCollection, entry);
   });

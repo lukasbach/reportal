@@ -11,7 +11,7 @@ import { usePagination } from "./use-pagination";
 import { useCalcPageSize } from "./use-calc-page-size";
 import { useTriggerPersist } from "./use-trigger-persist";
 import { FilterListState } from "./types";
-import { IssueSearchEndpoint } from "../../list-endpoints/issue-search-endpoint";
+import { getEndpoint } from "../../list-endpoints/endpoints";
 
 export type FilterListPageProps = {
   data: FilterListState;
@@ -20,12 +20,12 @@ export type FilterListPageProps = {
 };
 
 export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, id }) => {
-  const [endpoint] = useState(new IssueSearchEndpoint());
+  const endpoint = getEndpoint(data.endpointId);
   const [name, setName] = useState(data.name);
   const [pinned, setPinned] = useState(data.pinned);
   const [search, setSearch] = useState<ParsedSearchResult>(parseSearch(data.search, endpoint));
   const colSizing = useRef<Record<string, number>>({});
-  const [fields, setFields] = useState<string[]>(endpoint.defaultFields);
+  const [fields, setFields] = useState<string[]>(data.fields);
   const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(37);
   const { list, loadedCount, totalCount, fetchUntil, isFetching } = useFetchListItems(
     endpoint,
@@ -41,7 +41,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
   );
 
   const markDirty = useTriggerPersist<FilterListState>(id, onUpdate, {
-    endpointId: endpoint.name,
+    endpointId: endpoint.id,
     search: search?.search ?? "",
     fields,
     fieldWidths: colSizing.current,

@@ -99,9 +99,18 @@ export type IssueData = {
 };
 
 export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
-  override readonly name = "Issues";
+  override readonly id = "issues";
 
-  override readonly defaultFields = ["number", "title", "author.login", "repository.nameWithOwner", "state"];
+  override readonly name = "Issues and Pull Requests";
+
+  override readonly defaultData = {
+    endpointId: "issues",
+    search: "type:issue assignee:@me state:open",
+    name: "My Issue List",
+    pinned: false,
+    fields: ["number", "title", "author.login", "repository.nameWithOwner", "state"],
+    fieldWidths: {},
+  };
 
   override readonly responseFields = [
     { jsonKey: "number", name: "Number" },

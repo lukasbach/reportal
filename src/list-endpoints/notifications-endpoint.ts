@@ -3,12 +3,23 @@ import { cellRenderers } from "./cell-renderers";
 import { repositoryResponseFields } from "./common-response-fields";
 
 export class NotificationsEndpoint extends ListEndpointDefinition<any> {
-  override readonly name = "Issues";
+  override readonly id = "notifications";
 
-  override readonly defaultFields = ["number", "title", "author.login", "repository.nameWithOwner", "state"];
+  override readonly name = "Notifications";
+
+  override readonly defaultData = {
+    endpointId: "notifications",
+    search: "all:true",
+    name: "My Notifications List",
+    pinned: false,
+    fields: ["subject.title", "updated_at", "reason"],
+    fieldWidths: {},
+  };
 
   override readonly responseFields = [
     { jsonKey: "id", name: "ID" },
+    { jsonKey: "subject.title", name: "Title" },
+    { jsonKey: "subject.type", name: "Type", suggestions: ["Issue", "PullRequest", "CheckSuite"] },
     { jsonKey: "unread", name: "Unread", isBoolean: true },
     {
       jsonKey: "reason",
@@ -30,17 +41,10 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
     },
     { jsonKey: "updated_at", name: "Updated Date", renderCell: cellRenderers.date },
     { jsonKey: "last_read_at", name: "Last Read Date", renderCell: cellRenderers.date },
-    { jsonKey: "subject.title", name: "Title" },
-    { jsonKey: "subject.type", name: "Type", suggestions: ["Issue", "PullRequest", "CheckSuite"] },
-    ...repositoryResponseFields,
-    { jsonKey: "body", name: "Body" },
-    { jsonKey: "closedAt", name: "Closed Date", renderCell: cellRenderers.date },
-    { jsonKey: "comments.totalCount", name: "Comments Count" },
-    { jsonKey: "createdAt", name: "Created Date", renderCell: cellRenderers.date },
-    { jsonKey: "state", name: "State" },
-    { jsonKey: "stateReason", name: "State Reason" },
-    { jsonKey: "updatedAt", name: "Updated Date", renderCell: cellRenderers.date },
-    { jsonKey: "url", name: "URL" },
+    { jsonKey: "repository.full_name", name: "Repo Name with Owner" },
+    { jsonKey: "repository.description", name: "Repo Description" },
+    { jsonKey: "repository.name", name: "Repo Name" },
+    { jsonKey: "repository.owner.login", name: "Repo Owner Login" },
   ];
 
   override readonly serverFilters = [
@@ -58,14 +62,15 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
       const filterMap = this.getFiltersAsMap(filters);
       const start = parseInt(pageParam?.cursor ?? "0", 10);
       const result = await octokit.activity.listNotificationsForAuthenticatedUser({
-        all: filterMap.all.value,
-        participating: filterMap.participating.value,
-        since: filterMap.since.value,
-        before: filterMap.before.value,
+        all: filterMap.all?.value,
+        participating: filterMap.participating?.value,
+        since: filterMap.since?.value,
+        before: filterMap.before?.value,
         per_page: pageSize,
         page: pageParam?.cursor,
       });
-      console.log("!", result);
+
+      // TODO use return headers x-poll-interval, last-modified
 
       return {
         result: result.data,

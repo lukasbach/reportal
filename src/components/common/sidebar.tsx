@@ -4,10 +4,12 @@ import { Link, NavLink } from "react-router-dom";
 import { GraphIcon } from "@primer/octicons-react";
 import { useGetPinnedFilterLists } from "../../firebase/filter-lists";
 import { EndpointIcon } from "./endpoint-icon";
+import { useGetPinnedDashboards } from "../../firebase/dashboards";
 
 export type SidebarProps = {};
 
 export const Sidebar: FC<SidebarProps> = ({}) => {
+  const [dashboards] = useGetPinnedDashboards();
   const [filterLists] = useGetPinnedFilterLists();
   return (
     <>
@@ -19,20 +21,29 @@ export const Sidebar: FC<SidebarProps> = ({}) => {
           </Box>
         </Link>
       </Box>
+
       <ActionList>
         <ActionList.Group title="Dashboards">
+          {dashboards?.docs.map((item) => (
+            <NavLink to={`/app/dashboards/${item.id}`} key={item.id} className="unstyled-link">
+              {({ isActive }) => (
+                <ActionList.Item active={isActive}>
+                  <ActionList.LeadingVisual>
+                    <GraphIcon size={16} />
+                  </ActionList.LeadingVisual>
+                  {item.data().state.name}
+                </ActionList.Item>
+              )}
+            </NavLink>
+          ))}
+
           <NavLink to="/app/dashboards" className="unstyled-link" end>
-            {({ isActive }) => (
-              <ActionList.Item active={isActive}>
-                <ActionList.LeadingVisual>
-                  <GraphIcon size={16} />
-                </ActionList.LeadingVisual>
-                Home
-              </ActionList.Item>
-            )}
+            {({ isActive }) => <ActionList.Item active={isActive}>All Dashboards</ActionList.Item>}
           </NavLink>
         </ActionList.Group>
+
         <ActionList.Divider />
+
         <ActionList.Group title="Filter Lists">
           {filterLists?.docs.map((item) => (
             <NavLink to={`/app/filterlists/${item.id}`} key={item.id} className="unstyled-link">
@@ -46,8 +57,9 @@ export const Sidebar: FC<SidebarProps> = ({}) => {
               )}
             </NavLink>
           ))}
+
           <NavLink to="/app/filterlists" className="unstyled-link" end>
-            {({ isActive }) => <ActionList.Item active={isActive}>Show all</ActionList.Item>}
+            {({ isActive }) => <ActionList.Item active={isActive}>All Filter Lists</ActionList.Item>}
           </NavLink>
         </ActionList.Group>
         <ActionList.Divider />

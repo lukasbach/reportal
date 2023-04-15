@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { useConfirm, usePrompt } from "../../../dialogs";
 
 export type FilterListItemProps = {
-  top: string;
-  bottom: string;
+  top?: string;
+  bottom?: string;
   icon: JSX.Element;
 
   name: string;
@@ -86,17 +86,22 @@ export const OverviewListItem: FC<FilterListItemProps> = ({
       >
         <Box mr={3}>{icon}</Box>
         <Box flexGrow={1}>
-          <Text fontSize="1" color="fg.muted">
-            {top}
-          </Text>
+          {top && (
+            <Text fontSize="1" color="fg.muted">
+              {top}
+            </Text>
+          )}
+
           <Link to={href} className="unstyled-link" ref={linkRef}>
             <Box fontSize="3" color="fg.default" sx={{ textDecoration: "none" }}>
               {name}
             </Box>
           </Link>
-          <Box fontSize="1" color="fg.muted">
-            {bottom}
-          </Box>
+          {bottom && (
+            <Box fontSize="1" color="fg.muted">
+              {bottom}
+            </Box>
+          )}
         </Box>
         <Box className="pin">{pinned && <PinIcon size={16} />}</Box>
         <Box

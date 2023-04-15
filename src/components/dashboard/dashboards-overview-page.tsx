@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { Box, Button } from "@primer/react";
 import { GraphIcon } from "@primer/octicons-react";
 import { OverviewListItem } from "../common/overview-list/overview-list-item";
@@ -16,13 +16,13 @@ const DashboardListItem: FC<{
 }> = ({ entry, id }) => {
   const deleteDashboard = useDeleteDashboard();
   const updateDashboard = useUpdateDashboard();
+  const widgetCount = useMemo(() => Object.keys(JSON.parse(entry.state.widgets)).length, [entry.state.widgets]);
 
   return (
     <OverviewListItem
       name={entry.state.name}
+      bottom={`${widgetCount} widgets`}
       icon={<GraphIcon size={16} />}
-      top="XXX"
-      bottom="TZZZ"
       pinned={entry.state.pinned}
       href={`/app/dashboards/${id}`}
       itemLabel="Dashboard"

@@ -1,5 +1,5 @@
 import { limit, getDocs, query, where } from "firebase/firestore";
-import React, { useState } from "react";
+import React from "react";
 import { AbstractWidgetDefinition } from "./abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
 import { listCollection } from "../firebase-app";
@@ -13,11 +13,15 @@ type FilterListWidgetConfig = {
   filterList: EmbeddedFilterListPayload;
 };
 
-const ConfigComponent: WidgetConfigComponent<FilterListWidgetConfig> = ({ config }) => {
-  const [state, setState] = useState<EmbeddedFilterListPayload>(config.filterList);
+const ConfigComponent: WidgetConfigComponent<FilterListWidgetConfig> = ({ config, onChange }) => {
   return (
     <div>
-      <FilterListSelector state={state} onChange={setState} />
+      <FilterListSelector
+        state={config.filterList}
+        onChange={(newState) => {
+          onChange({ filterList: newState });
+        }}
+      />
     </div>
   );
 };

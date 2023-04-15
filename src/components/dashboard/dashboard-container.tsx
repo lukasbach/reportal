@@ -5,6 +5,7 @@ import { widgetDefinitions } from "../../widgets/widget-definitions";
 import { DashboardConfig } from "../../widgets/types";
 import { WidgetContentRenderer } from "./widget-content-renderer";
 import { WidgetConfigDialog } from "./widget-config-dialog";
+import { useStableHandler } from "../../utils";
 
 export type DashboardContainerProps = {};
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -31,6 +32,12 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
     },
     b: { name: "Widget B", config: { filterList: { type: "linked", id: "j5Gbf89JjlPxe4RxMhtX" } }, type: "filterList" },
     c: { name: "Widget C", config: { filterList: { type: "unset" } }, type: "filterList" },
+  });
+  const applyWidgetChanges = useStableHandler((newConfig: DashboardConfig["widgets"][string]) => {
+    if (!editingWidget) {
+      return;
+    }
+    setWidgets((old) => ({ ...old, [editingWidget]: { ...old[editingWidget], config: newConfig } }));
   });
   return (
     <>
@@ -76,7 +83,7 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
       {editingWidget && (
         <WidgetConfigDialog
           widget={widgets[editingWidget]}
-          onChange={console.log}
+          onChange={applyWidgetChanges}
           onClose={() => setEditingWidget(null)}
         />
       )}

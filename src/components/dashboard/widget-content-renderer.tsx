@@ -10,6 +10,7 @@ export type WidgetContentRendererProps = {
 };
 
 export const WidgetContentRenderer: FC<WidgetContentRendererProps> = ({ widget, onEdit }) => {
+  console.log("widget content renderer", widget);
   const actionsRef = useRef<HTMLDivElement>(null);
   const widgetDefinition = getWidgetDefinition(widget.type);
   return (

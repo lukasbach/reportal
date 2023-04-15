@@ -28,6 +28,7 @@ export const tableStyles = {
     borderBottom: "1px solid",
     borderColor: "border.default",
     boxShadow: "primer.shadow.inset",
+    whiteSpace: "nowrap",
   },
   tableHead: {},
   tableHeadCell: {
@@ -79,6 +80,7 @@ export const tableStyles = {
     borderBottom: "1px solid",
     borderColor: "border.muted",
     minWidth: "100%",
+    whiteSpace: "nowrap",
     ":hover": { bg: "accent.subtle" },
     ":hover .checkbox-cell": {
       borderColor: "accent.fg",

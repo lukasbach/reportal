@@ -7,7 +7,7 @@ export type WidgetConfigComponent<T> = FC<{
 }>;
 
 export type WidgetDisplayComponent<T> = FC<{
-  payload: T;
+  config: T;
 }>;
 
 export type DashboardConfig = {

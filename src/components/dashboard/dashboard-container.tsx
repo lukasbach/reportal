@@ -19,7 +19,7 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
     ],
   });
   const [widgets, setWidgets] = useState<DashboardConfig["widgets"]>({
-    a: { name: "Widget A", config: {}, type: "filterList" },
+    a: { name: "Widget A", config: { filterListId: "iDMNhce098Q7aCJbxOqH" }, type: "filterList" },
     b: { name: "Widget B", config: {}, type: "filterList" },
     c: { name: "Widget C", config: {}, type: "filterList" },
   });
@@ -29,6 +29,7 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
         " .react-grid-item.react-grid-placeholder": {
           bg: "accent.muted",
           transitionDuration: "200ms",
+          borderRadius: "16px",
         },
       }}
     >

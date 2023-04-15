@@ -1,15 +1,30 @@
 import { limit, getDocs, query, where } from "firebase/firestore";
+import React from "react";
 import { AbstractWidgetDefinition } from "./abstract-widget-definition";
-import { WidgetDisplayComponent } from "./types";
+import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
 import { listCollection } from "../firebase-app";
 import { useAuthStore } from "../auth";
+import { FilterListEmbeddedContainer } from "../components/filter-list/filter-list-embedded-container";
+import { useFilterListData } from "../components/list-overview/hooks";
 
 type FilterListWidgetConfig = {
   filterListId: string;
 };
 
-const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ payload }) => {
+const ConfigComponent: WidgetConfigComponent<FilterListWidgetConfig> = ({ config }) => {
   return <div>Filter List Widget</div>;
+};
+
+const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ config }) => {
+  const [filterList] = useFilterListData(config.filterListId);
+  const data = filterList?.data();
+  const id = filterList?.id;
+
+  if (!data || !id) {
+    return null;
+  }
+
+  return <FilterListEmbeddedContainer data={data.state} id={id} onChangeColSizing={console.log} />;
 };
 
 export class FilterListWidget extends AbstractWidgetDefinition<FilterListWidgetConfig> {
@@ -19,7 +34,7 @@ export class FilterListWidget extends AbstractWidgetDefinition<FilterListWidgetC
 
   override displayComponent = DisplayComponent;
 
-  override configComponent = DisplayComponent;
+  override configComponent = ConfigComponent;
 
   override async generateDefaultConfig(): Promise<FilterListWidgetConfig> {
     const snap = await getDocs(query(listCollection, where("user", "==", useAuthStore.getState().uid), limit(1)));

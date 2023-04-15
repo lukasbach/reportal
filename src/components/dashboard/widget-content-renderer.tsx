@@ -9,5 +9,5 @@ export type WidgetContentRendererProps = {
 
 export const WidgetContentRenderer: FC<WidgetContentRendererProps> = ({ widget }) => {
   const widgetDefinition = getWidgetDefinition(widget.type);
-  return <>{widgetDefinition.name}</>;
+  return widgetDefinition.displayComponent({ config: widget.config });
 };

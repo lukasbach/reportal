@@ -6,6 +6,7 @@ import { useFilterListData } from "../firebase/filter-lists";
 import { FilterListSelector } from "../components/common/filter-list-selector";
 import { EmbeddedFilterListPayload } from "../components/filter-list/types";
 import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
+import { useUnwrapEmbeddedFilterListConfig } from "../components/filter-list/use-unwrap-embedded-filter-list-config";
 
 type FilterListWidgetConfig = {
   filterList: EmbeddedFilterListPayload;
@@ -25,10 +26,7 @@ const ConfigComponent: WidgetConfigComponent<FilterListWidgetConfig> = ({ config
 };
 
 const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ config, actionsRef, onEdit }) => {
-  const [filterList] = useFilterListData(config.filterList.type === "linked" ? config.filterList.id : null);
-  const embeddedFilterList = config.filterList.type === "embedded" ? config.filterList : null;
-  const data = embeddedFilterList?.state ?? filterList?.data()?.state;
-  const id = filterList?.id;
+  const { id, data } = useUnwrapEmbeddedFilterListConfig(config.filterList);
 
   if (config.filterList.type === "unset") {
     return <ConfigureWidgetEmptyState onEdit={onEdit} />;

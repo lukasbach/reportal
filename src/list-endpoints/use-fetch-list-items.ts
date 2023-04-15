@@ -2,9 +2,9 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import { ParsedSearchResult } from "./search-utils";
 import { ListEndpointDefinition } from "./types";
-import { useAuthStore } from "../auth";
 import { useFetchInitialPage } from "../components/filter-list/use-fetch-initial-page";
 import { useRefCopy } from "../utils";
+import { useEndpointQueryFn } from "./use-endpoint-query-fn";
 
 export const useFetchListItems = (
   endpoint: ListEndpointDefinition<any>,
@@ -12,30 +12,10 @@ export const useFetchListItems = (
   displayPageSize: number,
   loadingPageSize = 50
 ) => {
-  const { kit: octokit } = useAuthStore();
-
-  const queryFn = useMemo(
-    () =>
-      search
-        ? endpoint.getSearchQueries({
-            pageSize: loadingPageSize,
-            octokit,
-            searchStrings: search.searchTerms,
-            filters: search.serverFilters,
-          })
-        : async () => ({
-            result: [],
-            hasNextPage: false,
-            hasPreviousPage: false,
-            endCursor: "",
-            startCursor: "",
-            resultCount: 0,
-          }),
-    [search, endpoint, loadingPageSize, octokit]
-  );
+  const queryFn = useEndpointQueryFn(search, loadingPageSize, endpoint);
 
   const { fetchNextPage, hasNextPage, isFetching, data, error } = useInfiniteQuery({
-    queryKey: [endpoint.name, search?.searchTerms ?? "", search?.serverFilters ?? ""],
+    queryKey: ["infinite-fetch", endpoint.name, search?.searchTerms ?? "", search?.serverFilters ?? ""],
     queryFn,
     getNextPageParam: (page: any) => (page.hasNextPage ? page.endCursor : undefined),
     getPreviousPageParam: (page) => (page.hasPreviousPage ? page.startCursor : undefined),

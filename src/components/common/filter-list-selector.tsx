@@ -1,11 +1,10 @@
-import React, { FC, ReactNode, useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import {
   Box,
   FormControl,
   Text,
   Link,
   Button,
-  SelectPanel,
   Select,
   IconButton,
   Dialog,
@@ -14,7 +13,6 @@ import {
   Portal,
 } from "@primer/react";
 import { ChevronDownIcon, XCircleFillIcon } from "@primer/octicons-react";
-import { createPortal } from "react-dom";
 import { EmbeddedFilterListPayload, FilterListState } from "../filter-list/types";
 import { useGetFilterLists } from "../../firebase/filter-lists";
 import { endpoints, getEndpoint } from "../../list-endpoints/endpoints";
@@ -175,7 +173,7 @@ export const FilterListSelector: FC<FilterListSelectorProps> = ({ state, onChang
         {state.type === "unset" && (
           <Text fontSize={1}>
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <Link as="button" onClick={() => onChange({ type: "linked", id: "" })}>
+            <Link as="button" onClick={() => onChange({ type: "linked", id: filterLists?.docs[0].id ?? "" })}>
               Attach one of your existing filter lists
             </Link>
             , or {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

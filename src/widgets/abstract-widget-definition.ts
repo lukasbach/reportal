@@ -5,7 +5,7 @@ export abstract class AbstractWidgetDefinition<T = any> {
 
   abstract readonly name: string;
 
-  abstract readonly defaultSize: [number, number] | undefined;
+  abstract readonly defaultSize: readonly [number, number] | undefined;
 
   abstract readonly configComponent: WidgetConfigComponent<T>;
 

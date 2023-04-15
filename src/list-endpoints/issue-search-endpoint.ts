@@ -28,7 +28,6 @@ const issueSearchQuery = /* GraphQL */ `
             }
             stargazerCount
           }
-          body
           closedAt
           comments {
             totalCount
@@ -49,6 +48,55 @@ const issueSearchQuery = /* GraphQL */ `
           stateReason
           updatedAt
           url
+        }
+        ... on PullRequest {
+          number
+          closed
+          author {
+            login
+            avatarUrl(size: 32)
+          }
+          title
+          repository {
+            nameWithOwner
+            description
+            createdAt
+            id
+            homepageUrl
+            name
+            owner {
+              avatarUrl(size: 32)
+              login
+            }
+            stargazerCount
+          }
+          closedAt
+          comments {
+            totalCount
+          }
+          createdAt
+          id
+          labels(first: 100) {
+            nodes {
+              color
+              createdAt
+              id
+              description
+              name
+            }
+            totalCount
+          }
+          state
+          updatedAt
+          url
+          isCrossRepository
+          merged
+          mergedAt
+          mergedBy {
+            avatarUrl(size: 32)
+            login
+          }
+          totalCommentsCount
         }
       }
       pageInfo {
@@ -118,11 +166,10 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
     { jsonKey: "author.login", name: "Author", renderCell: cellRenderers.author("author", "avatarUrl") },
     { jsonKey: "title", name: "Title", renderCell: cellRenderers.issueTitle() },
     ...repositoryResponseFields,
-    { jsonKey: "body", name: "Body" },
     { jsonKey: "closedAt", name: "Closed Date", renderCell: cellRenderers.date() },
     { jsonKey: "comments.totalCount", name: "Comments Count" },
     { jsonKey: "createdAt", name: "Created Date", renderCell: cellRenderers.date() },
-    { jsonKey: "state", name: "State" },
+    { jsonKey: "state", name: "State", renderCell: cellRenderers.issueState() },
     { jsonKey: "stateReason", name: "State Reason" },
     { jsonKey: "updatedAt", name: "Updated Date", renderCell: cellRenderers.date() },
     { jsonKey: "url", name: "URL" },

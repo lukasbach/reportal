@@ -6,7 +6,7 @@ export const resolveRecursiveSubitem = (structure: any, key: string) => {
   const parts = key.split(".");
   let current = structure;
   for (const part of parts) {
-    current = current[part];
+    current = current?.[part];
   }
   return current;
 };

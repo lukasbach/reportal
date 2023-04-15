@@ -40,6 +40,7 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
         "SponsorshipEvent",
         "WatchEvent",
       ],
+      renderCell: cellRenderers.eventType(),
     },
     { jsonKey: "actor.login", name: "Actor Login", renderCell: cellRenderers.author("actor", "avatar_url") },
     { jsonKey: "repo.name", name: "Repo Name" },

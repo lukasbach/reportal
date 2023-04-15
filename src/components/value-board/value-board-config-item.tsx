@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import { ActionList, ActionMenu, Box, FormControl, IconButton, TextInput } from "@primer/react";
-import { TrashIcon } from "@primer/octicons-react";
+import { GrabberIcon, TrashIcon } from "@primer/octicons-react";
+import { useDrag, useDrop } from "react-dnd";
+import { Column, RowData } from "@tanstack/react-table";
 import { ValueBoardItem } from "../../widgets/value-board-widget";
 import { FilterListSelector } from "../common/filter-list-selector";
 import { RepoInput } from "../common/repo-input";
@@ -11,6 +13,7 @@ export type ValueBoardConfigItemProps<T extends string = ValueBoardItem["type"]>
   onChange: (newConfig: ValueBoardItem & { type: T }) => void;
   // eslint-disable-next-line react/no-unused-prop-types
   onDelete: () => void;
+  onSwap: (from: ValueBoardItem, to: ValueBoardItem) => void;
 };
 
 const UnsetItemConfig: FC<ValueBoardConfigItemProps<"unset">> = ({ config, onChange }) => {
@@ -53,20 +56,43 @@ const ItemWithRepoConfig: FC<ValueBoardConfigItemProps<"repoStat">> = ({ config,
 };
 
 export const ValueBoardConfigItem: FC<ValueBoardConfigItemProps> = (props) => {
-  const { config, onChange, onDelete } = props;
+  const { config, onChange, onDelete, onSwap } = props;
+
+  const [{ isOver }, dropRef] = useDrop({
+    collect: (monitor) => ({ isOver: monitor.isOver() }),
+    accept: "valueboarditem",
+    hover: (item: ValueBoardItem) => {
+      onSwap(item, config);
+    },
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/naming-convention
+  const [_, dragRef] = useDrag({
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+    item: () => config,
+    type: "valueboarditem",
+  });
+
   return (
     <Box
+      ref={dropRef}
       sx={{
         borderRadius: "8px",
         border: "1px solid",
         borderColor: "border.default",
         boxShadow: "shadow.small",
-        bg: "canvas.subtle",
+        bg: isOver ? "accent.subtle" : "canvas.subtle",
         p: 2,
         mb: 4,
+        pl: 5,
       }}
     >
       <Box sx={{ display: "flex" }}>
+        <Box sx={{ ml: -4, mr: 2, cursor: "grab" }} ref={dragRef}>
+          <GrabberIcon size={16} />
+        </Box>
         <Box sx={{ display: "flex", alignItems: "center", pr: 2, fontWeight: "bold", fontSize: 1 }}>
           {valueBoardPresets[config.preset]?.name ?? "Undefined Counter"}:
         </Box>

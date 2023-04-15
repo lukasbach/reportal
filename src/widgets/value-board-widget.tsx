@@ -43,6 +43,17 @@ const ConfigComponent: WidgetConfigComponent<ValueBoardWidgetConfig> = ({ config
               items: config.items.filter((_, i) => i !== index),
             })
           }
+          onSwap={(from, to) => {
+            const fromIndex = config.items.indexOf(from);
+            const toIndex = config.items.indexOf(to);
+            if (fromIndex === -1 || toIndex === -1) {
+              return;
+            }
+            const newItems = [...config.items];
+            newItems[fromIndex] = to;
+            newItems[toIndex] = from;
+            onChange({ items: newItems });
+          }}
         />
       ))}
       <Button onClick={() => onChange({ items: [...config.items, { type: "unset", name: "Item Name", preset: "" }] })}>

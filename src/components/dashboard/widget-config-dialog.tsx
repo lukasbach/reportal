@@ -8,9 +8,10 @@ export type WidgetConfigDialogProps = {
   widget: WidgetPayload;
   onChange: (widget: WidgetPayload) => void;
   onClose: () => void;
+  onDelete: () => void;
 };
 
-export const WidgetConfigDialog: FC<WidgetConfigDialogProps> = ({ widget, onClose, onChange }) => {
+export const WidgetConfigDialog: FC<WidgetConfigDialogProps> = ({ widget, onClose, onChange, onDelete }) => {
   const [config, setConfig] = useState(widget.config);
 
   const partialOnChange = useStableHandler((updated: any) => {
@@ -22,7 +23,18 @@ export const WidgetConfigDialog: FC<WidgetConfigDialogProps> = ({ widget, onClos
     <Dialog isOpen onDismiss={onClose} sx={{ width: "750px", overflow: "auto" }}>
       <Dialog.Header id="header-id">Editing Widget</Dialog.Header>
       <Box p={3}>{widgetDefinition.configComponent({ config, onChange: partialOnChange })}</Box>
-      <Box p={3} display="flex" justifyContent="flex-end">
+      <Box p={3} display="flex">
+        <Button
+          sx={{ mr: 2 }}
+          variant="danger"
+          onClick={() => {
+            onDelete();
+            onClose();
+          }}
+        >
+          Delete Widget
+        </Button>
+        <Box flexGrow={1} />
         <Button sx={{ mr: 2 }} onClick={onClose}>
           Cancel
         </Button>

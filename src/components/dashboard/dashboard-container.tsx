@@ -39,6 +39,24 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
     }
     setWidgets((old) => ({ ...old, [editingWidget]: { ...old[editingWidget], config: newConfig } }));
   });
+  const deleteEditingWidget = useStableHandler(() => {
+    if (!editingWidget) {
+      return;
+    }
+    setWidgets((old) => {
+      const { [editingWidget]: _, ...rest } = old;
+      return rest;
+    });
+    setLayouts((old) => {
+      for (const key of Object.keys(old)) {
+        // eslint-disable-next-line no-param-reassign
+        old[key] = old[key].filter((item) => item.i !== editingWidget);
+      }
+      return old;
+    });
+  });
+  console.log("!", widgets, layouts, editingWidget);
+
   return (
     <>
       <Box
@@ -85,6 +103,7 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
           widget={widgets[editingWidget]}
           onChange={applyWidgetChanges}
           onClose={() => setEditingWidget(null)}
+          onDelete={deleteEditingWidget}
         />
       )}
     </>

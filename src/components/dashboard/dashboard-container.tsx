@@ -6,6 +6,7 @@ import { DashboardConfig } from "../../widgets/types";
 import { WidgetContentRenderer } from "./widget-content-renderer";
 import { WidgetConfigDialog } from "./widget-config-dialog";
 import { useStableHandler } from "../../utils";
+import { AbstractWidgetDefinition } from "../../widgets/abstract-widget-definition";
 
 export type DashboardContainerProps = {};
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -55,7 +56,19 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
       return old;
     });
   });
-  console.log("!", widgets, layouts, editingWidget);
+  const addWidget = useStableHandler((widget: AbstractWidgetDefinition) => async () => {
+    const newId = Math.random().toString(36).substr(2, 9);
+    const config = await widget.generateDefaultConfig();
+    const [w, h] = widget.defaultSize ?? [3, 1];
+    setWidgets((old) => ({
+      ...old,
+      [newId]: { name: widget.name, config, type: widget.id },
+    }));
+    setLayouts((old) => {
+      const newLayout = { i: newId, x: 0, y: Infinity, w, h };
+      return { ...old, lg: [...old.lg, newLayout] };
+    });
+  });
 
   return (
     <>
@@ -76,7 +89,9 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
           <ActionMenu.Overlay>
             <ActionList sx={{ width: "240px" }}>
               {Object.values(widgetDefinitions).map((widget) => (
-                <ActionList.Item key={widget.id}>{widget.name}</ActionList.Item>
+                <ActionList.Item key={widget.id} onClick={addWidget(widget)}>
+                  {widget.name}
+                </ActionList.Item>
               ))}
             </ActionList>
           </ActionMenu.Overlay>

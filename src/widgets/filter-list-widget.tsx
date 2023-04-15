@@ -64,4 +64,6 @@ export class FilterListWidget extends AbstractWidgetDefinition<FilterListWidgetC
       },
     };
   }
+
+  readonly defaultSize = undefined;
 }

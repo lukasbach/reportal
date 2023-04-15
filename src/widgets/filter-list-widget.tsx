@@ -1,31 +1,44 @@
 import { limit, getDocs, query, where } from "firebase/firestore";
-import React from "react";
+import React, { useState } from "react";
 import { AbstractWidgetDefinition } from "./abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
 import { listCollection } from "../firebase-app";
 import { useAuthStore } from "../auth";
 import { FilterListEmbeddedContainer } from "../components/filter-list/filter-list-embedded-container";
 import { useFilterListData } from "../components/list-overview/hooks";
+import { FilterListSelector } from "../components/common/filter-list-selector";
+import { EmbeddedFilterListPayload } from "../components/filter-list/types";
 
 type FilterListWidgetConfig = {
-  filterListId: string;
+  filterList: EmbeddedFilterListPayload;
 };
 
 const ConfigComponent: WidgetConfigComponent<FilterListWidgetConfig> = ({ config }) => {
-  return <div>Filter List Widget</div>;
+  const [state, setState] = useState<EmbeddedFilterListPayload>(config.filterList);
+  return (
+    <div>
+      <FilterListSelector state={state} onChange={setState} />
+    </div>
+  );
 };
 
 const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ config, actionsRef }) => {
-  const [filterList] = useFilterListData(config.filterListId);
-  const data = filterList?.data();
+  const [filterList] = useFilterListData(config.filterList.type === "linked" ? config.filterList.id : null);
+  const embeddedFilterList = config.filterList.type === "embedded" ? config.filterList : null;
+  const data = embeddedFilterList?.state ?? filterList?.data()?.state;
   const id = filterList?.id;
 
-  if (!data || !id) {
+  if (!data) {
     return null;
   }
 
   return (
-    <FilterListEmbeddedContainer data={data.state} id={id} onChangeColSizing={console.log} actionsRef={actionsRef} />
+    <FilterListEmbeddedContainer
+      data={data}
+      id={id ?? "embedded"}
+      onChangeColSizing={console.log}
+      actionsRef={actionsRef}
+    />
   );
 };
 
@@ -42,7 +55,9 @@ export class FilterListWidget extends AbstractWidgetDefinition<FilterListWidgetC
     const snap = await getDocs(query(listCollection, where("user", "==", useAuthStore.getState().uid), limit(1)));
     const filterListId = snap.docs[0].id;
     return {
-      filterListId,
+      filterList: {
+        type: "unset",
+      },
     };
   }
 }

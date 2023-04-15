@@ -64,6 +64,10 @@ export const useFetchListItems = (
 
       let i = loadedCount;
       while (i < targetItemCount) {
+        if (!hasNextPage) {
+          return;
+        }
+
         if (i >= totalCount /* || !totalCount */) {
           return;
         }

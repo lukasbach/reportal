@@ -11,3 +11,16 @@ export type FilterListStateEntry = {
   state: FilterListState;
   user: string;
 };
+
+export type EmbeddedFilterListPayload =
+  | {
+      type: "linked";
+      id: string;
+    }
+  | {
+      type: "embedded";
+      state: FilterListState;
+    }
+  | {
+      type: "unset";
+    };

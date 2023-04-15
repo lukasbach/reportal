@@ -7,9 +7,10 @@ export type WidgetContainerProps = {
   title: string;
   icon: ReactNode;
   actionsRef: RefObject<HTMLDivElement>;
+  onEdit: () => void;
 };
 
-export const WidgetContainer: FC<WidgetContainerProps> = ({ icon, children, title, actionsRef }) => {
+export const WidgetContainer: FC<WidgetContainerProps> = ({ icon, children, onEdit, title, actionsRef }) => {
   return (
     <Box
       sx={{
@@ -41,7 +42,7 @@ export const WidgetContainer: FC<WidgetContainerProps> = ({ icon, children, titl
           {title}
         </Text>
         <div ref={actionsRef} className="action-item" />
-        <IconButton aria-label="Edit Widget" icon={PencilIcon} size="small" className="action-item" />
+        <IconButton aria-label="Edit Widget" icon={PencilIcon} size="small" className="action-item" onClick={onEdit} />
       </Box>
       <Box flexGrow={1} overflow="auto">
         {children}

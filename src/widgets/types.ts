@@ -11,7 +11,13 @@ export type WidgetDisplayComponent<T> = FC<{
   actionsRef: RefObject<HTMLDivElement>;
 }>;
 
+export type WidgetPayload<T = any> = {
+  config: T;
+  name: string;
+  type: string;
+};
+
 export type DashboardConfig = {
   layouts: Layouts;
-  widgets: Record<string, { config: any; name: string; type: string }>;
+  widgets: Record<string, WidgetPayload>;
 };

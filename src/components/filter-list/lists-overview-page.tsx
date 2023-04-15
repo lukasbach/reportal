@@ -1,9 +1,45 @@
 import React, { FC } from "react";
 import { ActionList, ActionMenu, Box } from "@primer/react";
-import { useCreateFilterList, useGetFilterLists } from "../../firebase/filter-lists";
-import { FilterListItem } from "./filter-list-item";
-import { endpoints } from "../../list-endpoints/endpoints";
+import {
+  useCreateFilterList,
+  useDeleteFilterList,
+  useGetFilterLists,
+  useUpdateFilterList,
+} from "../../firebase/filter-lists";
+import { endpoints, getEndpoint } from "../../list-endpoints/endpoints";
 import { EndpointIcon } from "../common/endpoint-icon";
+import { FilterListStateEntry } from "./types";
+import { OverviewListItem } from "../common/overview-list/overview-list-item";
+
+const FilterListItem: FC<{
+  entry: FilterListStateEntry;
+  id: string;
+}> = ({ entry, id }) => {
+  const deleteList = useDeleteFilterList();
+  const updateList = useUpdateFilterList();
+  const endpoint = getEndpoint(entry.state.endpointId);
+
+  return (
+    <OverviewListItem
+      name={entry.state.name}
+      icon={<EndpointIcon endpointId={endpoint.id} size={16} />}
+      top={endpoint.name}
+      bottom={entry.state.search}
+      pinned={entry.state.pinned}
+      href={`/app/filterlists/${id}`}
+      itemLabel="Filter List"
+      onDelete={() => deleteList(id)}
+      onRename={(newName) => {
+        if (newName) {
+          updateList(id, { state: { ...entry.state, name: newName }, user: entry.user });
+        }
+      }}
+      setPinned={(pinned) => {
+        updateList(id, { state: { ...entry.state, pinned }, user: entry.user });
+      }}
+    />
+  );
+};
 
 export const ListsOverviewPage: FC = () => {
   const [value] = useGetFilterLists();

@@ -15,7 +15,7 @@ const ConfigComponent: WidgetConfigComponent<FilterListWidgetConfig> = ({ config
   return <div>Filter List Widget</div>;
 };
 
-const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ config }) => {
+const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ config, actionsRef }) => {
   const [filterList] = useFilterListData(config.filterListId);
   const data = filterList?.data();
   const id = filterList?.id;
@@ -24,7 +24,9 @@ const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ conf
     return null;
   }
 
-  return <FilterListEmbeddedContainer data={data.state} id={id} onChangeColSizing={console.log} />;
+  return (
+    <FilterListEmbeddedContainer data={data.state} id={id} onChangeColSizing={console.log} actionsRef={actionsRef} />
+  );
 };
 
 export class FilterListWidget extends AbstractWidgetDefinition<FilterListWidgetConfig> {

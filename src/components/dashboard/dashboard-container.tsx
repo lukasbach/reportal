@@ -19,8 +19,14 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
     ],
   });
   const [widgets, setWidgets] = useState<DashboardConfig["widgets"]>({
-    a: { name: "Widget A", config: { filterListId: "iDMNhce098Q7aCJbxOqH" }, type: "filterList" },
-    b: { name: "Widget B", config: {}, type: "filterList" },
+    a: {
+      name: "Widget A",
+      config: {
+        filterListId: "iDMNhce098Q7aCJbxOqH",
+      },
+      type: "filterList",
+    },
+    b: { name: "Widget B", config: { filterListId: "j5Gbf89JjlPxe4RxMhtX" }, type: "filterList" },
     c: { name: "Widget C", config: {}, type: "filterList" },
   });
   return (
@@ -57,9 +63,7 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
       >
         {Object.entries(widgets).map(([key, widget]) => (
           <div key={key}>
-            <WidgetContainer title={widget.name} icon={<PinIcon />} key={key}>
-              <WidgetContentRenderer widget={widget} widgetId={key} />
-            </WidgetContainer>
+            <WidgetContentRenderer widget={widget} />
           </div>
         ))}
       </ResponsiveGridLayout>

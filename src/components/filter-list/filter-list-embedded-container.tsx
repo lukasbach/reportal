@@ -1,6 +1,7 @@
-import React, { FC, useMemo, useRef } from "react";
+import React, { FC, RefObject, useMemo, useRef } from "react";
 import { Box, ButtonGroup, IconButton } from "@primer/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@primer/octicons-react";
+import { createPortal } from "react-dom";
 import { parseSearch } from "../../list-endpoints/search-utils";
 import { ListTable } from "../table/list-table";
 import { useFetchListItems } from "../../list-endpoints/use-fetch-list-items";
@@ -15,9 +16,15 @@ export type FilterListEmbeddedContainerProps = {
   data: FilterListState;
   onChangeColSizing: (id: string, sizing: Record<string, number>) => void;
   id: string;
+  actionsRef: RefObject<HTMLDivElement>;
 };
 
-export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> = ({ data, onChangeColSizing, id }) => {
+export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> = ({
+  data,
+  onChangeColSizing,
+  id,
+  actionsRef,
+}) => {
   const endpoint = getEndpoint(data.endpointId);
   const search = useMemo(() => parseSearch(data.search, endpoint), [data.search, endpoint]);
   const colSizing = useRef<Record<string, number>>({});
@@ -34,32 +41,39 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
 
   return (
     <FilterListProvider onChangeFields={() => {}} data={list} fields={data.fields} endpoint={endpoint}>
-      <Box display="flex" flexDirection="column" overflow="auto" height="100%">
-        <Box flexGrow={1} overflow="auto">
-          <ListTable
-            pagination={pagination}
-            pageCount={Math.floor(totalCount / itemsPerPage)}
-            scrollRef={listContainerRef}
-            onChangeColumnSizing={(c) => {
-              colSizing.current = c;
-              markDirty();
-            }}
-          />
-        </Box>
-        <Box p={2} color="fg.subtle" fontSize={1} display="flex" justifyContent="flex-end" alignItems="center">
-          {totalCount ? `${totalCount} items. ` : ""}Page {page + 1}
-          {totalPages ? ` of ${totalPages}` : ""}.
-          <ButtonGroup sx={{ ml: 2 }}>
-            <IconButton
-              onClick={previousPage}
-              disabled={!previousPage}
-              aria-label="Previous Page"
-              icon={ChevronLeftIcon}
-            />
-            <IconButton onClick={nextPage} disabled={!nextPage} aria-label="Next Page" icon={ChevronRightIcon} />
-          </ButtonGroup>
-        </Box>
-      </Box>
+      <ListTable
+        pagination={pagination}
+        pageCount={Math.floor(totalCount / itemsPerPage)}
+        scrollRef={listContainerRef}
+        onChangeColumnSizing={(c) => {
+          colSizing.current = c;
+          markDirty();
+        }}
+      />
+      {actionsRef.current &&
+        createPortal(
+          <Box mr={1} color="fg.subtle" fontSize={1} display="flex" justifyContent="flex-end" alignItems="center">
+            {page + 1}
+            {totalPages ? `/${totalPages}` : ""}
+            <ButtonGroup sx={{ ml: 2 }}>
+              <IconButton
+                onClick={previousPage}
+                disabled={!previousPage}
+                aria-label="Previous Page"
+                icon={ChevronLeftIcon}
+                size="small"
+              />
+              <IconButton
+                onClick={nextPage}
+                disabled={!nextPage}
+                aria-label="Next Page"
+                icon={ChevronRightIcon}
+                size="small"
+              />
+            </ButtonGroup>
+          </Box>,
+          actionsRef.current
+        )}
     </FilterListProvider>
   );
 };

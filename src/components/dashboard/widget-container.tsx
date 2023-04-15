@@ -1,14 +1,15 @@
-import React, { FC, ReactNode } from "react";
-import { Box, Button, IconButton, Text } from "@primer/react";
+import React, { FC, ReactNode, RefObject } from "react";
+import { Box, IconButton, Text } from "@primer/react";
 import { GrabberIcon, PencilIcon } from "@primer/octicons-react";
 
 export type WidgetContainerProps = {
   children: ReactNode;
   title: string;
   icon: ReactNode;
+  actionsRef: RefObject<HTMLDivElement>;
 };
 
-export const WidgetContainer: FC<WidgetContainerProps> = ({ icon, children, title }) => {
+export const WidgetContainer: FC<WidgetContainerProps> = ({ icon, children, title, actionsRef }) => {
   return (
     <Box
       sx={{
@@ -20,39 +21,31 @@ export const WidgetContainer: FC<WidgetContainerProps> = ({ icon, children, titl
         height: "100%",
         width: "100%",
         overflow: "auto",
+        display: "flex",
+        flexDirection: "column",
         ":hover .icon": { display: "none" },
         " .grabicon": { display: "none" },
+        " .action-item": { visibility: "hidden" },
         ":hover .grabicon": { display: "block" },
-        ":hover .edit-btn": { visibility: "visible" },
+        ":hover .action-item": { visibility: "visible" },
+        " .draghandle": { cursor: "grab" },
+        " .draghandle:active": { cursor: "grabbing" },
       }}
     >
-      <Box
-        display="flex"
-        my={1}
-        mx={2}
-        alignItems="center"
-        className="draghandle"
-        sx={{
-          cursor: "grab",
-          ":active": { cursor: "grabbing" },
-        }}
-      >
-        <span className="icon">{icon}</span>
-        <span className="grabicon">
+      <Box display="flex" my={1} mx={2} alignItems="center">
+        <span className="icon draghandle">{icon}</span>
+        <span className="grabicon draghandle">
           <GrabberIcon size={16} />
         </span>
-        <Text ml={2} fontWeight="bold" fontSize={1} sx={{ flexGrow: 1 }}>
+        <Text ml={2} fontWeight="bold" fontSize={1} sx={{ flexGrow: 1 }} className="draghandle">
           {title}
         </Text>
-        <IconButton
-          aria-label="Edit Widget"
-          icon={PencilIcon}
-          size="small"
-          className="edit-btn"
-          sx={{ visibility: "hidden" }}
-        />
+        <div ref={actionsRef} className="action-item" />
+        <IconButton aria-label="Edit Widget" icon={PencilIcon} size="small" className="action-item" />
       </Box>
-      {children}
+      <Box flexGrow={1} overflow="auto">
+        {children}
+      </Box>
     </Box>
   );
 };

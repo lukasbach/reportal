@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, RefObject } from "react";
 import { Layouts } from "react-grid-layout";
 
 export type WidgetConfigComponent<T> = FC<{
@@ -8,6 +8,7 @@ export type WidgetConfigComponent<T> = FC<{
 
 export type WidgetDisplayComponent<T> = FC<{
   config: T;
+  actionsRef: RefObject<HTMLDivElement>;
 }>;
 
 export type DashboardConfig = {

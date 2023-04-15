@@ -9,6 +9,7 @@ export type WidgetConfigComponent<T> = FC<{
 export type WidgetDisplayComponent<T> = FC<{
   config: T;
   actionsRef: RefObject<HTMLDivElement>;
+  onEdit: () => void;
 }>;
 
 export type WidgetPayload<T = any> = {

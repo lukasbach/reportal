@@ -14,7 +14,7 @@ export const WidgetContentRenderer: FC<WidgetContentRendererProps> = ({ widget, 
   const widgetDefinition = getWidgetDefinition(widget.type);
   return (
     <WidgetContainer title={widget.name} icon={<PinIcon />} actionsRef={actionsRef} onEdit={onEdit}>
-      {widgetDefinition.displayComponent({ config: widget.config, actionsRef })}
+      {widgetDefinition.displayComponent({ config: widget.config, actionsRef, onEdit })}
     </WidgetContainer>
   );
 };

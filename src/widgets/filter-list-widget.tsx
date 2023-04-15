@@ -1,9 +1,6 @@
-import { limit, getDocs, query, where } from "firebase/firestore";
 import React from "react";
 import { AbstractWidgetDefinition } from "./abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
-import { listCollection } from "../firebase/db";
-import { useAuthStore } from "../auth";
 import { FilterListEmbeddedContainer } from "../components/filter-list/filter-list-embedded-container";
 import { useFilterListData } from "../firebase/filter-lists";
 import { FilterListSelector } from "../components/common/filter-list-selector";
@@ -61,8 +58,6 @@ export class FilterListWidget extends AbstractWidgetDefinition<FilterListWidgetC
   override configComponent = ConfigComponent;
 
   override async generateDefaultConfig(): Promise<FilterListWidgetConfig> {
-    const snap = await getDocs(query(listCollection, where("user", "==", useAuthStore.getState().uid), limit(1)));
-    const filterListId = snap.docs[0].id;
     return {
       filterList: {
         type: "unset",
@@ -70,5 +65,5 @@ export class FilterListWidget extends AbstractWidgetDefinition<FilterListWidgetC
     };
   }
 
-  readonly defaultSize = undefined;
+  readonly defaultSize = [5, 2] as const;
 }

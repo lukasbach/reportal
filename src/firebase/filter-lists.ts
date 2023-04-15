@@ -1,9 +1,9 @@
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import { deleteDoc, addDoc, updateDoc, query, where } from "firebase/firestore";
-import { getListDoc, listCollection } from "../firebase-app";
+import { getListDoc, listCollection } from "./db";
 import { useAuthStore } from "../auth";
 import { useStableHandler } from "../utils";
-import { FilterListState, FilterListStateEntry } from "../components/filter-list/types";
+import { FilterListStateEntry } from "../components/filter-list/types";
 import { ListEndpointDefinition } from "../list-endpoints/types";
 
 export const useGetFilterLists = () => useCollection(query(listCollection, where("user", "==", useAuthStore().uid)));

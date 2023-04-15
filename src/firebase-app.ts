@@ -12,9 +12,3 @@ export const firebaseApp = initializeApp({
   messagingSenderId: "526679845036",
   appId: "1:526679845036:web:bca007b24e61289d3d5709",
 });
-
-export const db = getFirestore(firebaseApp);
-
-export const listCollection = collection(db, "lists") as CollectionReference<FilterListStateEntry>;
-
-export const getListDoc = (id: string) => doc(db, "lists", id) as DocumentReference<FilterListStateEntry>;

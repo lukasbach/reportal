@@ -2,7 +2,7 @@ import { limit, getDocs, query, where } from "firebase/firestore";
 import React from "react";
 import { AbstractWidgetDefinition } from "./abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
-import { listCollection } from "../firebase-app";
+import { listCollection } from "../firebase/db";
 import { useAuthStore } from "../auth";
 import { FilterListEmbeddedContainer } from "../components/filter-list/filter-list-embedded-container";
 import { useFilterListData } from "../firebase/filter-lists";

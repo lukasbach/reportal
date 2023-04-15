@@ -1,5 +1,6 @@
 import { FC, RefObject } from "react";
 import { Layouts } from "react-grid-layout";
+import { FilterListState } from "../components/filter-list/types";
 
 export type WidgetConfigComponent<T> = FC<{
   config: T;
@@ -21,4 +22,11 @@ export type WidgetPayload<T = any> = {
 export type DashboardConfig = {
   layouts: Layouts;
   widgets: Record<string, WidgetPayload>;
+  pinned?: boolean;
+  name: string;
+};
+
+export type DashboardConfigEntry = {
+  state: DashboardConfig;
+  user: string;
 };

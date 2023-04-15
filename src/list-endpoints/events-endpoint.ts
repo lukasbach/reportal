@@ -63,16 +63,20 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
   override getSearchQueries(props): SearchQueryDefinition {
     const { octokit, filters, pageSize } = props;
     return async ({ pageParam }) => {
-      const start = parseInt(pageParam?.cursor ?? "0", 10);
-      const result = await this.fetch(octokit, filters, { page: start, per_page: pageSize });
+      const start = parseInt(pageParam ?? "0", 10);
+      const result = await this.fetch(octokit, filters, {
+        page: Math.floor(start / pageSize),
+        per_page: pageSize,
+      });
 
       // TODO use return headers x-poll-interval, if-none-match, etag
+      // TODO use return headers link<prev, next, last, first>
 
       return {
         result: result.data,
         hasPreviousPage: start > 0,
         hasNextPage: true,
-        endCursor: `${(pageParam?.cursor ?? 0) + pageSize}`,
+        endCursor: `${start + pageSize}`,
         startCursor: `${Math.max(0, start - pageSize)}`,
       };
     };

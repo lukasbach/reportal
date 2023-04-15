@@ -60,14 +60,14 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
     const { octokit, filters, pageSize } = props;
     return async ({ pageParam }) => {
       const filterMap = this.getFiltersAsMap(filters);
-      const start = parseInt(pageParam?.cursor ?? "0", 10);
+      const start = parseInt(pageParam ?? "0", 10);
       const result = await octokit.activity.listNotificationsForAuthenticatedUser({
         all: filterMap.all?.value,
         participating: filterMap.participating?.value,
         since: filterMap.since?.value,
         before: filterMap.before?.value,
         per_page: pageSize,
-        page: pageParam?.cursor,
+        page: Math.floor(start / pageSize),
       });
 
       // TODO use return headers x-poll-interval, last-modified
@@ -76,7 +76,7 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
         result: result.data,
         hasPreviousPage: start > 0,
         hasNextPage: true,
-        endCursor: `${(pageParam?.cursor ?? 0) + pageSize}`,
+        endCursor: `${start + pageSize}`,
         startCursor: `${Math.max(0, start - pageSize)}`,
       };
     };

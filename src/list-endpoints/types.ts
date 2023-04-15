@@ -36,7 +36,7 @@ export type ListSearchProps = {
   searchStrings: string[];
 };
 
-export type SearchQueryDefinition = (ctx: QueryFunctionContext<QueryKey, { cursor: string }>) => Promise<{
+export type SearchQueryDefinition = (ctx: QueryFunctionContext<QueryKey, string>) => Promise<{
   result: any[];
   hasNextPage: boolean;
   hasPreviousPage: boolean;

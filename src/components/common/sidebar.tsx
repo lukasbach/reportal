@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from "react";
 import { ActionList, Box, Text } from "@primer/react";
 import { Link, NavLink } from "react-router-dom";
 import { GraphIcon } from "@primer/octicons-react";
-import { useGetPinnedFilterLists } from "../list-overview/hooks";
+import { useGetPinnedFilterLists } from "../../firebase/filter-lists";
 import { EndpointIcon } from "./endpoint-icon";
 
 export type SidebarProps = {};

@@ -5,7 +5,7 @@ import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
 import { listCollection } from "../firebase-app";
 import { useAuthStore } from "../auth";
 import { FilterListEmbeddedContainer } from "../components/filter-list/filter-list-embedded-container";
-import { useFilterListData } from "../components/list-overview/hooks";
+import { useFilterListData } from "../firebase/filter-lists";
 import { FilterListSelector } from "../components/common/filter-list-selector";
 import { EmbeddedFilterListPayload } from "../components/filter-list/types";
 import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";

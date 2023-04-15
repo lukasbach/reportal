@@ -16,7 +16,7 @@ import {
 import { ChevronDownIcon, XCircleFillIcon } from "@primer/octicons-react";
 import { createPortal } from "react-dom";
 import { EmbeddedFilterListPayload, FilterListState } from "../filter-list/types";
-import { useGetFilterLists } from "../list-overview/hooks";
+import { useGetFilterLists } from "../../firebase/filter-lists";
 import { endpoints, getEndpoint } from "../../list-endpoints/endpoints";
 import { EndpointIcon } from "./endpoint-icon";
 import { FilterListContainer } from "../filter-list/filter-list-container";

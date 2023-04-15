@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useParams } from "react-router";
-import { useFilterListData, useUpdateFilterList } from "../list-overview/hooks";
+import { useFilterListData, useUpdateFilterList } from "../../firebase/filter-lists";
 import { FilterListContainer } from "./filter-list-container";
 
 export const FilterListPage: FC = () => {

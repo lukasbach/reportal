@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { ActionList, ActionMenu, Box } from "@primer/react";
-import { useCreateFilterList, useGetFilterLists } from "./hooks";
+import { useCreateFilterList, useGetFilterLists } from "../../firebase/filter-lists";
 import { FilterListItem } from "./filter-list-item";
 import { endpoints } from "../../list-endpoints/endpoints";
 import { EndpointIcon } from "../common/endpoint-icon";

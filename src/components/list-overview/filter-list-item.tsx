@@ -4,7 +4,7 @@ import { IssueOpenedIcon, PinIcon } from "@primer/octicons-react";
 import { Link } from "react-router-dom";
 import { FilterListStateEntry } from "../filter-list/types";
 import { useConfirm, usePrompt } from "../../dialogs";
-import { useDeleteFilterList, useUpdateFilterList } from "./hooks";
+import { useDeleteFilterList, useUpdateFilterList } from "../../firebase/filter-lists";
 import { getEndpoint } from "../../list-endpoints/endpoints";
 import { EndpointIcon } from "../common/endpoint-icon";
 

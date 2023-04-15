@@ -3,7 +3,7 @@ import { Octokit } from "@octokit/rest";
 import { useQuery } from "@tanstack/react-query";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement } from "chart.js";
-import { Checkbox, FormControl } from "@primer/react";
+import { Checkbox, FormControl, useTheme } from "@primer/react";
 import { AbstractWidgetDefinition } from "./abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
 import { RepoInput } from "../components/common/repo-input";
@@ -50,6 +50,7 @@ const ConfigComponent: WidgetConfigComponent<StargazerGraphWidgetConfig> = ({ co
 };
 
 const DisplayComponent: WidgetDisplayComponent<StargazerGraphWidgetConfig> = ({ config }) => {
+  const { theme } = useTheme();
   const { kit } = useAuthStore();
   const { data } = useQuery(
     ["stargazers", config.repo],
@@ -80,7 +81,7 @@ const DisplayComponent: WidgetDisplayComponent<StargazerGraphWidgetConfig> = ({ 
       }}
       data={{
         labels: graphData.bucketDates,
-        datasets: [{ label: "", data: graphData.buckets }],
+        datasets: [{ label: "", data: graphData.buckets, borderColor: theme?.colors.accent.emphasis }],
       }}
     />
   );

@@ -3,6 +3,7 @@ import { Octokit } from "@octokit/rest";
 import { useQuery } from "@tanstack/react-query";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement } from "chart.js";
+import { Checkbox, FormControl } from "@primer/react";
 import { AbstractWidgetDefinition } from "./abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
 import { RepoInput } from "../components/common/repo-input";
@@ -16,6 +17,7 @@ Chart.register(PointElement);
 
 type StargazerGraphWidgetConfig = {
   repo: string;
+  aggregate: boolean;
 };
 
 type Response = {
@@ -33,7 +35,18 @@ type Response = {
 };
 
 const ConfigComponent: WidgetConfigComponent<StargazerGraphWidgetConfig> = ({ config, onChange }) => {
-  return <RepoInput value={config.repo} onChange={(value) => onChange({ repo: value })} />;
+  return (
+    <>
+      <RepoInput value={config.repo} onChange={(value) => onChange({ ...config, repo: value })} />
+      <FormControl sx={{ mt: 2 }}>
+        <Checkbox
+          checked={config.aggregate}
+          onChange={(e) => onChange({ ...config, aggregate: e.currentTarget.checked })}
+        />
+        <FormControl.Label>Show the total count per time slice</FormControl.Label>
+      </FormControl>
+    </>
+  );
 };
 
 const DisplayComponent: WidgetDisplayComponent<StargazerGraphWidgetConfig> = ({ config }) => {
@@ -45,8 +58,11 @@ const DisplayComponent: WidgetDisplayComponent<StargazerGraphWidgetConfig> = ({ 
       StargazerGraphWidget.fetchStargazers(config.repo, kit),
     { refetchOnWindowFocus: false }
   );
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  const graphData = useMemo(() => (data ? StargazerGraphWidget.transformStargazers(data, 50) : undefined), [data]);
+  const graphData = useMemo(
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    () => (data ? StargazerGraphWidget.transformStargazers(data, 50, config.aggregate) : undefined),
+    [data, config.aggregate]
+  );
 
   if (!graphData) {
     return null;
@@ -82,6 +98,7 @@ export class StargazerGraphWidget extends AbstractWidgetDefinition<StargazerGrap
   override async generateDefaultConfig(): Promise<StargazerGraphWidgetConfig> {
     return {
       repo: "octocat/Hello-World",
+      aggregate: true,
     };
   }
 
@@ -119,7 +136,7 @@ export class StargazerGraphWidget extends AbstractWidgetDefinition<StargazerGrap
     return gazers;
   }
 
-  static transformStargazers(dates: string[], bucketCount: number) {
+  static transformStargazers(dates: string[], bucketCount: number, aggregate: boolean) {
     const buckets: number[] = new Array(bucketCount).fill(0);
     const bucketDates: string[] = new Array(bucketCount).fill("");
 
@@ -142,6 +159,6 @@ export class StargazerGraphWidget extends AbstractWidgetDefinition<StargazerGrap
       return [...acc, val + (acc[i - 1] ?? 0)];
     }, [] as number[]);
 
-    return { buckets: aggregatedBuckets, bucketDates };
+    return { buckets: aggregate ? aggregatedBuckets : buckets, bucketDates };
   }
 }

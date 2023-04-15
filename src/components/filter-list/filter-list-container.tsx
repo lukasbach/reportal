@@ -17,9 +17,11 @@ export type FilterListPageProps = {
   data: FilterListState;
   onUpdate: (id: string, data: FilterListState) => void;
   id: string;
+  embedded?: boolean;
+  actions?: JSX.Element;
 };
 
-export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, id }) => {
+export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, id, actions }) => {
   const endpoint = getEndpoint(data.endpointId);
   const [name, setName] = useState(data.name);
   const [pinned, setPinned] = useState(data.pinned);
@@ -81,6 +83,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
             />
             <IconButton onClick={nextPage} disabled={!nextPage} aria-label="Next Page" icon={ChevronRightIcon} />
           </ButtonGroup>
+          {actions}
         </Box>
       </Box>
     </FilterListProvider>

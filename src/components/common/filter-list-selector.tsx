@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, ReactNode, useRef, useState } from "react";
 import {
   Box,
   FormControl,
@@ -11,13 +11,56 @@ import {
   Dialog,
   ActionMenu,
   ActionList,
+  Portal,
 } from "@primer/react";
-import { ChevronDownIcon, ChevronLeftIcon, TriangleDownIcon, XCircleFillIcon } from "@primer/octicons-react";
+import { ChevronDownIcon, XCircleFillIcon } from "@primer/octicons-react";
 import { createPortal } from "react-dom";
-import { EmbeddedFilterListPayload } from "../filter-list/types";
+import { EmbeddedFilterListPayload, FilterListState } from "../filter-list/types";
 import { useGetFilterLists } from "../list-overview/hooks";
 import { endpoints, getEndpoint } from "../../list-endpoints/endpoints";
 import { EndpointIcon } from "./endpoint-icon";
+import { FilterListContainer } from "../filter-list/filter-list-container";
+
+const EmbeddedDialog: FC<{
+  state: FilterListState;
+  onChange: (newState: FilterListState) => void;
+  onClose: () => void;
+}> = ({ state, onChange, onClose }) => {
+  const currentState = useRef(state);
+  return (
+    <Portal>
+      <Dialog isOpen sx={{ width: "800px", height: "800px", overflow: "auto" }} onDismiss={onClose}>
+        <FilterListContainer
+          id="embedded"
+          data={state}
+          embedded
+          actions={
+            <>
+              <Button sx={{ ml: 2 }} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                sx={{ ml: 2 }}
+                onClick={() => {
+                  onClose();
+                  setTimeout(() => {
+                    onChange(currentState.current);
+                  });
+                }}
+              >
+                Apply Changes
+              </Button>
+            </>
+          }
+          onUpdate={(newId, newData) => {
+            currentState.current = newData;
+          }}
+        />
+      </Dialog>
+    </Portal>
+  );
+};
 
 const EmbeddedSelector: FC<
   FilterListSelectorProps & {
@@ -66,13 +109,18 @@ const EmbeddedSelector: FC<
           icon={XCircleFillIcon}
         />
       </Box>
-      {isDialogOpen &&
-        createPortal(
-          <Dialog isOpen sx={{ width: "800px" }} onDismiss={() => setIsDialogOpen(false)}>
-            Hello!
-          </Dialog>,
-          document.getElementById("filterlist-portal")!
-        )}
+      {isDialogOpen && (
+        <EmbeddedDialog
+          state={state.state}
+          onChange={(newState) =>
+            onChange({
+              type: "embedded",
+              state: newState,
+            })
+          }
+          onClose={() => setIsDialogOpen(false)}
+        />
+      )}
     </>
   );
 };

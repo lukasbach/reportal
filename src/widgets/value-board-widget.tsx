@@ -61,9 +61,11 @@ const ConfigComponent: WidgetConfigComponent<ValueBoardWidgetConfig> = ({ config
 
 const DisplayComponent: WidgetDisplayComponent<ValueBoardWidgetConfig> = ({ config, actionsRef, onEdit }) => {
   return (
-    <Box display="flex">
+    <Box
+      sx={{ display: "flex", flexWrap: "wrap", alignContent: "center", justifyContent: "flex-start", height: "100%" }}
+    >
       {config.items.map((item, index) => (
-        <ValueBoardDisplayItem config={item} />
+        <ValueBoardDisplayItem config={item} key={index} />
       ))}
     </Box>
   );

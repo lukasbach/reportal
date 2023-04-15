@@ -1,9 +1,10 @@
 import React, { FC } from "react";
 import { ActionList, ActionMenu, Box, FormControl, IconButton, TextInput } from "@primer/react";
 import { TrashIcon } from "@primer/octicons-react";
-import { ValueBoardItem, valueBoardItemTypes } from "../../widgets/value-board-widget";
+import { ValueBoardItem } from "../../widgets/value-board-widget";
 import { FilterListSelector } from "../common/filter-list-selector";
 import { RepoInput } from "../common/repo-input";
+import { valueBoardPresets, valueBoardPresetsList } from "../../widgets/value-board-item-presets";
 
 export type ValueBoardConfigItemProps<T extends string = ValueBoardItem["type"]> = {
   config: ValueBoardItem & { type: T };
@@ -21,9 +22,9 @@ const UnsetItemConfig: FC<ValueBoardConfigItemProps<"unset">> = ({ config, onCha
 
       <ActionMenu.Overlay sx={{ width: "300px" }}>
         <ActionList>
-          {Object.entries(valueBoardItemTypes).map(([type, value]) => (
-            <ActionList.Item key={type} onClick={() => onChange({ ...value.initial, name: config.name } as any)}>
-              {value.name}
+          {valueBoardPresetsList.map(({ presetKey, name, initial }) => (
+            <ActionList.Item key={presetKey} onClick={() => onChange({ ...initial } as any)}>
+              {name}
             </ActionList.Item>
           ))}
         </ActionList>
@@ -66,6 +67,9 @@ export const ValueBoardConfigItem: FC<ValueBoardConfigItemProps> = (props) => {
       }}
     >
       <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", alignItems: "center", pr: 2, fontWeight: "bold", fontSize: 1 }}>
+          {valueBoardPresets[config.preset]?.name ?? "Undefined Counter"}:
+        </Box>
         <TextInput
           aria-label="Item name"
           placeholder="Item name"

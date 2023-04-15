@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useDebouncedCallback, usePrevious } from "@react-hookz/web";
-import { useRefCopy, useStableHandler } from "../../utils";
+import { useRefCopy, useStableHandler } from "../utils";
 
 const s = 1000;
 

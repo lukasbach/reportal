@@ -8,7 +8,7 @@ import { useFetchListItems } from "../../list-endpoints/use-fetch-list-items";
 import { FilterListProvider } from "./filter-list-context";
 import { usePagination } from "./use-pagination";
 import { useCalcPageSize } from "./use-calc-page-size";
-import { useTriggerPersist } from "./use-trigger-persist";
+import { useTriggerPersist } from "../../common/use-trigger-persist";
 import { FilterListState } from "./types";
 import { getEndpoint } from "../../list-endpoints/endpoints";
 

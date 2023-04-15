@@ -1,39 +1,27 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import { ActionList, ActionMenu, Box } from "@primer/react";
 import { widgetDefinitions } from "../../widgets/widget-definitions";
-import { DashboardConfig } from "../../widgets/types";
+import { DashboardConfig, DashboardConfigEntry } from "../../widgets/types";
 import { WidgetContentRenderer } from "./widget-content-renderer";
 import { WidgetConfigDialog } from "./widget-config-dialog";
 import { useStableHandler } from "../../utils";
 import { AbstractWidgetDefinition } from "../../widgets/abstract-widget-definition";
+import { useTriggerPersist } from "../../common/use-trigger-persist";
 
-export type DashboardContainerProps = {};
 const ResponsiveGridLayout = WidthProvider(Responsive);
+export type DashboardContainerProps = {
+  id: string;
+  data: DashboardConfig;
+  onUpdate: (id: string, newData: DashboardConfig) => void;
+};
 
-export const DashboardContainer: FC<DashboardContainerProps> = () => {
+export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, data }) => {
+  const [name, setName] = useState(data.name);
+  const [pinned, setPinned] = useState(data.pinned);
   const [editingWidget, setEditingWidget] = useState<string | null>(null);
-  const [layouts, setLayouts] = useState<Layouts>({
-    lg: [
-      { i: "a", x: 0, y: 0, w: 3, h: 4 },
-      { i: "b", x: 3, y: 0, w: 5, h: 4, minW: 2, maxW: 5 },
-      { i: "c", x: 8, y: 0, w: 2, h: 4 },
-    ],
-  });
-  const [widgets, setWidgets] = useState<DashboardConfig["widgets"]>({
-    a: {
-      name: "Widget A",
-      config: {
-        filterList: {
-          type: "linked",
-          id: "iDMNhce098Q7aCJbxOqH",
-        },
-      },
-      type: "filterList",
-    },
-    b: { name: "Widget B", config: { filterList: { type: "linked", id: "j5Gbf89JjlPxe4RxMhtX" } }, type: "filterList" },
-    c: { name: "Widget C", config: { filterList: { type: "unset" } }, type: "filterList" },
-  });
+  const [layouts, setLayouts] = useState<Layouts>(data.layouts);
+  const [widgets, setWidgets] = useState(data.widgets);
   const applyWidgetChanges = useStableHandler((newConfig: DashboardConfig["widgets"][string]) => {
     if (!editingWidget) {
       return;
@@ -65,10 +53,16 @@ export const DashboardContainer: FC<DashboardContainerProps> = () => {
       [newId]: { name: widget.name, config, type: widget.id },
     }));
     setLayouts((old) => {
-      const newLayout = { i: newId, x: 0, y: Infinity, w, h };
-      return { ...old, lg: [...old.lg, newLayout] };
+      for (const key of Object.keys(old)) {
+        old[key].push({ i: newId, x: 0, y: Infinity, w, h });
+      }
+      return old;
     });
   });
+
+  const markDirty = useTriggerPersist(id, onUpdate, { widgets, layouts, name, pinned });
+
+  useEffect(markDirty, [widgets, layouts, name, pinned, markDirty]);
 
   return (
     <>

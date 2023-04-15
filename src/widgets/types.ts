@@ -27,6 +27,11 @@ export type DashboardConfig = {
 };
 
 export type DashboardConfigEntry = {
-  state: DashboardConfig;
+  state: {
+    pinned?: boolean;
+    name: string;
+    layouts: string;
+    widgets: string;
+  };
   user: string;
 };

@@ -19,9 +19,10 @@ export const useCreateDashboard = () => {
     const entry: DashboardConfigEntry = {
       user: uid,
       state: {
-        widgets: {},
-        layouts: {},
+        widgets: "{}",
+        layouts: "{}",
         name: "New Dashboard",
+        pinned: false,
       },
     };
     await addDoc(dashboardCollection, entry);

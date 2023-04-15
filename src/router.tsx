@@ -8,6 +8,7 @@ import { FilterListContainer } from "./components/filter-list/filter-list-contai
 import { ListsOverviewPage } from "./components/filter-list/lists-overview-page";
 import { FilterListPage } from "./components/filter-list/filter-list-page";
 import { DashboardPage } from "./components/dashboard/dashboard-page";
+import { DashboardsOverviewPage } from "./components/dashboard/dashboards-overview-page";
 
 export const router = createHashRouter([
   {
@@ -20,6 +21,11 @@ export const router = createHashRouter([
     children: [
       {
         path: "dashboards",
+        element: <DashboardsOverviewPage />,
+        loader: authCheckLoader,
+      },
+      {
+        path: "dashboards/:id",
         element: <DashboardPage />,
         loader: authCheckLoader,
       },

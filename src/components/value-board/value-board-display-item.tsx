@@ -5,6 +5,8 @@ import { getEndpoint } from "../../list-endpoints/endpoints";
 import { useUnwrapEmbeddedFilterListConfig } from "../filter-list/use-unwrap-embedded-filter-list-config";
 import { parseSearch } from "../../list-endpoints/search-utils";
 import { ValueBoardStat } from "./value-board-stat";
+import { useRepoData } from "../../common/use-repo-data";
+import { resolveRecursiveSubitem } from "../../utils";
 
 export type ValueBoardDisplayItemProps<T extends string = ValueBoardItem["type"]> = {
   config: ValueBoardItem & { type: T };
@@ -19,10 +21,23 @@ const FilterListTotalDisplay: FC<ValueBoardDisplayItemProps<"filterListTotal">> 
   return <ValueBoardStat value={value} label={config.name} />;
 };
 
+const RepoStatDisplay: FC<ValueBoardDisplayItemProps<"repoStat">> = ({ config }) => {
+  const [owner, repo] = config.repo.split("/", 2);
+  const repoData = useRepoData(owner, repo);
+  if (!repoData) {
+    return null;
+  }
+  const value = resolveRecursiveSubitem(repoData, config.statKey);
+  return <ValueBoardStat value={value} label={config.name} />;
+};
+
 export const ValueBoardDisplayItem: FC<ValueBoardDisplayItemProps> = (props) => {
   const { config } = props;
   if (config.type === "filterListTotal") {
     return <FilterListTotalDisplay {...(props as any)} />;
+  }
+  if (config.type === "repoStat") {
+    return <RepoStatDisplay {...(props as any)} />;
   }
 
   return null;

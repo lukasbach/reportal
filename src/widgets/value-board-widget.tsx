@@ -14,9 +14,11 @@ export type ValueBoardItem =
       filterList: EmbeddedFilterListPayload;
     }
   | {
-      type: "repoStargazerCount";
+      type: "repoStat";
       name: string;
       repo: string;
+      statKey: string;
+      renderAs?: "date" | "string";
     };
 
 export const valueBoardItemTypes: Record<string, { name: string; initial: ValueBoardItem }> = {
@@ -24,9 +26,126 @@ export const valueBoardItemTypes: Record<string, { name: string; initial: ValueB
     name: "Filter List Total",
     initial: { type: "filterListTotal", name: "Filter List Count", filterList: { type: "unset" } },
   },
-  repoStargazerCount: {
-    name: "Repo Stargazer Count",
-    initial: { type: "repoStargazerCount", name: "Repo Stargazers", repo: "octocat/hello-world" },
+
+  createdAt: {
+    name: "Created Date",
+    initial: {
+      type: "repoStat",
+      statKey: "createdAt",
+      name: "Created At",
+      repo: "octocat/hello-world",
+      renderAs: "date",
+    },
+  },
+  updatedAt: {
+    name: "Last Update Date",
+    initial: {
+      type: "repoStat",
+      statKey: "updatedAt",
+      name: "Updated At",
+      repo: "octocat/hello-world",
+      renderAs: "date",
+    },
+  },
+  releaseCreatedAt: {
+    name: "Latest Release Creation Date",
+    initial: {
+      type: "repoStat",
+      statKey: "latestRelease.createdAt",
+      name: "Latest Release",
+      repo: "octocat/hello-world",
+      renderAs: "date",
+    },
+  },
+  releasePublishedAt: {
+    name: "Latest Release Publish Date",
+    initial: {
+      type: "repoStat",
+      statKey: "latestRelease.publishedAt",
+      name: "Latest Release Published",
+      repo: "octocat/hello-world",
+      renderAs: "date",
+    },
+  },
+
+  forkCount: {
+    name: "Fork Count",
+    initial: {
+      type: "repoStat",
+      statKey: "forkCount",
+      name: "Forks",
+      repo: "octocat/hello-world",
+    },
+  },
+
+  openIssuesCount: {
+    name: "Open Issues Count",
+    initial: {
+      type: "repoStat",
+      statKey: "openIssues.totalCount",
+      name: "Open Issues",
+      repo: "octocat/hello-world",
+    },
+  },
+
+  closedIssuesCount: {
+    name: "Closed Issues Count",
+    initial: {
+      type: "repoStat",
+      statKey: "closedIssues.totalCount",
+      name: "Closed Issues",
+      repo: "octocat/hello-world",
+    },
+  },
+
+  openPullRequestsCount: {
+    name: "Open Pull Requests Count",
+    initial: {
+      type: "repoStat",
+      statKey: "openPullRequests.totalCount",
+      name: "Open Pull Requests",
+      repo: "octocat/hello-world",
+    },
+  },
+
+  closedPullRequestsCount: {
+    name: "Closed Pull Requests Count",
+    initial: {
+      type: "repoStat",
+      statKey: "closedPullRequests.totalCount",
+      name: "Closed Pull Requests",
+      repo: "octocat/hello-world",
+    },
+  },
+
+  stargazerCount: {
+    name: "Stargazer Count",
+    initial: {
+      type: "repoStat",
+      statKey: "stargazerCount",
+      name: "Stargazers",
+      repo: "octocat/hello-world",
+    },
+  },
+
+  releaseCount: {
+    name: "Release Count",
+    initial: {
+      type: "repoStat",
+      statKey: "releases.totalCount",
+      name: "Releases",
+      repo: "octocat/hello-world",
+    },
+  },
+
+  latestReleaseName: {
+    name: "Latest Release Name",
+    initial: {
+      type: "repoStat",
+      statKey: "latestRelease.name",
+      name: "Latest Release",
+      repo: "octocat/hello-world",
+    },
   },
 };
 
@@ -59,7 +178,7 @@ const ConfigComponent: WidgetConfigComponent<ValueBoardWidgetConfig> = ({ config
   );
 };
 
-const DisplayComponent: WidgetDisplayComponent<ValueBoardWidgetConfig> = ({ config, actionsRef, onEdit }) => {
+const DisplayComponent: WidgetDisplayComponent<ValueBoardWidgetConfig> = ({ config }) => {
   return (
     <Box
       sx={{ display: "flex", flexWrap: "wrap", alignContent: "center", justifyContent: "flex-start", height: "100%" }}

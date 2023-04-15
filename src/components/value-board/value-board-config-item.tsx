@@ -19,7 +19,7 @@ const UnsetItemConfig: FC<ValueBoardConfigItemProps<"unset">> = ({ config, onCha
         Choose an item type
       </ActionMenu.Button>
 
-      <ActionMenu.Overlay>
+      <ActionMenu.Overlay sx={{ width: "300px" }}>
         <ActionList>
           {Object.entries(valueBoardItemTypes).map(([type, value]) => (
             <ActionList.Item key={type} onClick={() => onChange({ ...value.initial, name: config.name } as any)}>
@@ -40,7 +40,7 @@ const FilterListTotalItemConfig: FC<ValueBoardConfigItemProps<"filterListTotal">
   );
 };
 
-const ItemWithRepoConfig: FC<ValueBoardConfigItemProps<"repoStargazerCount">> = ({ config, onChange }) => {
+const ItemWithRepoConfig: FC<ValueBoardConfigItemProps<"repoStat">> = ({ config, onChange }) => {
   return (
     <Box mt={3}>
       <FormControl>
@@ -82,7 +82,7 @@ export const ValueBoardConfigItem: FC<ValueBoardConfigItemProps> = (props) => {
       </Box>
       {config.type === "unset" && <UnsetItemConfig {...(props as any)} />}
       {config.type === "filterListTotal" && <FilterListTotalItemConfig {...(props as any)} />}
-      {config.type === "repoStargazerCount" && <ItemWithRepoConfig {...(props as any)} />}
+      {config.type === "repoStat" && <ItemWithRepoConfig {...(props as any)} />}
     </Box>
   );
 };

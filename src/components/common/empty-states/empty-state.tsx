@@ -4,10 +4,11 @@ import { Box, Text } from "@primer/react";
 export type EmptyStateProps = {
   title?: string;
   text?: string;
-  children: ReactNode;
+  children?: ReactNode;
+  primary?: ReactNode;
 };
 
-export const EmptyState: FC<EmptyStateProps> = ({ children, title, text }) => {
+export const EmptyState: FC<EmptyStateProps> = ({ children, title, text, primary }) => {
   return (
     <Box
       display="flex"
@@ -18,6 +19,7 @@ export const EmptyState: FC<EmptyStateProps> = ({ children, title, text }) => {
       p={4}
       textAlign="center"
     >
+      {primary}
       {title && (
         <Text as="h3" fontSize={3} m={0}>
           {title}
@@ -29,7 +31,7 @@ export const EmptyState: FC<EmptyStateProps> = ({ children, title, text }) => {
         </Text>
       )}
 
-      <Box>{children}</Box>
+      {children && <Box>{children}</Box>}
     </Box>
   );
 };

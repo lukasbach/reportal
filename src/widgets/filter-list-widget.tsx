@@ -2,11 +2,11 @@ import React from "react";
 import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { FilterListEmbeddedContainer } from "../components/filter-list/filter-list-embedded-container";
-import { useFilterListData } from "../firebase/filter-lists";
 import { FilterListSelector } from "../components/common/filter-list-selector";
 import { EmbeddedFilterListPayload } from "../components/filter-list/types";
 import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
 import { useUnwrapEmbeddedFilterListConfig } from "../components/filter-list/use-unwrap-embedded-filter-list-config";
+import { LoadingWidgetEmptyState } from "../components/common/empty-states/loading-widget-empty-state";
 
 type FilterListWidgetConfig = {
   filterList: EmbeddedFilterListPayload;
@@ -33,7 +33,7 @@ const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ conf
   }
 
   if (!data) {
-    return null;
+    return <LoadingWidgetEmptyState />;
   }
 
   return (

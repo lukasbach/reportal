@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { Box } from "@primer/react";
+import { Box, Button } from "@primer/react";
+import { GraphIcon } from "@primer/octicons-react";
 import {
   useCreateFilterList,
   useDeleteFilterList,
@@ -11,6 +12,7 @@ import { EndpointIcon } from "../common/endpoint-icon";
 import { FilterListStateEntry } from "./types";
 import { OverviewListItem } from "../common/overview-list/overview-list-item";
 import { FilterListTypeSelector } from "./filter-list-type-selector";
+import { PageHeader } from "../common/page-header";
 
 const FilterListItem: FC<{
   entry: FilterListStateEntry;
@@ -47,9 +49,15 @@ export const ListsOverviewPage: FC = () => {
   const createFilterList = useCreateFilterList();
   return (
     <Box p={4}>
-      <FilterListTypeSelector onClick={createFilterList} variant="primary" size="large">
-        Create new Filter List
-      </FilterListTypeSelector>
+      <PageHeader
+        title="Filter Lists"
+        subtitle="Create custom lists of Github-related items, such as issues, PRs, or repositories. Use search queries to define specific lists for specific use cases."
+        icon={<GraphIcon />}
+      >
+        <FilterListTypeSelector onClick={createFilterList} variant="primary" size="large">
+          Create new Filter List
+        </FilterListTypeSelector>
+      </PageHeader>
       <br />
       {value?.docs
         ?.sort((a, b) => a.data().state.name?.localeCompare(b.data().state.name))

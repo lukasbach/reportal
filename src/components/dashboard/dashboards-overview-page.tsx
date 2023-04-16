@@ -9,6 +9,7 @@ import {
   useGetDashboards,
   useUpdateDashboard,
 } from "../../firebase/dashboards";
+import { PageHeader } from "../common/page-header";
 
 const DashboardListItem: FC<{
   entry: DashboardConfigEntry;
@@ -44,9 +45,15 @@ export const DashboardsOverviewPage: FC = () => {
   const createDashboard = useCreateDashboard();
   return (
     <Box p={4}>
-      <Button variant="primary" size="large" onClick={createDashboard}>
-        Create new Dashboard
-      </Button>
+      <PageHeader
+        title="Dashboards"
+        subtitle="Manage your dashboards, or create a new one. You can use dashboards to keep track of issue and PR counts, create repo-related graphs, or embed multiple filter lists into one page."
+        icon={<GraphIcon />}
+      >
+        <Button variant="primary" size="large" onClick={createDashboard}>
+          Create new Dashboard
+        </Button>
+      </PageHeader>
       <br />
       {value?.docs
         ?.sort((a, b) => a.data().state.name?.localeCompare(b.data().state.name))

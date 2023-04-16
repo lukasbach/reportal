@@ -1,13 +1,15 @@
 import React, { FC, useEffect, useState } from "react";
 import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import { ActionList, ActionMenu, Box } from "@primer/react";
+import { GraphIcon } from "@primer/octicons-react";
 import { widgetDefinitions } from "../../widgets/widget-definitions";
-import { DashboardConfig, DashboardConfigEntry } from "../../widgets/types";
+import { DashboardConfig } from "../../widgets/types";
 import { WidgetContentRenderer } from "./widget-content-renderer";
 import { WidgetConfigDialog } from "./widget-config-dialog";
 import { useStableHandler } from "../../utils";
 import { AbstractWidgetDefinition } from "../../widgets/abstract-widget-definition";
 import { useTriggerPersist } from "../../common/use-trigger-persist";
+import { PageHeader } from "../common/page-header";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 export type DashboardContainerProps = {
@@ -75,21 +77,25 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
           },
         }}
       >
-        <ActionMenu>
-          <ActionMenu.Button variant="primary" size="large" sx={{ m: 2 }}>
-            Add Widget
-          </ActionMenu.Button>
+        <Box mx={2}>
+          <PageHeader title={data.name} icon={<GraphIcon size={24} />} backLink="/app/dashboards" compact>
+            <ActionMenu>
+              <ActionMenu.Button variant="primary" size="large" sx={{ m: 2 }}>
+                Add Widget
+              </ActionMenu.Button>
 
-          <ActionMenu.Overlay>
-            <ActionList sx={{ width: "240px" }}>
-              {Object.values(widgetDefinitions).map((widget) => (
-                <ActionList.Item key={widget.id} onClick={addWidget(widget)}>
-                  {widget.name}
-                </ActionList.Item>
-              ))}
-            </ActionList>
-          </ActionMenu.Overlay>
-        </ActionMenu>
+              <ActionMenu.Overlay>
+                <ActionList sx={{ width: "240px" }}>
+                  {Object.values(widgetDefinitions).map((widget) => (
+                    <ActionList.Item key={widget.id} onClick={addWidget(widget)}>
+                      {widget.name}
+                    </ActionList.Item>
+                  ))}
+                </ActionList>
+              </ActionMenu.Overlay>
+            </ActionMenu>
+          </PageHeader>
+        </Box>
 
         <ResponsiveGridLayout
           className="layout"

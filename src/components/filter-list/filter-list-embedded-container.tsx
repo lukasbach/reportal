@@ -29,7 +29,12 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
   const search = useMemo(() => parseSearch(data.search, endpoint), [data.search, endpoint]);
   const colSizing = useRef<Record<string, number>>({});
   const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(37);
-  const { list, loadedCount, totalCount, fetchUntil } = useFetchListItems(endpoint, search ?? null, itemsPerPage, 30);
+  const { list, loadedCount, totalCount, fetchUntil, isFetching } = useFetchListItems(
+    endpoint,
+    search ?? null,
+    itemsPerPage,
+    30
+  );
   const { pagination, nextPage, previousPage, page, totalPages, hasNextPage } = usePagination(
     itemsPerPage,
     totalCount,
@@ -42,7 +47,7 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
   return (
     <FilterListProvider onChangeFields={() => {}} data={list} fields={data.fields} endpoint={endpoint}>
       <ListTable
-        hasNextPage={hasNextPage}
+        expandItems={hasNextPage && !isFetching}
         pagination={pagination}
         pageCount={Math.floor(totalCount / itemsPerPage)}
         scrollRef={listContainerRef}

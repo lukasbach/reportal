@@ -8,7 +8,7 @@ export type ValueBoardStatProps = {
 
 export const ValueBoardStat: FC<ValueBoardStatProps> = ({ value, label }) => {
   return (
-    <Box sx={{ textAlign: "right", mx: 4 }}>
+    <Box sx={{ textAlign: "right", mx: 4, width: "80px" }}>
       <Box
         sx={{
           fontSize: 5,

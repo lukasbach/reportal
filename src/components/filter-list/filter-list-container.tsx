@@ -74,7 +74,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
         </Box>
         <Box flexGrow={1} overflow="auto">
           <ListTable
-            hasNextPage={hasNextPage}
+            expandItems={hasNextPage && !isFetching}
             pagination={pagination}
             pageCount={Math.floor(totalCount / itemsPerPage)}
             scrollRef={listContainerRef}

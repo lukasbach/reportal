@@ -104,6 +104,10 @@ export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any
     .filter(isNotNullish);
   const clientFilters = filters
     .map<FilterValue<ResponseField> | null>((item) => {
+      if (serverFilters.some((serverFilter) => serverFilter.filter.key === item.key)) {
+        return null;
+      }
+
       const filter = endpoint.responseFields.find((clientField) => clientField.jsonKey === item.key);
       return filter
         ? {
@@ -136,6 +140,8 @@ export const filterByClientFilters = <T>(item: T, search: ParsedSearchResult | n
     if (itemValue === undefined) {
       return true;
     }
-    return negated ? String(itemValue) !== String(value) : String(itemValue) === String(value);
+    return negated
+      ? String(itemValue).toLowerCase() !== String(value).toLowerCase()
+      : String(itemValue).toLowerCase() === String(value).toLowerCase();
   });
 };

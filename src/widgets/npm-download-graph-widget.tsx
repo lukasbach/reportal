@@ -7,7 +7,7 @@ import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-defi
 import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { NpmConfigInput } from "../components/common/npm-config-input";
 import { useNpmRangeDownloadCount } from "../common/use-npm-range-download-count";
-import { LoadingWidgetEmptyState } from "../components/common/empty-states/loading-widget-empty-state";
+import { LoadingEmptyState } from "../components/common/empty-states/loading-empty-state";
 
 Chart.register(CategoryScale);
 Chart.register(LinearScale);
@@ -39,7 +39,7 @@ const DisplayComponent: WidgetDisplayComponent<NpmDownloadWidgetConfig> = ({ con
   const downloads = useMemo(() => data?.downloads?.map((d) => d.downloads), [data]);
 
   if (!data) {
-    return <LoadingWidgetEmptyState />;
+    return <LoadingEmptyState />;
   }
 
   return (

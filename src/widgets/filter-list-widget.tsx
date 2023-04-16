@@ -7,7 +7,7 @@ import { FilterListSelector } from "../components/common/filter-list-selector";
 import { EmbeddedFilterListPayload } from "../components/filter-list/types";
 import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
 import { useUnwrapEmbeddedFilterListConfig } from "../components/filter-list/use-unwrap-embedded-filter-list-config";
-import { LoadingWidgetEmptyState } from "../components/common/empty-states/loading-widget-empty-state";
+import { LoadingEmptyState } from "../components/common/empty-states/loading-empty-state";
 import { EndpointIcon } from "../components/common/endpoint-icon";
 
 type FilterListWidgetConfig = {
@@ -35,7 +35,7 @@ const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ conf
   }
 
   if (!data) {
-    return <LoadingWidgetEmptyState />;
+    return <LoadingEmptyState />;
   }
 
   return (

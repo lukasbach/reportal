@@ -10,7 +10,7 @@ import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets
 import { RepoInput } from "../components/common/repo-input";
 import { useAuthStore } from "../auth";
 import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
-import { LoadingWidgetEmptyState } from "../components/common/empty-states/loading-widget-empty-state";
+import { LoadingEmptyState } from "../components/common/empty-states/loading-empty-state";
 
 Chart.register(CategoryScale);
 Chart.register(LinearScale);
@@ -73,7 +73,7 @@ const DisplayComponent: WidgetDisplayComponent<StargazerGraphWidgetConfig> = ({ 
   }
 
   if (!graphData) {
-    return <LoadingWidgetEmptyState />;
+    return <LoadingEmptyState />;
   }
 
   return (

@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from "react";
 import { Box, Button, IconButton, Link, StateLabel, Text, Timeline } from "@primer/react";
-import { KebabHorizontalIcon, XIcon } from "@primer/octicons-react";
+import { CommentIcon, KebabHorizontalIcon, XIcon } from "@primer/octicons-react";
 import { DetailsState } from "./types";
 import { useIssueData } from "./use-issue-data";
 import { GhUserName } from "../common/gh-user-name";
@@ -9,6 +9,7 @@ import { isNotNullish } from "../../utils";
 import { IssueOrPullRequest } from "../../gql/graphql";
 import { IssueDetailsStatusBadge } from "./issue-details-status-badge";
 import { useDetailsStore } from "./use-details-store";
+import { LoadingEmptyState } from "../common/empty-states/loading-empty-state";
 
 export type IssueDetailsProps = {
   issueProps: DetailsState & { type: "issue" };
@@ -19,7 +20,7 @@ export const IssueDetails: FC<IssueDetailsProps> = ({ issueProps }) => {
   const { data } = useIssueData(issueProps.repo, issueProps.owner, issueProps.issue, issueProps.isPr);
   const issue: IssueOrPullRequest = (data as any)?.repository?.issue ?? (data as any)?.repository?.pullRequest;
   if (!issue) {
-    return null;
+    return <LoadingEmptyState />;
   }
 
   return (
@@ -27,11 +28,23 @@ export const IssueDetails: FC<IssueDetailsProps> = ({ issueProps }) => {
       <Box p={4} display="flex" borderBottom="1px solid" borderColor="border.default">
         <Box flexGrow={1}>
           <Text as="p" m={0} fontSize={1} color="fg.muted">
-            {issueProps.owner}/{issueProps.repo}#{issueProps.issue}
+            <Link
+              href={`https://github.com/${issueProps.owner}/${issueProps.repo}`}
+              target="_blank"
+              sx={{ color: "unset" }}
+            >
+              {issueProps.owner}/{issueProps.repo}
+            </Link>
+            #
+            <Link href={issue.url} target="_blank" sx={{ color: "unset" }}>
+              {issueProps.issue}
+            </Link>
           </Text>
-          <Text as="h1" m={0} fontSize={2}>
-            {issue.title}
-          </Text>
+          <Link href={issue.url} target="_blank" className="unstyled-link" sx={{ color: "unset" }}>
+            <Text as="h1" m={0} fontSize={2}>
+              {issue.title}
+            </Text>
+          </Link>
           <Box display="flex" alignItems="center">
             <IssueDetailsStatusBadge issue={issue} />
             <Text m={0} ml={2} fontSize={1} color="fg.muted">
@@ -68,6 +81,18 @@ export const IssueDetails: FC<IssueDetailsProps> = ({ issueProps }) => {
         {issue.comments.nodes?.filter(isNotNullish).map((comment) => (
           <IssueDetailsComment key={comment.id} comment={comment as any} />
         ))}
+        <Timeline sx={{ ml: 6 }}>
+          <Timeline.Item>
+            <Timeline.Badge>
+              <CommentIcon />
+            </Timeline.Badge>
+            <Timeline.Body>
+              <Link href={issue.url} target="_blank" sx={{ fontWeight: "bold", color: "fg.default", mr: 1 }} muted>
+                Open on GitHub to comment
+              </Link>
+            </Timeline.Body>
+          </Timeline.Item>
+        </Timeline>
       </Box>
     </Box>
   );

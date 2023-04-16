@@ -10,9 +10,16 @@ export type ListTableProps = {
   pageCount: number;
   scrollRef: MutableRefObject<any>;
   onChangeColumnSizing?: (state: Record<string, number>) => void;
+  hasNextPage: boolean;
 };
 
-export const ListTable: FC<ListTableProps> = ({ pagination, pageCount, scrollRef, onChangeColumnSizing }) => {
+export const ListTable: FC<ListTableProps> = ({
+  pagination,
+  pageCount,
+  scrollRef,
+  onChangeColumnSizing,
+  hasNextPage,
+}) => {
   const table = useListTable(pagination, pageCount, onChangeColumnSizing);
   return (
     <Box as="table" sx={tableStyles.table}>
@@ -45,7 +52,7 @@ export const ListTable: FC<ListTableProps> = ({ pagination, pageCount, scrollRef
           </Box>
         ))}
         {/* important so that row items don't expand over the entire list */}
-        <div />
+        {!hasNextPage && <div />}
       </Box>
     </Box>
   );

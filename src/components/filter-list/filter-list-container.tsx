@@ -35,7 +35,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
     itemsPerPage,
     30
   );
-  const { pagination, nextPage, previousPage, page, totalPages } = usePagination(
+  const { pagination, nextPage, previousPage, page, totalPages, hasNextPage } = usePagination(
     itemsPerPage,
     totalCount,
     loadedCount,
@@ -62,6 +62,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
         </Box>
         <Box flexGrow={1} overflow="auto">
           <ListTable
+            hasNextPage={hasNextPage}
             pagination={pagination}
             pageCount={Math.floor(totalCount / itemsPerPage)}
             scrollRef={listContainerRef}

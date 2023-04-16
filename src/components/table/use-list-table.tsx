@@ -2,11 +2,12 @@ import React, { useMemo } from "react";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { resolveRecursiveSubitem } from "../../utils";
 import { useListState } from "../filter-list/use-list-state";
+import { ColumnSizing } from "../filter-list/types";
 
 export const useListTable = (
   { fields, pagination: { pagination }, endpoint, fetchData, itemsPerPage }: ReturnType<typeof useListState>,
   data: any[],
-  onChangeColumnSizing?: (state: Record<string, number>) => void,
+  onChangeColumnSizing?: (state: ColumnSizing) => void,
   canSelect = false
 ) => {
   const columnConfig = useMemo(() => {

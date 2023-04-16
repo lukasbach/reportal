@@ -5,14 +5,14 @@ import { createPortal } from "react-dom";
 import { ListTable } from "../table/list-table";
 import { FilterListProvider } from "./filter-list-context";
 import { useTriggerPersist } from "../../common/use-trigger-persist";
-import { FilterListState } from "./types";
+import { ColumnSizing, FilterListState } from "./types";
 import { getEndpoint } from "../../list-endpoints/endpoints";
 import { useListState } from "./use-list-state";
 import { useListTable } from "../table/use-list-table";
 
 export type FilterListEmbeddedContainerProps = {
   data: FilterListState;
-  onChangeColSizing: (id: string, sizing: Record<string, number>) => void;
+  onChangeColSizing: (id: string, sizing: ColumnSizing) => void;
   id: string;
   actionsRef: RefObject<HTMLDivElement>;
 };
@@ -28,7 +28,7 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
   const listState = useListState(data);
   const { colSizing, listContainerRef, fetchData, pagination } = listState;
 
-  const markDirty = useTriggerPersist<Record<string, number>>(id, onChangeColSizing, colSizing.current);
+  const markDirty = useTriggerPersist<ColumnSizing>(id, onChangeColSizing, colSizing.current);
 
   const table = useListTable(
     listState,

@@ -1,6 +1,6 @@
 /* eslint-disable no-continue */
 import { FilterValue, ListEndpointDefinition, ResponseField, ServerFilter, UnclassifiedFilter } from "./types";
-import { isNotNullish } from "../utils";
+import { isNotNullish, resolveRecursiveSubitem } from "../utils";
 
 export const parseIntoFilters = (search: string) => {
   const filters: UnclassifiedFilter[] = [];
@@ -97,7 +97,7 @@ export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any
         ? {
             filter,
             negated: item.negated,
-            value: item.value,
+            value: item.value.trim(),
           }
         : null;
     })
@@ -109,7 +109,7 @@ export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any
         ? {
             filter,
             negated: item.negated,
-            value: item.value,
+            value: item.value.trim(),
           }
         : null;
     })
@@ -125,4 +125,17 @@ export const constructGithubSearch = (searchStrings: string[], filters: FilterVa
     ...filters.map(({ filter, value, negated }) => `${negated ? "-" : ""}${filter.key}:${value}`),
     ...searchStrings.map((term) => (term.includes(" ") ? `"${term}"` : term)),
   ].join(" ");
+};
+
+export const filterByClientFilters = <T>(item: T, search: ParsedSearchResult | null) => {
+  if (!search) {
+    return true;
+  }
+  return search.clientFilters.every(({ filter, value, negated }) => {
+    const itemValue = resolveRecursiveSubitem(item, filter.jsonKey);
+    if (itemValue === undefined) {
+      return true;
+    }
+    return negated ? String(itemValue) !== String(value) : String(itemValue) === String(value);
+  });
 };

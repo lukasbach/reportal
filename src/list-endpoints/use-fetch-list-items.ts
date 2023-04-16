@@ -1,9 +1,9 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
-import { ParsedSearchResult } from "./search-utils";
+import { filterByClientFilters, ParsedSearchResult } from "./search-utils";
 import { ListEndpointDefinition } from "./types";
 import { useFetchInitialPage } from "../components/filter-list/use-fetch-initial-page";
-import { useRefCopy } from "../utils";
+import { useRefCopy, useStableHandler } from "../utils";
 import { useEndpointQueryFn } from "./use-endpoint-query-fn";
 
 export const useFetchListItems = (
@@ -28,37 +28,34 @@ export const useFetchListItems = (
     if (!data) {
       return [];
     }
-    return data.pages.flatMap((page) => page.result);
-  }, [data]);
+    return data.pages.flatMap((page) => page.result).filter((item) => filterByClientFilters(item, search));
+  }, [data, search]);
 
   const totalCount = useMemo(() => data?.pages[0]?.resultCount, [data]);
   const loadedCount = useMemo(() => list.length, [list]);
 
-  const fetchUntil = useCallback(
-    async (targetItemCount: number) => {
-      while (isFetchingRef.current) {
-        await new Promise<void>((r) => {
-          setTimeout(r, 100);
-        });
+  const fetchUntil = useStableHandler(async (targetItemCount: number) => {
+    while (isFetchingRef.current) {
+      await new Promise<void>((r) => {
+        setTimeout(r, 100);
+      });
+    }
+
+    let i = loadedCount;
+    while (i < targetItemCount) {
+      if (!hasNextPage) {
+        return;
       }
 
-      let i = loadedCount;
-      while (i < targetItemCount) {
-        if (!hasNextPage) {
-          return;
-        }
-
-        if (i >= totalCount /* || !totalCount */) {
-          return;
-        }
-
-        const result = await fetchNextPage();
-        const pages = result.data?.pages ?? [];
-        i = pages.reduce((acc, page) => acc + page.result.length, 0) ?? i;
+      if (i >= totalCount /* || !totalCount */) {
+        return;
       }
-    },
-    [isFetchingRef, loadedCount, totalCount, fetchNextPage]
-  );
+
+      const result = await fetchNextPage();
+      const pages = result.data?.pages ?? [];
+      i = pages.reduce((acc, page) => acc + page.result.length, 0) ?? i;
+    }
+  });
 
   useFetchInitialPage(search, displayPageSize, totalCount, fetchUntil);
 

@@ -4,6 +4,7 @@ import { ResponseField } from "./types";
 import { IssueStateIcon } from "../../components/common/issue-state-icon";
 import { CellContentWithIcon } from "../../components/common/cell-content-with-icon";
 import { EventTypeDescriptor } from "../../components/common/event-type-descriptor";
+import { GhUserName } from "../../components/common/gh-user-name";
 
 export const cellRenderers = {
   issueTitle: () => (value, data) =>
@@ -21,14 +22,5 @@ export const cellRenderers = {
   eventType: () => (value, data) => <EventTypeDescriptor eventType={value} data={data} />,
   date: () => (value) => <RelativeTime datetime={value} />,
   author: (personField: string, avatarField: string) => (value, data) =>
-    (
-      <Box display="flex" alignItems="center">
-        {data?.[personField]?.[avatarField] && (
-          <Box mr={1}>
-            <Avatar src={data[personField][avatarField]} size={16} square alt={value} />
-          </Box>
-        )}
-        <Text>{value}</Text>
-      </Box>
-    ),
+    <GhUserName login={value} avatar={data[personField][avatarField]} />,
 } satisfies Record<string, (...args: any[]) => ResponseField["renderCell"]>;

@@ -14,6 +14,9 @@ export abstract class ListEndpointDefinition<T = any> {
 
   abstract getSearchQueries(searchProps: ListSearchProps): SearchQueryDefinition;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  clickAction(item: T) {}
+
   protected getFiltersAsMap(filters: FilterValue<ServerFilter>[]) {
     return filters.reduce<Record<string, FilterValue<ServerFilter>>>((acc, filter) => {
       acc[filter.filter.key] = filter;

@@ -4,8 +4,9 @@ import { cellRenderers } from "../common/filter-lists/cell-renderers";
 import { repositoryResponseFields } from "../common/filter-lists/common-response-fields";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
+import { useDetailsStore } from "../components/details/use-details-store";
 
-const issueSearchQuery = /* GraphQL */ `
+const issueSearchQuery = `
   query issueSearchQuery($search: String!, $first: Int!, $after: String) {
     search(type: ISSUE, query: $search, first: $first, after: $after) {
       nodes {
@@ -112,6 +113,7 @@ const issueSearchQuery = /* GraphQL */ `
   }
 `;
 export type IssueData = {
+  number: number;
   author: {
     login: string;
     avatarUrl: string;
@@ -204,5 +206,10 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
         ...result.search.pageInfo,
       };
     };
+  }
+
+  override clickAction(item: IssueData) {
+    const isPr = item.url.includes("/pull/"); // TODO
+    useDetailsStore.getState().openIssue(item.repository.owner.login, item.repository.name, item.number, isPr);
   }
 }

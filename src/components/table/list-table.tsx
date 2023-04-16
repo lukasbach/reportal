@@ -9,9 +9,10 @@ export type ListTableProps = {
   expandItems: boolean;
   canSelect?: boolean;
   table: Table<any>;
+  onClickRow?: (item: any) => void;
 };
 
-export const ListTable: FC<ListTableProps> = ({ scrollRef, expandItems, canSelect, table }) => {
+export const ListTable: FC<ListTableProps> = ({ scrollRef, expandItems, onClickRow, canSelect, table }) => {
   return (
     <Box as="table" sx={tableStyles.table}>
       <thead>
@@ -26,7 +27,7 @@ export const ListTable: FC<ListTableProps> = ({ scrollRef, expandItems, canSelec
       </thead>
       <Box as="tbody" sx={tableStyles.tableBody} ref={scrollRef}>
         {table.getRowModel().rows.map((row) => (
-          <Box as="tr" key={row.id} sx={tableStyles.row}>
+          <Box as="tr" key={row.id} sx={tableStyles.row} onClick={() => onClickRow?.(row.original)}>
             {canSelect && (
               <Box as="td" sx={tableStyles.checkboxCell} className="checkbox-cell">
                 <Checkbox

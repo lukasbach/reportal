@@ -10,6 +10,8 @@ import { router } from "./router";
 
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import "react-modern-drawer/dist/index.css";
+import { DetailsProvider } from "./components/details/details-provider";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +22,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <ThemeProvider>
         <BaseStyles>
           <RouterProvider router={router} />
+          <DetailsProvider />
         </BaseStyles>
       </ThemeProvider>
     </QueryClientProvider>

@@ -47,6 +47,9 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
         expandItems={pagination.hasNextPage && !fetchData.isFetching}
         canSelect={false}
         table={table}
+        onClickRow={(item) => {
+          endpoint.clickAction?.(item);
+        }}
       />
       {actionsRef.current &&
         createPortal(

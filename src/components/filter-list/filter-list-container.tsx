@@ -73,6 +73,10 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
             expandItems={pagination.hasNextPage && !fetchData.isFetching}
             canSelect={false} // TODO !embedded
             table={table}
+            onClickRow={(item) => {
+              console.log("CLICKED", item);
+              endpoint.clickAction?.(item);
+            }}
           />
         </Box>
         <Box p={2} color="fg.subtle" fontSize={1} display="flex" justifyContent="flex-end" alignItems="center">

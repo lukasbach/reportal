@@ -3,6 +3,7 @@ import { constructGithubSearch } from "../common/filter-lists/search-utils";
 import { cellRenderers } from "../common/filter-lists/cell-renderers";
 import { repositoryResponseFields } from "../common/filter-lists/common-response-fields";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
+import { EndpointId } from "./endpoints";
 
 const issueSearchQuery = /* GraphQL */ `
   query issueSearchQuery($search: String!, $first: Int!, $after: String) {
@@ -148,7 +149,7 @@ export type IssueData = {
 };
 
 export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
-  override readonly id = "issues";
+  override readonly id = EndpointId.Issues;
 
   override readonly name = "Issues and Pull Requests";
 
@@ -188,8 +189,6 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
     { key: "is", suggestions: ["open", "closed", "queued", "public", "private"], multiple: true },
     { key: "reason", suggestions: ["completed", "not planned"] },
   ];
-
-  override readonly actions;
 
   override getSearchQueries(props): SearchQueryDefinition {
     const { octokit, filters, searchStrings, pageSize } = props;

@@ -1,10 +1,10 @@
 import { SearchQueryDefinition } from "../common/filter-lists/types";
 import { cellRenderers } from "../common/filter-lists/cell-renderers";
-import { repositoryResponseFields } from "../common/filter-lists/common-response-fields";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
+import { EndpointId } from "./endpoints";
 
 export class NotificationsEndpoint extends ListEndpointDefinition<any> {
-  override readonly id = "notifications";
+  override readonly id = EndpointId.Notifications;
 
   override readonly name = "Notifications";
 
@@ -54,8 +54,6 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
     { key: "since" },
     { key: "before" },
   ];
-
-  override readonly actions;
 
   override getSearchQueries(props): SearchQueryDefinition {
     const { octokit, filters, pageSize } = props;

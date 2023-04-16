@@ -43,8 +43,3 @@ export type SearchQueryDefinition = (ctx: QueryFunctionContext<QueryKey, string>
   startCursor: string;
   resultCount?: number;
 }>;
-
-export type Action<T> = {
-  name: string;
-  action: (items: T[], octokit: Octokit) => Promise<void>;
-};

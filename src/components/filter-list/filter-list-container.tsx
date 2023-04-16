@@ -82,6 +82,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
               colSizing.current = c;
               markDirty();
             }}
+            onChangeSelection={console.log}
           />
         </Box>
         <Box p={2} color="fg.subtle" fontSize={1} display="flex" justifyContent="flex-end" alignItems="center">

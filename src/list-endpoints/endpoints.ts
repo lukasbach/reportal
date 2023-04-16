@@ -3,6 +3,12 @@ import { NotificationsEndpoint } from "./notifications-endpoint";
 import { EventsEndpoint } from "./events-endpoint";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 
+export enum EndpointId {
+  Issues = "issues",
+  Notifications = "notifications",
+  Events = "events",
+}
+
 export const endpoints: Record<string, ListEndpointDefinition> = {
   issues: new IssueSearchEndpoint(),
   notifications: new NotificationsEndpoint(),

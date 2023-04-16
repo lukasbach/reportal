@@ -2,9 +2,10 @@ import { Octokit } from "@octokit/rest";
 import { FilterValue, SearchQueryDefinition, ServerFilter } from "../common/filter-lists/types";
 import { cellRenderers } from "../common/filter-lists/cell-renderers";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
+import { EndpointId } from "./endpoints";
 
 export class EventsEndpoint extends ListEndpointDefinition<any> {
-  override readonly id = "events";
+  override readonly id = EndpointId.Events;
 
   override readonly name = "Events";
 
@@ -58,8 +59,6 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
     { key: "org" },
     { key: "public", isBoolean: true },
   ];
-
-  override readonly actions;
 
   override getSearchQueries(props): SearchQueryDefinition {
     const { octokit, filters, pageSize } = props;

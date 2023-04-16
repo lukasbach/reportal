@@ -6,7 +6,8 @@ import { useFilterListContext } from "../filter-list/filter-list-context";
 export const useListTable = (
   pagination: PaginationState,
   pageCount: number,
-  onChangeColumnSizing?: (state: Record<string, number>) => void
+  onChangeColumnSizing?: (state: Record<string, number>) => void,
+  canSelect = false
 ) => {
   const { data, endpoint, fields } = useFilterListContext();
   const columnConfig = useMemo(() => {
@@ -37,8 +38,10 @@ export const useListTable = (
     data: slicedData,
     columns: columnConfig,
     getCoreRowModel: getCoreRowModel(),
-    columnResizeMode: "onChange",
 
+    enableMultiRowSelection: canSelect,
+
+    columnResizeMode: "onChange",
     onColumnSizingChange: (updaterOrValue) => {
       const updater = <T,>(input: T): T =>
         typeof updaterOrValue === "function" ? (updaterOrValue as (input: T) => T)(input) : (updaterOrValue as T);

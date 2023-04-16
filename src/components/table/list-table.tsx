@@ -11,6 +11,7 @@ export type ListTableProps = {
   scrollRef: MutableRefObject<any>;
   onChangeColumnSizing?: (state: Record<string, number>) => void;
   expandItems: boolean;
+  onChangeSelection?: () => void;
 };
 
 export const ListTable: FC<ListTableProps> = ({
@@ -19,14 +20,17 @@ export const ListTable: FC<ListTableProps> = ({
   scrollRef,
   onChangeColumnSizing,
   expandItems,
+  onChangeSelection,
 }) => {
-  const table = useListTable(pagination, pageCount, onChangeColumnSizing);
+  const canSelect = !!onChangeSelection;
+  const table = useListTable(pagination, pageCount, onChangeColumnSizing, canSelect);
+
   return (
     <Box as="table" sx={tableStyles.table}>
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <Box as="tr" sx={tableStyles.headerGroup} key={headerGroup.id}>
-            <Box as="th" sx={tableStyles.checkboxCell} />
+            {canSelect && <Box as="th" sx={tableStyles.checkboxCell} />}
             {headerGroup.headers.map((header) => (
               <TableHead header={header} table={table} key={header.id} />
             ))}
@@ -36,9 +40,15 @@ export const ListTable: FC<ListTableProps> = ({
       <Box as="tbody" sx={tableStyles.tableBody} ref={scrollRef}>
         {table.getRowModel().rows.map((row) => (
           <Box as="tr" key={row.id} sx={tableStyles.row}>
-            <Box as="td" sx={tableStyles.checkboxCell} className="checkbox-cell">
-              <Checkbox sx={tableStyles.checkbox} />
-            </Box>
+            {canSelect && (
+              <Box as="td" sx={tableStyles.checkboxCell} className="checkbox-cell">
+                <Checkbox
+                  sx={tableStyles.checkbox}
+                  checked={row.getIsSelected()}
+                  onChange={(e) => row.toggleSelected(e.currentTarget.checked)}
+                />
+              </Box>
+            )}
             {row.getVisibleCells().map((cell) => (
               <Box
                 as="td"

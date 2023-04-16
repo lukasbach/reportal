@@ -1,5 +1,5 @@
 import { FilterListState } from "../../components/filter-list/types";
-import { Action, FilterValue, ListSearchProps, ResponseField, SearchQueryDefinition, ServerFilter } from "./types";
+import { FilterValue, ListSearchProps, ResponseField, SearchQueryDefinition, ServerFilter } from "./types";
 
 export abstract class ListEndpointDefinition<T = any> {
   abstract readonly id: string;
@@ -13,8 +13,6 @@ export abstract class ListEndpointDefinition<T = any> {
   abstract readonly serverFilters: ServerFilter[];
 
   abstract getSearchQueries(searchProps: ListSearchProps): SearchQueryDefinition;
-
-  abstract readonly actions: Action<T>[];
 
   protected getFiltersAsMap(filters: FilterValue<ServerFilter>[]) {
     return filters.reduce<Record<string, FilterValue<ServerFilter>>>((acc, filter) => {

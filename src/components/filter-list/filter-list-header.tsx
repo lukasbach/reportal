@@ -39,22 +39,24 @@ export const FilterListHeader: FC<FilterListHeaderProps> = ({
   const endpoint = getEndpoint(data.endpointId);
   return (
     <>
-      <Box display="flex" alignItems="center" mb={2}>
-        <Token
-          text={endpoint.name}
-          size="xlarge"
-          sx={{ mr: 2 }}
-          leadingVisual={() => <EndpointIcon endpointId={endpoint.id} />}
-        />
-        <TextInput value={name} onChange={(e) => setName(e.target.value)} sx={{ flexGrow: 1 }} />
-        <IconButton
-          icon={pinned ? StarFillIcon : StarIcon}
-          sx={{ ml: 2 }}
-          aria-label="Change Pin Status"
-          onClick={() => setPinned(!pinned)}
-        />
-      </Box>
-      <Box display="flex" alignItems="center" mb={2}>
+      {!embedded && (
+        <Box display="flex" alignItems="center" mb={2}>
+          <Token
+            text={endpoint.name}
+            size="xlarge"
+            sx={{ mr: 2 }}
+            leadingVisual={() => <EndpointIcon endpointId={endpoint.id} />}
+          />
+          <TextInput value={name} onChange={(e) => setName(e.target.value)} sx={{ flexGrow: 1 }} />
+          <IconButton
+            icon={pinned ? StarFillIcon : StarIcon}
+            sx={{ ml: 2 }}
+            aria-label="Change Pin Status"
+            onClick={() => setPinned(!pinned)}
+          />
+        </Box>
+      )}
+      <Box display="flex" alignItems="center" mb={2} pr={embedded ? 6 : 0}>
         <SearchInput endpoint={endpoint} onChange={setSearch} value={search} isLoading={isFetching} />
         <Box ml={2}>
           <FieldSelector endpoint={endpoint} fields={fields} setFields={setFields} />

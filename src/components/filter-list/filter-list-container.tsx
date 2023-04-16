@@ -22,7 +22,7 @@ export type FilterListPageProps = {
   actions?: JSX.Element;
 };
 
-export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, id, actions }) => {
+export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, id, actions, embedded }) => {
   const endpoint = getEndpoint(data.endpointId);
   const [name, setName] = useState(data.name);
   const [pinned, setPinned] = useState(data.pinned);
@@ -69,6 +69,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
             fields={fields}
             setFields={setFields}
             isFetching={isFetching}
+            embedded={embedded}
           />
         </Box>
         <Box flexGrow={1} overflow="auto">

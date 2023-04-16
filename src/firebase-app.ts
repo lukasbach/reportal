@@ -1,8 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { collection, doc, getFirestore, DocumentReference } from "firebase/firestore";
-import { CollectionReference } from "@firebase/firestore";
-import firebase from "firebase/compat";
-import { FilterListStateEntry } from "./components/filter-list/types";
 
 export const firebaseApp = initializeApp({
   apiKey: "AIzaSyDoZH7_ayqubAq909vnrlzMCqGnDkj1sNc",

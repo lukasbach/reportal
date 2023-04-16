@@ -60,7 +60,7 @@ const getSuggestions = (finalPart: string, search: string, endpoint: ListEndpoin
     const [filterKey, filterValuePrefix] = finalPart.split(":", 2);
     const filter =
       endpoint.serverFilters.find((serverFilter) => serverFilter.key === filterKey) ??
-      endpoint.responseFields.find((clientField) => clientField.name.toLowerCase() === filterKey);
+      endpoint.responseFields.find((clientField) => clientField.jsonKey === filterKey);
 
     if (filter?.suggestions) {
       return filter.suggestions

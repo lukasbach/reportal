@@ -1,16 +1,13 @@
-import React, { FC, RefObject, useMemo, useRef } from "react";
+import React, { FC, RefObject } from "react";
 import { Box, ButtonGroup, IconButton } from "@primer/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@primer/octicons-react";
 import { createPortal } from "react-dom";
-import { parseSearch } from "../../common/filter-lists/search-utils";
 import { ListTable } from "../table/list-table";
-import { useFetchListItems } from "../../common/filter-lists/use-fetch-list-items";
 import { FilterListProvider } from "./filter-list-context";
-import { usePagination } from "./use-pagination";
-import { useCalcPageSize } from "./use-calc-page-size";
 import { useTriggerPersist } from "../../common/use-trigger-persist";
 import { FilterListState } from "./types";
 import { getEndpoint } from "../../list-endpoints/endpoints";
+import { useListState } from "./use-list-state";
 
 export type FilterListEmbeddedContainerProps = {
   data: FilterListState;
@@ -26,30 +23,15 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
   actionsRef,
 }) => {
   const endpoint = getEndpoint(data.endpointId);
-  const search = useMemo(() => parseSearch(data.search, endpoint), [data.search, endpoint]);
-  const colSizing = useRef<Record<string, number>>({});
-  const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(37);
-  const { list, loadedCount, totalCount, fetchUntil, isFetching } = useFetchListItems(
-    endpoint,
-    search ?? null,
-    itemsPerPage,
-    30
-  );
-  const { pagination, nextPage, previousPage, page, totalPages, hasNextPage } = usePagination(
-    itemsPerPage,
-    totalCount,
-    loadedCount,
-    fetchUntil
-  );
-
+  const { itemsPerPage, colSizing, listContainerRef, fetchData, pagination } = useListState(data);
   const markDirty = useTriggerPersist<Record<string, number>>(id, onChangeColSizing, colSizing.current);
 
   return (
-    <FilterListProvider onChangeFields={() => {}} data={list} fields={data.fields} endpoint={endpoint}>
+    <FilterListProvider onChangeFields={() => {}} data={fetchData.list} fields={data.fields} endpoint={endpoint}>
       <ListTable
-        expandItems={hasNextPage && !isFetching}
-        pagination={pagination}
-        pageCount={Math.floor(totalCount / itemsPerPage)}
+        expandItems={pagination.hasNextPage && !fetchData.isFetching}
+        pagination={pagination.pagination}
+        pageCount={Math.floor(fetchData.totalCount / itemsPerPage)}
         scrollRef={listContainerRef}
         onChangeColumnSizing={(c) => {
           colSizing.current = c;
@@ -59,19 +41,19 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
       {actionsRef.current &&
         createPortal(
           <Box mr={1} color="fg.subtle" fontSize={1} display="flex" justifyContent="flex-end" alignItems="center">
-            {page + 1}
-            {totalPages ? `/${totalPages}` : ""}
+            {pagination.page + 1}
+            {pagination.totalPages ? `/${pagination.totalPages}` : ""}
             <ButtonGroup sx={{ ml: 2 }}>
               <IconButton
-                onClick={previousPage}
-                disabled={!previousPage}
+                onClick={pagination.previousPage}
+                disabled={!pagination.previousPage}
                 aria-label="Previous Page"
                 icon={ChevronLeftIcon}
                 size="small"
               />
               <IconButton
-                onClick={nextPage}
-                disabled={!nextPage}
+                onClick={pagination.nextPage}
+                disabled={!pagination.nextPage}
                 aria-label="Next Page"
                 icon={ChevronRightIcon}
                 size="small"

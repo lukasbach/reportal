@@ -1,18 +1,13 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Box, ButtonGroup, IconButton } from "@primer/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@primer/octicons-react";
-import { SearchInput } from "./search-input";
-import { ParsedSearchResult, parseSearch } from "../../common/filter-lists/search-utils";
-import { FieldSelector } from "./field-selector";
 import { ListTable } from "../table/list-table";
-import { useFetchListItems } from "../../common/filter-lists/use-fetch-list-items";
 import { FilterListProvider } from "./filter-list-context";
-import { usePagination } from "./use-pagination";
-import { useCalcPageSize } from "./use-calc-page-size";
 import { useTriggerPersist } from "../../common/use-trigger-persist";
 import { FilterListState } from "./types";
 import { getEndpoint } from "../../list-endpoints/endpoints";
 import { FilterListHeader } from "./filter-list-header";
+import { useListState } from "./use-list-state";
 
 export type FilterListPageProps = {
   data: FilterListState;
@@ -26,22 +21,9 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
   const endpoint = getEndpoint(data.endpointId);
   const [name, setName] = useState(data.name);
   const [pinned, setPinned] = useState(data.pinned);
-  const [search, setSearch] = useState<ParsedSearchResult>(parseSearch(data.search, endpoint));
-  const colSizing = useRef<Record<string, number>>({});
-  const [fields, setFields] = useState<string[]>(data.fields);
-  const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(37);
-  const { list, loadedCount, totalCount, fetchUntil, isFetching } = useFetchListItems(
-    endpoint,
-    search ?? null,
-    itemsPerPage,
-    30
-  );
-  const { pagination, nextPage, previousPage, page, totalPages, hasNextPage } = usePagination(
-    itemsPerPage,
-    totalCount,
-    loadedCount,
-    fetchUntil
-  );
+
+  const { itemsPerPage, search, setSearch, colSizing, fields, setFields, listContainerRef, fetchData, pagination } =
+    useListState(data);
 
   const markDirty = useTriggerPersist<FilterListState>(id, onUpdate, {
     endpointId: endpoint.id,
@@ -55,7 +37,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
   useEffect(markDirty, [markDirty, endpoint.name, search, fields]);
 
   return (
-    <FilterListProvider onChangeFields={setFields} data={list} fields={fields} endpoint={endpoint}>
+    <FilterListProvider onChangeFields={setFields} data={fetchData.list} fields={fields} endpoint={endpoint}>
       <Box display="flex" flexDirection="column" overflow="auto" height="100%">
         <Box p={2}>
           <FilterListHeader
@@ -68,15 +50,15 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
             setPinned={setPinned}
             fields={fields}
             setFields={setFields}
-            isFetching={isFetching}
+            isFetching={fetchData.isFetching}
             embedded={embedded}
           />
         </Box>
         <Box flexGrow={1} overflow="auto">
           <ListTable
-            expandItems={hasNextPage && !isFetching}
-            pagination={pagination}
-            pageCount={Math.floor(totalCount / itemsPerPage)}
+            expandItems={pagination.hasNextPage && !fetchData.isFetching}
+            pagination={pagination.pagination}
+            pageCount={Math.floor(fetchData.totalCount / itemsPerPage)}
             scrollRef={listContainerRef}
             onChangeColumnSizing={(c) => {
               colSizing.current = c;
@@ -86,16 +68,21 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
           />
         </Box>
         <Box p={2} color="fg.subtle" fontSize={1} display="flex" justifyContent="flex-end" alignItems="center">
-          {totalCount ? `${totalCount} items. ` : ""}Page {page + 1}
-          {totalPages ? ` of ${totalPages}` : ""}.
+          {fetchData.totalCount ? `${fetchData.totalCount} items. ` : ""}Page {pagination.page + 1}
+          {pagination.totalPages ? ` of ${pagination.totalPages}` : ""}.
           <ButtonGroup sx={{ ml: 2 }}>
             <IconButton
-              onClick={previousPage}
-              disabled={!previousPage}
+              onClick={pagination.previousPage}
+              disabled={!pagination.previousPage}
               aria-label="Previous Page"
               icon={ChevronLeftIcon}
             />
-            <IconButton onClick={nextPage} disabled={!nextPage} aria-label="Next Page" icon={ChevronRightIcon} />
+            <IconButton
+              onClick={pagination.nextPage}
+              disabled={!pagination.nextPage}
+              aria-label="Next Page"
+              icon={ChevronRightIcon}
+            />
           </ButtonGroup>
           {actions}
         </Box>

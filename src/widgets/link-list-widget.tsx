@@ -36,7 +36,11 @@ const ConfigComponent: WidgetConfigComponent<LinkListWidgetConfig> = ({ config, 
   );
 };
 
-const DisplayComponent: WidgetDisplayComponent<LinkListWidgetConfig> = ({ config }) => {
+const DisplayComponent: WidgetDisplayComponent<LinkListWidgetConfig> = ({ config, onEdit }) => {
+  if (config.links.trim() === "") {
+    return <ConfigureWidgetEmptyState onEdit={onEdit} />;
+  }
+
   return (
     <ActionList>
       {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}

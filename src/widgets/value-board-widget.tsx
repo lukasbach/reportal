@@ -5,6 +5,7 @@ import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets
 import { ValueBoardConfigItem } from "../components/value-board/value-board-config-item";
 import { EmbeddedFilterListPayload } from "../components/filter-list/types";
 import { ValueBoardDisplayItem } from "../components/value-board/value-board-display-item";
+import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
 
 export type ValueBoardItem =
   | { type: "unset"; name: string; preset: string }
@@ -70,7 +71,11 @@ const ConfigComponent: WidgetConfigComponent<ValueBoardWidgetConfig> = ({ config
   );
 };
 
-const DisplayComponent: WidgetDisplayComponent<ValueBoardWidgetConfig> = ({ config }) => {
+const DisplayComponent: WidgetDisplayComponent<ValueBoardWidgetConfig> = ({ config, onEdit }) => {
+  if (config.items.length === 0) {
+    return <ConfigureWidgetEmptyState onEdit={onEdit} />;
+  }
+
   return (
     <Box
       sx={{ display: "flex", flexWrap: "wrap", alignContent: "center", justifyContent: "flex-start", height: "100%" }}

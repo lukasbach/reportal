@@ -8,6 +8,7 @@ import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-defi
 import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { RepoInput } from "../components/common/repo-input";
 import { useAuthStore } from "../auth";
+import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
 
 Chart.register(CategoryScale);
 Chart.register(LinearScale);
@@ -49,7 +50,7 @@ const ConfigComponent: WidgetConfigComponent<StargazerGraphWidgetConfig> = ({ co
   );
 };
 
-const DisplayComponent: WidgetDisplayComponent<StargazerGraphWidgetConfig> = ({ config }) => {
+const DisplayComponent: WidgetDisplayComponent<StargazerGraphWidgetConfig> = ({ config, onEdit }) => {
   const { theme } = useTheme();
   const { kit } = useAuthStore();
   const { data } = useQuery(
@@ -64,6 +65,10 @@ const DisplayComponent: WidgetDisplayComponent<StargazerGraphWidgetConfig> = ({ 
     () => (data ? StargazerGraphWidget.transformStargazers(data, 50, config.aggregate) : undefined),
     [data, config.aggregate]
   );
+
+  if (config.repo === "" || config.repo === "/") {
+    return <ConfigureWidgetEmptyState onEdit={onEdit} />;
+  }
 
   if (!graphData) {
     return null;

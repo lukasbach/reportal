@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { Box, Button, Dialog, Text } from "@primer/react";
-import { WidgetPayload } from "../../widgets/types";
+import { WidgetPayload } from "../../common/widgets/types";
 import { getWidgetDefinition } from "../../widgets/widget-definitions";
 import { useStableHandler } from "../../utils";
 

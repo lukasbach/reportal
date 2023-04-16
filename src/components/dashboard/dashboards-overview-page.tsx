@@ -2,7 +2,7 @@ import React, { FC, useMemo } from "react";
 import { Box, Button } from "@primer/react";
 import { GraphIcon } from "@primer/octicons-react";
 import { OverviewListItem } from "../common/overview-list/overview-list-item";
-import { DashboardConfigEntry } from "../../widgets/types";
+import { DashboardConfigEntry } from "../../common/widgets/types";
 import {
   useCreateDashboard,
   useDeleteDashboard,

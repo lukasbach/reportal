@@ -1,9 +1,9 @@
 import React, { FC, ReactNode } from "react";
 import { ValueBoardItem } from "../../widgets/value-board-widget";
-import { useCountListItems } from "../../list-endpoints/use-count-list-items";
+import { useCountListItems } from "../../common/filter-lists/use-count-list-items";
 import { getEndpoint } from "../../list-endpoints/endpoints";
 import { useUnwrapEmbeddedFilterListConfig } from "../filter-list/use-unwrap-embedded-filter-list-config";
-import { parseSearch } from "../../list-endpoints/search-utils";
+import { parseSearch } from "../../common/filter-lists/search-utils";
 import { ValueBoardStat } from "./value-board-stat";
 import { useRepoData } from "../../common/use-repo-data";
 import { resolveRecursiveSubitem } from "../../utils";

@@ -3,7 +3,8 @@ import { ActionList, ActionMenu } from "@primer/react";
 import type { ButtonBaseProps } from "@primer/react/lib/Button/types";
 import { endpoints } from "../../list-endpoints/endpoints";
 import { EndpointIcon } from "../common/endpoint-icon";
-import { ListEndpointDefinition } from "../../list-endpoints/types";
+
+import { ListEndpointDefinition } from "../../common/filter-lists/list-endpoint-definition";
 
 export type FilterListTypeSelectorProps = Omit<ButtonBaseProps, "onClick"> & {
   children: ReactNode;

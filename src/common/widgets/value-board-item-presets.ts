@@ -1,4 +1,4 @@
-import { ValueBoardItem } from "./value-board-widget";
+import { ValueBoardItem } from "../../widgets/value-board-widget";
 
 type Preset = {
   name: string;

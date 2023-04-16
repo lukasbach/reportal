@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import { ActionList, Box, IconButton, Spinner, TextInput, Token } from "@primer/react";
 import { PencilIcon, SearchIcon } from "@primer/octicons-react";
-import { ListEndpointDefinition } from "../../list-endpoints/types";
-import { ParsedSearchResult, parseSearch } from "../../list-endpoints/search-utils";
+import { ParsedSearchResult, parseSearch } from "../../common/filter-lists/search-utils";
+import { ListEndpointDefinition } from "../../common/filter-lists/list-endpoint-definition";
 
 export type SearchInputProps = {
   endpoint: ListEndpointDefinition;

@@ -6,7 +6,7 @@ import { Column, RowData } from "@tanstack/react-table";
 import { ValueBoardItem } from "../../widgets/value-board-widget";
 import { FilterListSelector } from "../common/filter-list-selector";
 import { RepoInput } from "../common/repo-input";
-import { valueBoardPresets, valueBoardPresetsList } from "../../widgets/value-board-item-presets";
+import { valueBoardPresets, valueBoardPresetsList } from "../../common/widgets/value-board-item-presets";
 
 export type ValueBoardConfigItemProps<T extends string = ValueBoardItem["type"]> = {
   config: ValueBoardItem & { type: T };

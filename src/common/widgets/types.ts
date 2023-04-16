@@ -1,6 +1,6 @@
 import { FC, RefObject } from "react";
 import { Layouts } from "react-grid-layout";
-import { FilterListState } from "../components/filter-list/types";
+import { FilterListState } from "../../components/filter-list/types";
 
 export type WidgetConfigComponent<T> = FC<{
   config: T;

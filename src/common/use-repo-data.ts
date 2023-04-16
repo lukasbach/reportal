@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { constructGithubSearch } from "../list-endpoints/search-utils";
+import { constructGithubSearch } from "./filter-lists/search-utils";
 import { useAuthStore } from "../auth";
 
 const query = `

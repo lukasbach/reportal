@@ -1,6 +1,7 @@
 /* eslint-disable no-continue */
-import { FilterValue, ListEndpointDefinition, ResponseField, ServerFilter, UnclassifiedFilter } from "./types";
-import { isNotNullish, resolveRecursiveSubitem } from "../utils";
+import { FilterValue, ResponseField, ServerFilter, UnclassifiedFilter } from "./types";
+import { isNotNullish, resolveRecursiveSubitem } from "../../utils";
+import { ListEndpointDefinition } from "./list-endpoint-definition";
 
 export const parseIntoFilters = (search: string) => {
   const filters: UnclassifiedFilter[] = [];

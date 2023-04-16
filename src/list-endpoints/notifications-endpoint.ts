@@ -1,6 +1,7 @@
-import { ListEndpointDefinition, SearchQueryDefinition } from "./types";
-import { cellRenderers } from "./cell-renderers";
-import { repositoryResponseFields } from "./common-response-fields";
+import { SearchQueryDefinition } from "../common/filter-lists/types";
+import { cellRenderers } from "../common/filter-lists/cell-renderers";
+import { repositoryResponseFields } from "../common/filter-lists/common-response-fields";
+import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 
 export class NotificationsEndpoint extends ListEndpointDefinition<any> {
   override readonly id = "notifications";

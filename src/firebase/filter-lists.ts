@@ -4,7 +4,8 @@ import { getListDoc, listCollection } from "./db";
 import { useAuthStore } from "../auth";
 import { useStableHandler } from "../utils";
 import { FilterListStateEntry } from "../components/filter-list/types";
-import { ListEndpointDefinition } from "../list-endpoints/types";
+
+import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 
 export const useGetFilterLists = () => useCollection(query(listCollection, where("user", "==", useAuthStore().uid)));
 

@@ -1,7 +1,8 @@
 import { useMemo } from "react";
-import { useAuthStore } from "../auth";
+import { useAuthStore } from "../../auth";
 import { ParsedSearchResult } from "./search-utils";
-import { ListEndpointDefinition } from "./types";
+
+import { ListEndpointDefinition } from "./list-endpoint-definition";
 
 export const useEndpointQueryFn = (
   search: ParsedSearchResult | null,

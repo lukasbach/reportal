@@ -1,6 +1,7 @@
 import { Octokit } from "@octokit/rest";
-import { FilterValue, ListEndpointDefinition, SearchQueryDefinition, ServerFilter } from "./types";
-import { cellRenderers } from "./cell-renderers";
+import { FilterValue, SearchQueryDefinition, ServerFilter } from "../common/filter-lists/types";
+import { cellRenderers } from "../common/filter-lists/cell-renderers";
+import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 
 export class EventsEndpoint extends ListEndpointDefinition<any> {
   override readonly id = "events";

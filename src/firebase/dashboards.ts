@@ -3,7 +3,7 @@ import { addDoc, deleteDoc, query, updateDoc, where } from "firebase/firestore";
 import { dashboardCollection, getDashboardDoc } from "./db";
 import { useAuthStore } from "../auth";
 import { useStableHandler } from "../utils";
-import { DashboardConfigEntry } from "../widgets/types";
+import { DashboardConfigEntry } from "../common/widgets/types";
 
 export const useGetDashboards = () =>
   useCollection(query(dashboardCollection, where("user", "==", useAuthStore().uid)));

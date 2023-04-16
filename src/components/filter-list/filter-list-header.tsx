@@ -6,7 +6,7 @@ import { SearchInput } from "./search-input";
 import { FieldSelector } from "./field-selector";
 import { getEndpoint } from "../../list-endpoints/endpoints";
 import { FilterListState } from "./types";
-import { ParsedSearchResult } from "../../list-endpoints/search-utils";
+import { ParsedSearchResult } from "../../common/filter-lists/search-utils";
 import { EndpointIcon } from "../common/endpoint-icon";
 
 export type FilterListHeaderProps = {

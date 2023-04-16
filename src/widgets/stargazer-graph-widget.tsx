@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement } from "chart.js";
 import { Checkbox, FormControl, useTheme } from "@primer/react";
-import { AbstractWidgetDefinition } from "./abstract-widget-definition";
-import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
+import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
+import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { RepoInput } from "../components/common/repo-input";
 import { useAuthStore } from "../auth";
 

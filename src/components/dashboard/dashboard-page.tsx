@@ -2,7 +2,7 @@ import React, { FC, useMemo } from "react";
 import { useParams } from "react-router";
 import { DashboardContainer } from "./dashboard-container";
 import { useDashboardData, useUpdateDashboard } from "../../firebase/dashboards";
-import { DashboardConfig } from "../../widgets/types";
+import { DashboardConfig } from "../../common/widgets/types";
 
 export const DashboardPage: FC = () => {
   const { id } = useParams();

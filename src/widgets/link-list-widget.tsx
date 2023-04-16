@@ -1,8 +1,8 @@
 import React from "react";
 import { LinkIcon, RepoIcon } from "@primer/octicons-react";
 import { Textarea, Text, ActionList } from "@primer/react";
-import { AbstractWidgetDefinition } from "./abstract-widget-definition";
-import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
+import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
+import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { FilterListEmbeddedContainer } from "../components/filter-list/filter-list-embedded-container";
 import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
 import { useUnwrapEmbeddedFilterListConfig } from "../components/filter-list/use-unwrap-embedded-filter-list-config";

@@ -1,7 +1,7 @@
 import { IssueSearchEndpoint } from "./issue-search-endpoint";
 import { NotificationsEndpoint } from "./notifications-endpoint";
-import { ListEndpointDefinition } from "./types";
 import { EventsEndpoint } from "./events-endpoint";
+import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 
 export const endpoints: Record<string, ListEndpointDefinition> = {
   issues: new IssueSearchEndpoint(),

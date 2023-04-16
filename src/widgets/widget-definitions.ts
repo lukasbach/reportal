@@ -1,4 +1,4 @@
-import { AbstractWidgetDefinition } from "./abstract-widget-definition";
+import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
 import { FilterListWidget } from "./filter-list-widget";
 import { ValueBoardWidget } from "./value-board-widget";
 import { LinkListWidget } from "./link-list-widget";

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button } from "@primer/react";
-import { AbstractWidgetDefinition } from "./abstract-widget-definition";
-import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
+import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
+import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { ValueBoardConfigItem } from "../components/value-board/value-board-config-item";
 import { EmbeddedFilterListPayload } from "../components/filter-list/types";
 import { ValueBoardDisplayItem } from "../components/value-board/value-board-display-item";

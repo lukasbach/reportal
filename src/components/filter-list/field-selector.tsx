@@ -2,7 +2,8 @@ import React, { FC, useMemo, useState } from "react";
 import { SelectPanel, Button } from "@primer/react";
 
 import { TriangleDownIcon } from "@primer/octicons-react";
-import { ListEndpointDefinition } from "../../list-endpoints/types";
+
+import { ListEndpointDefinition } from "../../common/filter-lists/list-endpoint-definition";
 
 export type FieldSelectorProps = {
   endpoint: ListEndpointDefinition<any>;

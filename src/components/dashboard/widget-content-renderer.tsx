@@ -1,6 +1,6 @@
 import React, { FC, useRef } from "react";
 import { PinIcon } from "@primer/octicons-react";
-import { DashboardConfig } from "../../widgets/types";
+import { DashboardConfig } from "../../common/widgets/types";
 import { getWidgetDefinition } from "../../widgets/widget-definitions";
 import { WidgetContainer } from "./widget-container";
 

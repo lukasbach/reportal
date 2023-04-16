@@ -1,6 +1,6 @@
 import React from "react";
-import { AbstractWidgetDefinition } from "./abstract-widget-definition";
-import { WidgetConfigComponent, WidgetDisplayComponent } from "./types";
+import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
+import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { FilterListEmbeddedContainer } from "../components/filter-list/filter-list-embedded-container";
 import { useFilterListData } from "../firebase/filter-lists";
 import { FilterListSelector } from "../components/common/filter-list-selector";

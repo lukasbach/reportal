@@ -1,9 +1,9 @@
 import { Avatar, Box, RelativeTime, Text } from "@primer/react";
 import React from "react";
 import { ResponseField } from "./types";
-import { IssueStateIcon } from "../components/common/issue-state-icon";
-import { CellContentWithIcon } from "../components/common/cell-content-with-icon";
-import { EventTypeDescriptor } from "../components/common/event-type-descriptor";
+import { IssueStateIcon } from "../../components/common/issue-state-icon";
+import { CellContentWithIcon } from "../../components/common/cell-content-with-icon";
+import { EventTypeDescriptor } from "../../components/common/event-type-descriptor";
 
 export const cellRenderers = {
   issueTitle: () => (value, data) =>

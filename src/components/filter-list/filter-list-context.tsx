@@ -1,5 +1,6 @@
 import React, { useContext, FC, createContext, PropsWithChildren } from "react";
-import { ListEndpointDefinition } from "../../list-endpoints/types";
+
+import { ListEndpointDefinition } from "../../common/filter-lists/list-endpoint-definition";
 
 export type FilterListContextType = {
   endpoint: ListEndpointDefinition;

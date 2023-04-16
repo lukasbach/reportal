@@ -2,7 +2,7 @@ import { collection, doc, DocumentReference, getFirestore } from "firebase/fires
 import { CollectionReference } from "@firebase/firestore";
 import { FilterListStateEntry } from "../components/filter-list/types";
 import { firebaseApp } from "../firebase-app";
-import { DashboardConfigEntry } from "../widgets/types";
+import { DashboardConfigEntry } from "../common/widgets/types";
 
 export const db = getFirestore(firebaseApp);
 

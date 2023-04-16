@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import { filterByClientFilters, ParsedSearchResult } from "./search-utils";
-import { ListEndpointDefinition } from "./types";
-import { useFetchInitialPage } from "../components/filter-list/use-fetch-initial-page";
-import { useRefCopy, useStableHandler } from "../utils";
+import { useFetchInitialPage } from "../../components/filter-list/use-fetch-initial-page";
+import { useRefCopy, useStableHandler } from "../../utils";
 import { useEndpointQueryFn } from "./use-endpoint-query-fn";
+import { ListEndpointDefinition } from "./list-endpoint-definition";
 
 export const useFetchListItems = (
   endpoint: ListEndpointDefinition<any>,

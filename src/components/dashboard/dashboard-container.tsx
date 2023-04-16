@@ -3,11 +3,11 @@ import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import { ActionList, ActionMenu, Box } from "@primer/react";
 import { GraphIcon } from "@primer/octicons-react";
 import { widgetDefinitions } from "../../widgets/widget-definitions";
-import { DashboardConfig } from "../../widgets/types";
+import { DashboardConfig } from "../../common/widgets/types";
 import { WidgetContentRenderer } from "./widget-content-renderer";
 import { WidgetConfigDialog } from "./widget-config-dialog";
 import { useStableHandler } from "../../utils";
-import { AbstractWidgetDefinition } from "../../widgets/abstract-widget-definition";
+import { AbstractWidgetDefinition } from "../../common/widgets/abstract-widget-definition";
 import { useTriggerPersist } from "../../common/use-trigger-persist";
 import { PageHeader } from "../common/page-header";
 

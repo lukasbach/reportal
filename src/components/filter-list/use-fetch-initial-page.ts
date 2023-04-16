@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ParsedSearchResult } from "../../list-endpoints/search-utils";
+import { ParsedSearchResult } from "../../common/filter-lists/search-utils";
 
 export const useFetchInitialPage = (
   search: ParsedSearchResult | null,

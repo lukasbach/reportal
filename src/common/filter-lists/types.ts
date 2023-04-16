@@ -1,6 +1,5 @@
 import { Octokit } from "@octokit/rest";
 import { QueryFunctionContext, QueryKey } from "@tanstack/react-query";
-import { FilterListState } from "../components/filter-list/types";
 
 export type ResponseField = {
   jsonKey: string;
@@ -49,25 +48,3 @@ export type Action<T> = {
   name: string;
   action: (items: T[], octokit: Octokit) => Promise<void>;
 };
-
-export abstract class ListEndpointDefinition<T = any> {
-  abstract readonly id: string;
-
-  abstract readonly name: string;
-
-  abstract readonly defaultData: FilterListState;
-
-  abstract readonly responseFields: ResponseField[];
-
-  abstract readonly serverFilters: ServerFilter[];
-
-  abstract getSearchQueries(searchProps: ListSearchProps): SearchQueryDefinition;
-  abstract readonly actions: Action<T>[];
-
-  protected getFiltersAsMap(filters: FilterValue<ServerFilter>[]) {
-    return filters.reduce<Record<string, FilterValue<ServerFilter>>>((acc, filter) => {
-      acc[filter.filter.key] = filter;
-      return acc;
-    }, {});
-  }
-}

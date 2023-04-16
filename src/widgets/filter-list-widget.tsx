@@ -7,6 +7,7 @@ import { EmbeddedFilterListPayload } from "../components/filter-list/types";
 import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
 import { useUnwrapEmbeddedFilterListConfig } from "../components/filter-list/use-unwrap-embedded-filter-list-config";
 import { LoadingWidgetEmptyState } from "../components/common/empty-states/loading-widget-empty-state";
+import { EndpointIcon } from "../components/common/endpoint-icon";
 
 type FilterListWidgetConfig = {
   filterList: EmbeddedFilterListPayload;
@@ -54,6 +55,11 @@ export class FilterListWidget extends AbstractWidgetDefinition<FilterListWidgetC
   override displayComponent = DisplayComponent;
 
   override configComponent = ConfigComponent;
+
+  override iconComponent = ({ config }) => {
+    const { data } = useUnwrapEmbeddedFilterListConfig(config.filterList);
+    return <EndpointIcon endpointId={data?.endpointId ?? null} />;
+  };
 
   override async generateDefaultConfig(): Promise<FilterListWidgetConfig> {
     return {

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { InboxIcon, IssueOpenedIcon, RssIcon } from "@primer/octicons-react";
 
 export type EndpointIconProps = {
-  endpointId: string;
+  endpointId: string | null;
   size?: number;
 };
 

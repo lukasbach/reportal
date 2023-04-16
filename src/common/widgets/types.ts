@@ -13,6 +13,10 @@ export type WidgetDisplayComponent<T> = FC<{
   onEdit: () => void;
 }>;
 
+export type WidgetIconComponent<T> = FC<{
+  config: T;
+}>;
+
 export type WidgetPayload<T = any> = {
   config: T;
   name: string;

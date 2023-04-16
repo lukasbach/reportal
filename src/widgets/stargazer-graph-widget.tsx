@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement } from "chart.js";
 import { Checkbox, FormControl, useTheme } from "@primer/react";
+import { GraphIcon } from "@primer/octicons-react";
 import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { RepoInput } from "../components/common/repo-input";
@@ -101,6 +102,8 @@ export class StargazerGraphWidget extends AbstractWidgetDefinition<StargazerGrap
   override displayComponent = DisplayComponent;
 
   override configComponent = ConfigComponent;
+
+  override iconComponent = () => <GraphIcon size={16} />;
 
   override async generateDefaultConfig(): Promise<StargazerGraphWidgetConfig> {
     return {

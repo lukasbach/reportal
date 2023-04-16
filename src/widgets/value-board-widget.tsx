@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Button } from "@primer/react";
+import { RocketIcon } from "@primer/octicons-react";
 import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { ValueBoardConfigItem } from "../components/value-board/value-board-config-item";
@@ -95,6 +96,8 @@ export class ValueBoardWidget extends AbstractWidgetDefinition<ValueBoardWidgetC
   override displayComponent = DisplayComponent;
 
   override configComponent = ConfigComponent;
+
+  override iconComponent = () => <RocketIcon size={16} />;
 
   override async generateDefaultConfig(): Promise<ValueBoardWidgetConfig> {
     return {

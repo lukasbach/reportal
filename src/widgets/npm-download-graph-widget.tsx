@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { useTheme } from "@primer/react";
 import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement } from "chart.js";
+import { GraphIcon } from "@primer/octicons-react";
 import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { NpmConfigInput } from "../components/common/npm-config-input";
@@ -67,6 +68,8 @@ export class NpmDownloadGraphWidget extends AbstractWidgetDefinition<NpmDownload
   override displayComponent = DisplayComponent;
 
   override configComponent = ConfigComponent;
+
+  override iconComponent = () => <GraphIcon size={16} />;
 
   override async generateDefaultConfig(): Promise<NpmDownloadWidgetConfig> {
     return {

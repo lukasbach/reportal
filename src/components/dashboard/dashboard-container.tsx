@@ -24,11 +24,11 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
   const [editingWidget, setEditingWidget] = useState<string | null>(null);
   const [layouts, setLayouts] = useState<Layouts>(data.layouts);
   const [widgets, setWidgets] = useState(data.widgets);
-  const applyWidgetChanges = useStableHandler((newConfig: DashboardConfig["widgets"][string]) => {
+  const applyWidgetChanges = useStableHandler((newConfig: DashboardConfig["widgets"][string], name: string) => {
     if (!editingWidget) {
       return;
     }
-    setWidgets((old) => ({ ...old, [editingWidget]: { ...old[editingWidget], config: newConfig } }));
+    setWidgets((old) => ({ ...old, [editingWidget]: { ...old[editingWidget], name, config: newConfig } }));
   });
   const deleteEditingWidget = useStableHandler(() => {
     if (!editingWidget) {

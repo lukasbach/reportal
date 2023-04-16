@@ -66,6 +66,8 @@ export class LinkListWidget extends AbstractWidgetDefinition<LinkListWidgetConfi
 
   override iconComponent = () => <LinkIcon size={16} />;
 
+  override generalIconComponent = () => <LinkIcon size={16} />;
+
   override async generateDefaultConfig(): Promise<LinkListWidgetConfig> {
     return {
       links: "octocat/Hello-World\nhttps://google.com",

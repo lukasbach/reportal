@@ -88,6 +88,7 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
                 <ActionList sx={{ width: "240px" }}>
                   {Object.values(widgetDefinitions).map((widget) => (
                     <ActionList.Item key={widget.id} onClick={addWidget(widget)}>
+                      <ActionList.LeadingVisual>{widget.generalIconComponent({})}</ActionList.LeadingVisual>
                       {widget.name}
                     </ActionList.Item>
                   ))}

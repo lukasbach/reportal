@@ -99,6 +99,8 @@ export class ValueBoardWidget extends AbstractWidgetDefinition<ValueBoardWidgetC
 
   override iconComponent = () => <RocketIcon size={16} />;
 
+  override generalIconComponent = () => <RocketIcon size={16} />;
+
   override async generateDefaultConfig(): Promise<ValueBoardWidgetConfig> {
     return {
       items: [],

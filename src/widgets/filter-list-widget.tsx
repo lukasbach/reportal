@@ -1,4 +1,5 @@
 import React from "react";
+import { IssueOpenedIcon } from "@primer/octicons-react";
 import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { FilterListEmbeddedContainer } from "../components/filter-list/filter-list-embedded-container";
@@ -60,6 +61,8 @@ export class FilterListWidget extends AbstractWidgetDefinition<FilterListWidgetC
     const { data } = useUnwrapEmbeddedFilterListConfig(config.filterList);
     return <EndpointIcon endpointId={data?.endpointId ?? null} />;
   };
+
+  override generalIconComponent = () => <IssueOpenedIcon size={16} />;
 
   override async generateDefaultConfig(): Promise<FilterListWidgetConfig> {
     return {

@@ -71,6 +71,8 @@ export class NpmDownloadGraphWidget extends AbstractWidgetDefinition<NpmDownload
 
   override iconComponent = () => <GraphIcon size={16} />;
 
+  override generalIconComponent = () => <GraphIcon size={16} />;
+
   override async generateDefaultConfig(): Promise<NpmDownloadWidgetConfig> {
     return {
       packageName: "axios",

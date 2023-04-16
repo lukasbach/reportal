@@ -105,6 +105,8 @@ export class StargazerGraphWidget extends AbstractWidgetDefinition<StargazerGrap
 
   override iconComponent = () => <GraphIcon size={16} />;
 
+  override generalIconComponent = () => <GraphIcon size={16} />;
+
   override async generateDefaultConfig(): Promise<StargazerGraphWidgetConfig> {
     return {
       repo: "octocat/Hello-World",

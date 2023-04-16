@@ -76,6 +76,7 @@ export const tableStyles = {
     },
   },
   row: {
+    height: "40px",
     cursor: "pointer",
     borderBottom: "1px solid",
     borderColor: "border.muted",

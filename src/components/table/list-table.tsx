@@ -44,6 +44,8 @@ export const ListTable: FC<ListTableProps> = ({ pagination, pageCount, scrollRef
             ))}
           </Box>
         ))}
+        {/* important so that row items don't expand over the entire list */}
+        <div />
       </Box>
     </Box>
   );

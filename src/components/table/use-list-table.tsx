@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { resolveRecursiveSubitem } from "../../utils";
 import { useListState } from "../filter-list/use-list-state";
-import { ColumnSizing } from "../filter-list/types";
+import { ColumnSizing, RowSelection } from "../filter-list/types";
 
 export const useListTable = (
   { fields, pagination: { pagination }, endpoint, fetchData, itemsPerPage }: ReturnType<typeof useListState>,
@@ -10,6 +10,8 @@ export const useListTable = (
   onChangeColumnSizing?: (state: ColumnSizing) => void,
   canSelect = false
 ) => {
+  const [rowSelection, setRowSelection] = useState<RowSelection>({ 3: true, 4: true });
+
   const columnConfig = useMemo(() => {
     const columnHelper = createColumnHelper();
     return fields.map((field) => {
@@ -42,6 +44,7 @@ export const useListTable = (
     getCoreRowModel: getCoreRowModel(),
 
     enableMultiRowSelection: canSelect,
+    onRowSelectionChange: setRowSelection,
 
     columnResizeMode: "onChange",
     onColumnSizingChange: (updaterOrValue) => {
@@ -59,7 +62,7 @@ export const useListTable = (
 
     manualPagination: true,
     pageCount,
-    state: { pagination },
+    state: { pagination, rowSelection },
   });
-  return table;
+  return { table, rowSelection };
 };

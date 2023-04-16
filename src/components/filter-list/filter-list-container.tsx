@@ -9,6 +9,7 @@ import { getEndpoint } from "../../list-endpoints/endpoints";
 import { FilterListHeader } from "./filter-list-header";
 import { useListState } from "./use-list-state";
 import { useListTable } from "../table/use-list-table";
+import { SelectionMenu } from "./selection-menu";
 
 export type FilterListPageProps = {
   data: FilterListState;
@@ -35,14 +36,14 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
     name,
   });
 
-  const table = useListTable(
+  const { table, rowSelection } = useListTable(
     listState,
     fetchData.list,
     (state) => {
       colSizing.current = state;
       markDirty();
     },
-    embedded
+    !embedded
   );
 
   useEffect(markDirty, [markDirty, endpoint.name, search, fields]);
@@ -50,7 +51,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
   return (
     <FilterListProvider onChangeFields={setFields} data={fetchData.list} fields={fields} endpoint={endpoint}>
       <Box display="flex" flexDirection="column" overflow="auto" height="100%">
-        <Box p={2}>
+        <Box p={2} pb={0}>
           <FilterListHeader
             name={name}
             setName={setName}
@@ -65,6 +66,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
             embedded={embedded}
           />
         </Box>
+        <SelectionMenu data={fetchData.list} selection={rowSelection} endpoint={endpoint} />
         <Box flexGrow={1} overflow="auto">
           <ListTable
             scrollRef={listContainerRef}

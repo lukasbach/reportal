@@ -30,7 +30,7 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
 
   const markDirty = useTriggerPersist<ColumnSizing>(id, onChangeColSizing, colSizing.current);
 
-  const table = useListTable(
+  const { table } = useListTable(
     listState,
     fetchData.list,
     (state) => {

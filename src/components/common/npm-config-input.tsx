@@ -24,14 +24,14 @@ export const NpmConfigInput: FC<NpmConfigInputProps> = ({ onChangeRange, range, 
           sx={{ width: "100%" }}
         />
       </FormControl>
-      <Box display="flex" width="100%">
+      <Box display="flex" width="100%" mt={2}>
         <SegmentedControl aria-label="Download Kind">
           {[
             { label: "Last Day", value: "last-day" },
             { label: "Last Week", value: "last-week" },
             { label: "Last Month", value: "last-month" },
             { label: "Last Year", value: "last-year" },
-            { label: "Custom Range", value: "2014-01-01:2014-01-31", custom: true },
+            { label: "Custom Range", value: "2023-01-01:2023-01-31", custom: true },
           ].map(({ label, value, custom }) => (
             <SegmentedControl.Button
               key={value}
@@ -45,7 +45,7 @@ export const NpmConfigInput: FC<NpmConfigInputProps> = ({ onChangeRange, range, 
           ))}
         </SegmentedControl>
         {!["last-day", "last-week", "last-month", "last-year"].includes(range) && (
-          <TextInput value={range} onChange={(e) => onChangeRange(e.target.name)} sx={{ flexGrow: 1, ml: 2 }} />
+          <TextInput value={range} onChange={(e) => onChangeRange(e.target.value)} sx={{ flexGrow: 1, ml: 2 }} />
         )}
       </Box>
     </>

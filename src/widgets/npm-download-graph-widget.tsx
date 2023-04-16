@@ -33,8 +33,8 @@ const DisplayComponent: WidgetDisplayComponent<NpmDownloadWidgetConfig> = ({ con
   const { theme } = useTheme();
   const { data } = useNpmRangeDownloadCount(config.packageName, config.range);
 
-  const labels = useMemo(() => data?.downloads.map((d) => d.day), [data]);
-  const downloads = useMemo(() => data?.downloads.map((d) => d.downloads), [data]);
+  const labels = useMemo(() => data?.downloads?.map((d) => d.day), [data]);
+  const downloads = useMemo(() => data?.downloads?.map((d) => d.downloads), [data]);
 
   if (!data) {
     return null;

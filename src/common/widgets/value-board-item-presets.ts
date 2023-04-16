@@ -45,6 +45,9 @@ export const valueBoardPresetsList: Preset[] = [
   defineGhPreset("releasesCount", "Releases Count", "releases.totalCount"),
   defineGhPreset("starsCount", "Stars", "stargazerCount"),
   defineGhPreset("latestReleaseName", "Latest Release Name", "latestRelease.name"),
+  definePreset("npmDownloadCount", "npmDownloadCount", "NPM Package Downloads", {
+    filterList: { type: "npmDownloadCount", packageName: "axios", range: "week" },
+  }),
 ];
 
 export const valueBoardPresets = valueBoardPresetsList.reduce((acc, preset) => {

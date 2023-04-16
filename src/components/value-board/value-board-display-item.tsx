@@ -7,6 +7,7 @@ import { parseSearch } from "../../common/filter-lists/search-utils";
 import { ValueBoardStat } from "./value-board-stat";
 import { useRepoData } from "../../common/use-repo-data";
 import { resolveRecursiveSubitem } from "../../utils";
+import { useNpmPointDownloadCount } from "../../common/use-npm-point-download-count";
 
 export type ValueBoardDisplayItemProps<T extends string = ValueBoardItem["type"]> = {
   config: ValueBoardItem & { type: T };
@@ -31,6 +32,14 @@ const RepoStatDisplay: FC<ValueBoardDisplayItemProps<"repoStat">> = ({ config })
   return <ValueBoardStat value={value} label={config.name} />;
 };
 
+const NpmDownloadCountDisplay: FC<ValueBoardDisplayItemProps<"npmDownloadCount">> = ({ config }) => {
+  const { data } = useNpmPointDownloadCount(config.packageName, config.range);
+  if (!data) {
+    return null;
+  }
+  return <ValueBoardStat value={data.downloads} label={config.name} />;
+};
+
 export const ValueBoardDisplayItem: FC<ValueBoardDisplayItemProps> = (props) => {
   const { config } = props;
   if (config.type === "filterListTotal") {
@@ -38,6 +47,9 @@ export const ValueBoardDisplayItem: FC<ValueBoardDisplayItemProps> = (props) => 
   }
   if (config.type === "repoStat") {
     return <RepoStatDisplay {...(props as any)} />;
+  }
+  if (config.type === "npmDownloadCount") {
+    return <NpmDownloadCountDisplay {...(props as any)} />;
   }
 
   return null;

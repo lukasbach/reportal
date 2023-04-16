@@ -21,6 +21,13 @@ export type ValueBoardItem =
       repo: string;
       statKey: string;
       renderAs?: "date" | "string";
+    }
+  | {
+      type: "npmDownloadCount";
+      name: string;
+      preset: string;
+      packageName: string;
+      range: string;
     };
 
 type ValueBoardWidgetConfig = {

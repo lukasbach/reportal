@@ -1,22 +1,23 @@
 import React, { FC } from "react";
-import { ActionList, ActionMenu, Box, FormControl, IconButton, TextInput } from "@primer/react";
+import { ActionList, ActionMenu, Box, FormControl, IconButton, SegmentedControl, TextInput } from "@primer/react";
 import { GrabberIcon, TrashIcon } from "@primer/octicons-react";
 import { useDrag, useDrop } from "react-dnd";
-import { Column, RowData } from "@tanstack/react-table";
 import { ValueBoardItem } from "../../widgets/value-board-widget";
 import { FilterListSelector } from "../common/filter-list-selector";
 import { RepoInput } from "../common/repo-input";
 import { valueBoardPresets, valueBoardPresetsList } from "../../common/widgets/value-board-item-presets";
 
 export type ValueBoardConfigItemProps<T extends string = ValueBoardItem["type"]> = {
+  // eslint-disable-next-line react/no-unused-prop-types
   config: ValueBoardItem & { type: T };
   onChange: (newConfig: ValueBoardItem & { type: T }) => void;
   // eslint-disable-next-line react/no-unused-prop-types
   onDelete: () => void;
+  // eslint-disable-next-line react/no-unused-prop-types
   onSwap: (from: ValueBoardItem, to: ValueBoardItem) => void;
 };
 
-const UnsetItemConfig: FC<ValueBoardConfigItemProps<"unset">> = ({ config, onChange }) => {
+const UnsetItemConfig: FC<ValueBoardConfigItemProps<"unset">> = ({ onChange }) => {
   return (
     <ActionMenu>
       <ActionMenu.Button sx={{ mt: 2 }} variant="primary">
@@ -50,6 +51,50 @@ const ItemWithRepoConfig: FC<ValueBoardConfigItemProps<"repoStat">> = ({ config,
       <FormControl>
         <FormControl.Label>Repo Name</FormControl.Label>
         <RepoInput value={config.repo} onChange={(repo) => onChange({ ...config, repo })} />
+      </FormControl>
+    </Box>
+  );
+};
+
+const NpmDownloadCountConfig: FC<ValueBoardConfigItemProps<"npmDownloadCount">> = ({ config, onChange }) => {
+  return (
+    <Box mt={3}>
+      <FormControl>
+        <FormControl.Label>NPM Package Name</FormControl.Label>
+        <TextInput
+          value={config.packageName}
+          onChange={(e) => {
+            onChange({ ...config, packageName: e.target.value });
+          }}
+          sx={{ width: "100%" }}
+        />
+        <Box display="flex" width="100%">
+          <SegmentedControl aria-label="Download Kind">
+            {[
+              { label: "Last Day", value: "last-day" },
+              { label: "Last Week", value: "last-week" },
+              { label: "Last Month", value: "last-month" },
+              { label: "Custom Range", value: "2014-01-01:2014-01-31", custom: true },
+            ].map(({ label, value, custom }) => (
+              <SegmentedControl.Button
+                key={value}
+                selected={
+                  config.range === value || (custom && !["last-day", "last-week", "last-month"].includes(config.range))
+                }
+                onClick={() => onChange({ ...config, range: value })}
+              >
+                {label}
+              </SegmentedControl.Button>
+            ))}
+          </SegmentedControl>
+          {!["last-day", "last-week", "last-month"].includes(config.range) && (
+            <TextInput
+              value={config.range}
+              onChange={(e) => onChange({ ...config, range: e.target.name })}
+              sx={{ flexGrow: 1, ml: 2 }}
+            />
+          )}
+        </Box>
       </FormControl>
     </Box>
   );
@@ -113,6 +158,7 @@ export const ValueBoardConfigItem: FC<ValueBoardConfigItemProps> = (props) => {
       {config.type === "unset" && <UnsetItemConfig {...(props as any)} />}
       {config.type === "filterListTotal" && <FilterListTotalItemConfig {...(props as any)} />}
       {config.type === "repoStat" && <ItemWithRepoConfig {...(props as any)} />}
+      {config.type === "npmDownloadCount" && <NpmDownloadCountConfig {...(props as any)} />}
     </Box>
   );
 };

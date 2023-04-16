@@ -1,15 +1,16 @@
 import React, { FC } from "react";
-import { ActionList, ActionMenu, Box } from "@primer/react";
+import { Box } from "@primer/react";
 import {
   useCreateFilterList,
   useDeleteFilterList,
   useGetFilterLists,
   useUpdateFilterList,
 } from "../../firebase/filter-lists";
-import { endpoints, getEndpoint } from "../../list-endpoints/endpoints";
+import { getEndpoint } from "../../list-endpoints/endpoints";
 import { EndpointIcon } from "../common/endpoint-icon";
 import { FilterListStateEntry } from "./types";
 import { OverviewListItem } from "../common/overview-list/overview-list-item";
+import { FilterListTypeSelector } from "./filter-list-type-selector";
 
 const FilterListItem: FC<{
   entry: FilterListStateEntry;
@@ -46,24 +47,9 @@ export const ListsOverviewPage: FC = () => {
   const createFilterList = useCreateFilterList();
   return (
     <Box p={4}>
-      <ActionMenu>
-        <ActionMenu.Button variant="primary" size="large">
-          Create new Filter List
-        </ActionMenu.Button>
-
-        <ActionMenu.Overlay>
-          <ActionList sx={{ width: "240px" }}>
-            {Object.values(endpoints).map((endpoint) => (
-              <ActionList.Item key={endpoint.id} onClick={() => createFilterList(endpoint)}>
-                <ActionList.LeadingVisual>
-                  <EndpointIcon endpointId={endpoint.id} size={16} />
-                </ActionList.LeadingVisual>
-                {endpoint.name}
-              </ActionList.Item>
-            ))}
-          </ActionList>
-        </ActionMenu.Overlay>
-      </ActionMenu>
+      <FilterListTypeSelector onClick={createFilterList} variant="primary" size="large">
+        Create new Filter List
+      </FilterListTypeSelector>
       <br />
       {value?.docs
         ?.sort((a, b) => a.data().state.name?.localeCompare(b.data().state.name))

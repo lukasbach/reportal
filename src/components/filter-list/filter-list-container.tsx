@@ -12,6 +12,7 @@ import { useCalcPageSize } from "./use-calc-page-size";
 import { useTriggerPersist } from "../../common/use-trigger-persist";
 import { FilterListState } from "./types";
 import { getEndpoint } from "../../list-endpoints/endpoints";
+import { FilterListHeader } from "./filter-list-header";
 
 export type FilterListPageProps = {
   data: FilterListState;
@@ -57,8 +58,18 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
     <FilterListProvider onChangeFields={setFields} data={list} fields={fields} endpoint={endpoint}>
       <Box display="flex" flexDirection="column" overflow="auto" height="100%">
         <Box p={2}>
-          <SearchInput endpoint={endpoint} onChange={setSearch} value={search} isLoading={isFetching} />
-          <FieldSelector endpoint={endpoint} fields={fields} setFields={setFields} />
+          <FilterListHeader
+            name={name}
+            setName={setName}
+            data={data}
+            search={search}
+            setSearch={setSearch}
+            pinned={pinned}
+            setPinned={setPinned}
+            fields={fields}
+            setFields={setFields}
+            isFetching={isFetching}
+          />
         </Box>
         <Box flexGrow={1} overflow="auto">
           <ListTable

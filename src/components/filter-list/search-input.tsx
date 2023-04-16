@@ -19,10 +19,13 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
   const overlayRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <Box position="relative">
+    <Box position="relative" flexGrow={1}>
       <Box display="flex" alignItems="center">
         <TextInput
           sx={{ flexGrow: 1 }}
+          contrast
+          loading={isLoading}
+          leadingVisual={SearchIcon}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           ref={inputRef}
@@ -37,14 +40,10 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
             onChange(parsed);
           }}
         />
-        {isLoading ? (
-          <Spinner size="small" sx={{ ml: 2 }} />
-        ) : (
-          parsed.search !== previousValue?.search && (
-            <Box ml={2}>
-              <PencilIcon size={16} />
-            </Box>
-          )
+        {parsed.search !== previousValue?.search && (
+          <Box ml={2}>
+            <PencilIcon size={16} />
+          </Box>
         )}
       </Box>
       <Box

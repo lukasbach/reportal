@@ -71,7 +71,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
           <ListTable
             scrollRef={listContainerRef}
             expandItems={pagination.hasNextPage && !fetchData.isFetching}
-            canSelect={!embedded}
+            canSelect={false} // TODO !embedded
             table={table}
           />
         </Box>

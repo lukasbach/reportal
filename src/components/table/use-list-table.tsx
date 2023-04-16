@@ -10,7 +10,7 @@ export const useListTable = (
   onChangeColumnSizing?: (state: ColumnSizing) => void,
   canSelect = false
 ) => {
-  const [rowSelection, setRowSelection] = useState<RowSelection>({ 3: true, 4: true });
+  const [rowSelection, setRowSelection] = useState<RowSelection>({});
 
   const columnConfig = useMemo(() => {
     const columnHelper = createColumnHelper();

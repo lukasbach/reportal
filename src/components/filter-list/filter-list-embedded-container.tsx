@@ -8,6 +8,7 @@ import { useTriggerPersist } from "../../common/use-trigger-persist";
 import { FilterListState } from "./types";
 import { getEndpoint } from "../../list-endpoints/endpoints";
 import { useListState } from "./use-list-state";
+import { useListTable } from "../table/use-list-table";
 
 export type FilterListEmbeddedContainerProps = {
   data: FilterListState;
@@ -23,20 +24,29 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
   actionsRef,
 }) => {
   const endpoint = getEndpoint(data.endpointId);
-  const { itemsPerPage, colSizing, listContainerRef, fetchData, pagination } = useListState(data);
+
+  const listState = useListState(data);
+  const { colSizing, listContainerRef, fetchData, pagination } = listState;
+
   const markDirty = useTriggerPersist<Record<string, number>>(id, onChangeColSizing, colSizing.current);
+
+  const table = useListTable(
+    listState,
+    fetchData.list,
+    (state) => {
+      colSizing.current = state;
+      markDirty();
+    },
+    true
+  );
 
   return (
     <FilterListProvider onChangeFields={() => {}} data={fetchData.list} fields={data.fields} endpoint={endpoint}>
       <ListTable
-        expandItems={pagination.hasNextPage && !fetchData.isFetching}
-        pagination={pagination.pagination}
-        pageCount={Math.floor(fetchData.totalCount / itemsPerPage)}
         scrollRef={listContainerRef}
-        onChangeColumnSizing={(c) => {
-          colSizing.current = c;
-          markDirty();
-        }}
+        expandItems={pagination.hasNextPage && !fetchData.isFetching}
+        canSelect={false}
+        table={table}
       />
       {actionsRef.current &&
         createPortal(

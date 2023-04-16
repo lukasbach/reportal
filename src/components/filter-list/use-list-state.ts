@@ -25,5 +25,6 @@ export const useListState = (data: FilterListState) => {
     pagination,
     fetchData,
     itemsPerPage,
+    endpoint,
   };
 };

@@ -1,15 +1,14 @@
 import React, { useMemo } from "react";
-import { createColumnHelper, getCoreRowModel, PaginationState, useReactTable } from "@tanstack/react-table";
+import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { resolveRecursiveSubitem } from "../../utils";
-import { useFilterListContext } from "../filter-list/filter-list-context";
+import { useListState } from "../filter-list/use-list-state";
 
 export const useListTable = (
-  pagination: PaginationState,
-  pageCount: number,
+  { fields, pagination: { pagination }, endpoint, fetchData, itemsPerPage }: ReturnType<typeof useListState>,
+  data: any[],
   onChangeColumnSizing?: (state: Record<string, number>) => void,
   canSelect = false
 ) => {
-  const { data, endpoint, fields } = useFilterListContext();
   const columnConfig = useMemo(() => {
     const columnHelper = createColumnHelper();
     return fields.map((field) => {
@@ -28,6 +27,8 @@ export const useListTable = (
       );
     });
   }, [endpoint.responseFields, fields]);
+
+  const pageCount = Math.floor(fetchData.totalCount / itemsPerPage);
 
   const slicedData = useMemo(
     () => data.slice(pagination.pageIndex * pagination.pageSize, (pagination.pageIndex + 1) * pagination.pageSize),

@@ -8,6 +8,7 @@ import { FilterListState } from "./types";
 import { getEndpoint } from "../../list-endpoints/endpoints";
 import { FilterListHeader } from "./filter-list-header";
 import { useListState } from "./use-list-state";
+import { useListTable } from "../table/use-list-table";
 
 export type FilterListPageProps = {
   data: FilterListState;
@@ -22,8 +23,8 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
   const [name, setName] = useState(data.name);
   const [pinned, setPinned] = useState(data.pinned);
 
-  const { itemsPerPage, search, setSearch, colSizing, fields, setFields, listContainerRef, fetchData, pagination } =
-    useListState(data);
+  const listState = useListState(data);
+  const { search, setSearch, colSizing, fields, setFields, listContainerRef, fetchData, pagination } = listState;
 
   const markDirty = useTriggerPersist<FilterListState>(id, onUpdate, {
     endpointId: endpoint.id,
@@ -33,6 +34,16 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
     pinned,
     name,
   });
+
+  const table = useListTable(
+    listState,
+    fetchData.list,
+    (state) => {
+      colSizing.current = state;
+      markDirty();
+    },
+    embedded
+  );
 
   useEffect(markDirty, [markDirty, endpoint.name, search, fields]);
 
@@ -56,15 +67,10 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
         </Box>
         <Box flexGrow={1} overflow="auto">
           <ListTable
-            expandItems={pagination.hasNextPage && !fetchData.isFetching}
-            pagination={pagination.pagination}
-            pageCount={Math.floor(fetchData.totalCount / itemsPerPage)}
             scrollRef={listContainerRef}
-            onChangeColumnSizing={(c) => {
-              colSizing.current = c;
-              markDirty();
-            }}
-            onChangeSelection={console.log}
+            expandItems={pagination.hasNextPage && !fetchData.isFetching}
+            canSelect={!embedded}
+            table={table}
           />
         </Box>
         <Box p={2} color="fg.subtle" fontSize={1} display="flex" justifyContent="flex-end" alignItems="center">

@@ -1,30 +1,17 @@
 import React, { FC, MutableRefObject } from "react";
-import { flexRender, PaginationState } from "@tanstack/react-table";
+import { flexRender, Table } from "@tanstack/react-table";
 import { Box, Checkbox } from "@primer/react";
-import { useListTable } from "./use-list-table";
 import { tableStyles } from "./table-styles";
 import { TableHead } from "./table-head";
 
 export type ListTableProps = {
-  pagination: PaginationState;
-  pageCount: number;
   scrollRef: MutableRefObject<any>;
-  onChangeColumnSizing?: (state: Record<string, number>) => void;
   expandItems: boolean;
-  onChangeSelection?: () => void;
+  canSelect?: boolean;
+  table: Table<any>;
 };
 
-export const ListTable: FC<ListTableProps> = ({
-  pagination,
-  pageCount,
-  scrollRef,
-  onChangeColumnSizing,
-  expandItems,
-  onChangeSelection,
-}) => {
-  const canSelect = !!onChangeSelection;
-  const table = useListTable(pagination, pageCount, onChangeColumnSizing, canSelect);
-
+export const ListTable: FC<ListTableProps> = ({ scrollRef, expandItems, canSelect, table }) => {
   return (
     <Box as="table" sx={tableStyles.table}>
       <thead>

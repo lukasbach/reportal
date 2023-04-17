@@ -16,7 +16,6 @@ export const FilterListPage: FC = () => {
       id={id}
       data={data.state}
       onUpdate={(newId, newData) => {
-        console.log("Updating", newId, newData.name, "to firebase");
         update(newId, { state: newData, user: data.user });
       }}
     />

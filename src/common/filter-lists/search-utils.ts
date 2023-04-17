@@ -125,6 +125,15 @@ export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any
 
 export type ParsedSearchResult = ReturnType<typeof parseSearch>;
 
+export const cloneSearch = (search: ParsedSearchResult): ParsedSearchResult => JSON.parse(JSON.stringify(search));
+
+export const reconstructSearchString = (parsedSearch: ParsedSearchResult) => {
+  return [
+    ...parsedSearch.filters.map(({ key, value, negated }) => `${negated ? "-" : ""}${key}:${value}`),
+    ...parsedSearch.searchTerms.map((term) => (term.includes(" ") ? `"${term}"` : term)),
+  ].join(" ");
+};
+
 export const constructGithubSearch = (searchStrings: string[], filters: FilterValue<ServerFilter>[]) => {
   return [
     ...filters.map(({ filter, value, negated }) => `${negated ? "-" : ""}${filter.key}:${value}`),

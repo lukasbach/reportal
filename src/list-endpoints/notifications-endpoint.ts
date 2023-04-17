@@ -55,6 +55,10 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
     { key: "before" },
   ];
 
+  override orderByOptions = undefined;
+
+  override getSelectedOrderBy: undefined;
+
   override getSearchQueries(props): SearchQueryDefinition {
     const { octokit, filters, pageSize } = props;
     return async ({ pageParam }) => {

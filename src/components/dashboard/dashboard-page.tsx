@@ -31,7 +31,6 @@ export const DashboardPage: FC = () => {
         if (!data) {
           return;
         }
-        console.log("Updating", newId, newData, "to firebase");
         update(newId, {
           state: { ...newData, widgets: JSON.stringify(newData.widgets), layouts: JSON.stringify(newData.layouts) },
           user: data.user,

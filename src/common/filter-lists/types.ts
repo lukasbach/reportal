@@ -16,6 +16,12 @@ export type ServerFilter = {
   multiple?: boolean;
 };
 
+export type OrderByOption = {
+  name: string;
+  value: string;
+  key: string;
+};
+
 export type FilterValue<K> = {
   filter: K;
   value: string;
@@ -33,6 +39,8 @@ export type ListSearchProps = {
   filters: FilterValue<ServerFilter>[];
   pageSize: number;
   searchStrings: string[];
+  orderBy: OrderByOption;
+  orderDirection: "asc" | "desc";
 };
 
 export type SearchQueryDefinition = (ctx: QueryFunctionContext<QueryKey, string>) => Promise<{

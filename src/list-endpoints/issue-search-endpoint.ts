@@ -1,5 +1,5 @@
 import { SearchQueryDefinition } from "../common/filter-lists/types";
-import { constructGithubSearch } from "../common/filter-lists/search-utils";
+import { constructGithubSearch, ParsedSearchResult } from "../common/filter-lists/search-utils";
 import { cellRenderers } from "../common/filter-lists/cell-renderers";
 import { repositoryResponseFields } from "../common/filter-lists/common-response-fields";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
@@ -164,6 +164,20 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
     fieldWidths: {},
   };
 
+  override orderByOptions = [
+    { key: "sort", value: "comments", name: "Comment Count" },
+    { key: "sort", value: "created", name: "Created Date" },
+    { key: "sort", value: "updated", name: "Updated Date" },
+    { key: "sort", value: "reactions-+1", name: "Reactions +1" },
+    { key: "sort", value: "reactions--1", name: "Reactions -1" },
+    { key: "sort", value: "reactions-smile", name: "Reactions Smile" },
+    { key: "sort", value: "reactions-thinking_face", name: "Reactions Thinking Face" },
+    { key: "sort", value: "reactions-heart", name: "Reactions Heart" },
+    { key: "sort", value: "reactions-tada", name: "Reactions Tada" },
+    { key: "sort", value: "interactions", name: "Interactions" },
+    { key: "sort", value: "best-match", name: "Best Match" },
+  ];
+
   override readonly responseFields = [
     { jsonKey: "number", name: "Number" },
     { jsonKey: "closed", name: "Closed" },
@@ -190,7 +204,11 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
     { key: "state", suggestions: ["open", "closed"] },
     { key: "is", suggestions: ["open", "closed", "queued", "public", "private"], multiple: true },
     { key: "reason", suggestions: ["completed", "not planned"] },
+    ...this.getOrderByFilterKeys(this.orderByOptions),
   ];
+
+  override getSelectedOrderBy = (search: ParsedSearchResult) =>
+    this.orderByOptions.find((option) => search.filters.find((f) => f.key === "sort")?.value === option.value);
 
   override getSearchQueries(props): SearchQueryDefinition {
     const { octokit, filters, searchStrings, pageSize } = props;

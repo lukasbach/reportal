@@ -60,6 +60,10 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
     { key: "public", isBoolean: true },
   ];
 
+  override orderByOptions = undefined;
+
+  override getSelectedOrderBy: undefined;
+
   override getSearchQueries(props): SearchQueryDefinition {
     const { octokit, filters, pageSize } = props;
     return async ({ pageParam }) => {

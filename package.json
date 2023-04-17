@@ -66,6 +66,8 @@
     "@react-hookz/web": "^23.0.0",
     "@tanstack/react-query": "^4.28.0",
     "@tanstack/react-table": "^8.8.5",
+    "@types/byte-size": "^8.1.0",
+    "byte-size": "^8.1.0",
     "chart.js": "^4.2.1",
     "firebase": "^9.19.1",
     "graphql": "^16.6.0",

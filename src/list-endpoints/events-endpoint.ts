@@ -44,7 +44,7 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
       ],
       renderCell: cellRenderers.eventType(),
     },
-    { jsonKey: "actor.login", name: "Actor Login", renderCell: cellRenderers.author("actor", "avatar_url") },
+    { jsonKey: "actor.login", name: "Actor Login", renderCell: cellRenderers.author("actor", "login", "avatar_url") },
     { jsonKey: "repo.name", name: "Repo Name" },
     { jsonKey: "public", name: "Public", isBoolean: true },
     { jsonKey: "created_at", name: "Created Date", renderCell: cellRenderers.date() },

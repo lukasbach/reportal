@@ -4,6 +4,7 @@ import { SelectPanel, Button } from "@primer/react";
 import { TriangleDownIcon } from "@primer/octicons-react";
 
 import { ListEndpointDefinition } from "../../common/filter-lists/list-endpoint-definition";
+import { isNotNullish } from "../../utils";
 
 export type FieldSelectorProps = {
   endpoint: ListEndpointDefinition<any>;
@@ -27,9 +28,11 @@ export const FieldSelector: FC<FieldSelectorProps> = ({ endpoint, fields, setFie
 
   const filteredItems = useMemo(() => {
     if (!filter) return items;
+    console.log("!!", items);
     return items.filter((item) => item.text.toLowerCase().indexOf(filter.toLowerCase()) >= 0);
   }, [filter, items]);
 
+  console.log("!!2", filteredItems, items);
   return (
     <SelectPanel
       renderAnchor={({ children, "aria-labelledby": ariaLabelledBy, ...anchorProps }) => (
@@ -41,7 +44,7 @@ export const FieldSelector: FC<FieldSelectorProps> = ({ endpoint, fields, setFie
       open={open}
       onOpenChange={setOpen}
       items={filteredItems}
-      selected={fields.map((f) => items.find((i) => i.id === f)!)}
+      selected={fields.map((f) => items.find((i) => i.id === f)).filter(isNotNullish)}
       onSelectedChange={(items) => setFields(items.map((i) => i.id as string))}
       onFilterChange={setFilter}
       overlayProps={{ width: "small", height: "large" }}

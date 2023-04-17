@@ -10,7 +10,7 @@ export const cellRenderers = {
   issueTitle: () => (value, data) =>
     (
       <CellContentWithIcon text={value}>
-        <IssueStateIcon state={value} isPr={data.url?.includes("pull")} />
+        <IssueStateIcon state={data.state} isPr={data.url?.includes("pull")} />
       </CellContentWithIcon>
     ),
   issueState: () => (value, data) =>

@@ -6,7 +6,15 @@ import { Sidebar } from "./sidebar";
 export const AppLayout: FC = () => {
   return (
     <Box display="flex" height="100%">
-      <Box width="240px" bg="canvas.inset" borderColor="border.default" borderWidth="1px" borderStyle="solid">
+      <Box
+        width="240px"
+        minWidth="240px"
+        maxWidth="240px"
+        bg="canvas.inset"
+        borderColor="border.default"
+        borderWidth="1px"
+        borderStyle="solid"
+      >
         <Sidebar />
       </Box>
       <Box flexGrow={1} overflow="auto">

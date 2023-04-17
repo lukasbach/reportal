@@ -1,6 +1,7 @@
 import { Avatar, Box, RelativeTime, Text } from "@primer/react";
 import React from "react";
 import byteSize from "byte-size";
+import { CheckCircleFillIcon, CircleIcon } from "@primer/octicons-react";
 import { ResponseField } from "./types";
 import { IssueStateIcon } from "../../components/common/issue-state-icon";
 import { CellContentWithIcon } from "../../components/common/cell-content-with-icon";
@@ -39,4 +40,5 @@ export const cellRenderers = {
       </>
     );
   },
+  boolean: () => (value) => value ? <CheckCircleFillIcon size={16} /> : <span />,
 } satisfies Record<string, (...args: any[]) => ResponseField["renderCell"]>;

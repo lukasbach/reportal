@@ -79,6 +79,7 @@ export abstract class ListEndpointDefinition<T = any> {
     boolean: (name: string, jsonKey: string): ResponseField => ({
       jsonKey,
       name,
+      renderCell: cellRenderers.boolean(),
     }),
     enum: (name: string, jsonKey: string, options: string[]): ResponseField => ({
       jsonKey,

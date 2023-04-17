@@ -1,10 +1,10 @@
+import React from "react";
+import { Avatar } from "@primer/react";
 import { SearchQueryDefinition } from "../common/filter-lists/types";
 import { constructGithubSearch, ParsedSearchResult } from "../common/filter-lists/search-utils";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
-import React from "react";
 import { CellContentWithIcon } from "../components/common/cell-content-with-icon";
-import { Avatar } from "@primer/react";
 
 const repoSearchQuery = `
 query repoSearchQuery($search: String!, $first: Int!, $after: String) {
@@ -190,5 +190,7 @@ export class ReposSearchEndpoint extends ListEndpointDefinition {
     };
   }
 
-  override clickAction() {}
+  override clickAction(item) {
+    window.open(item.url, "_blank");
+  }
 }

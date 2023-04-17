@@ -99,14 +99,15 @@ export class DiscussionSearchEndpoint extends ListEndpointDefinition {
   ];
 
   override readonly responseFields = [
-    this.responseField.boolean("Lock Reason", "activeLockReason"),
+    this.responseField.text("Lock Reason", "activeLockReason"),
     this.responseField.date("Answer Chosen At", "answerChosenAt"),
     this.responseField.user("Answer Chosen By", "answerChosenBy"),
     this.responseField.user("Answer Author", "answer.author"),
     this.responseField.user("Author", "author"),
     this.responseField.text("Author Association", "authorAssociation"),
-    this.responseField.text("Category Emoji", "category.emoji"),
-    this.responseField.text("Category Emoji HTML", "category.emojiHTML"),
+    this.responseField.custom("Category Emoji", "category.emojiHTML", (value, data) => (
+      <div dangerouslySetInnerHTML={{ __html: value }} />
+    )),
     this.responseField.boolean("Category Is Answerable", "category.isAnswerable"),
     this.responseField.text("Category Name", "category.name"),
     this.responseField.text("Category Slug", "category.slug"),
@@ -164,5 +165,7 @@ export class DiscussionSearchEndpoint extends ListEndpointDefinition {
     };
   }
 
-  override clickAction() {}
+  override clickAction(item) {
+    window.open(item.url, "_blank");
+  }
 }

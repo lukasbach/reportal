@@ -86,7 +86,8 @@ const getSuggestions = (finalPart: string, search: string, endpoint: ListEndpoin
       text: `${jsonKey}:`,
       newValue: `${searchPrefix}${jsonKey}:`,
     }));
-  return [...serverFilterSuggestions, ...clientFilterSuggestions];
+  const all = [...serverFilterSuggestions, ...clientFilterSuggestions];
+  return all.filter((item, index) => all.findIndex((item2) => item2.text === item.text) === index);
 };
 
 export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any>) => {

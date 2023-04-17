@@ -82,7 +82,7 @@ export const tableStyles = {
     borderColor: "border.muted",
     minWidth: "100%",
     whiteSpace: "nowrap",
-    ":hover": { bg: "accent.subtle" },
+    ":hover": { bg: "canvas.subtle" },
     ":hover .checkbox-cell": {
       borderColor: "accent.fg",
     },

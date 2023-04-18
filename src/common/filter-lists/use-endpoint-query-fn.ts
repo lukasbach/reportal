@@ -1,15 +1,16 @@
 import { useMemo } from "react";
-import { useAuthStore } from "../../auth";
 import { ParsedSearchResult } from "./search-utils";
 
 import { ListEndpointDefinition } from "./list-endpoint-definition";
+import { useOctokit } from "../../auth/hooks";
 
 export const useEndpointQueryFn = (
   search: ParsedSearchResult | null,
   loadingPageSize: number,
   endpoint: ListEndpointDefinition | null
 ) => {
-  const { kit: octokit } = useAuthStore();
+  const octokit = useOctokit();
+  // TODO !!!! missing orderby props?
   return useMemo(
     () =>
       search && endpoint

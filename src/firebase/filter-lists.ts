@@ -1,20 +1,20 @@
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import { deleteDoc, addDoc, updateDoc, query, where } from "firebase/firestore";
 import { getListDoc, listCollection } from "./db";
-import { useAuthStore } from "../auth";
 import { useStableHandler } from "../utils";
 import { FilterListStateEntry } from "../components/filter-list/types";
 
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
+import { useUserId } from "../auth/hooks";
 
-export const useGetFilterLists = () => useCollection(query(listCollection, where("user", "==", useAuthStore().uid)));
+export const useGetFilterLists = () => useCollection(query(listCollection, where("user", "==", useUserId())));
 
 export const useGetPinnedFilterLists = () =>
-  useCollection(query(listCollection, where("user", "==", useAuthStore().uid), where("state.pinned", "==", true)));
+  useCollection(query(listCollection, where("user", "==", useUserId()), where("state.pinned", "==", true)));
 export const useFilterListData = (id: string | null) => useDocument<FilterListStateEntry>(id ? getListDoc(id) : null);
 
 export const useCreateFilterList = () => {
-  const { uid } = useAuthStore();
+  const uid = useUserId();
   return useStableHandler(async (endpoint: ListEndpointDefinition) => {
     const entry: FilterListStateEntry = {
       user: uid,

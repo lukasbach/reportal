@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAuthStore } from "../../auth";
 import { IssueOrPullRequest } from "../../gql/graphql";
+import { useOctokit } from "../../auth/hooks";
 
 const prQuery = /* GraphQL */ `
   query PrQuery($repo: String!, $owner: String!, $issue: Int!) {
@@ -140,7 +140,7 @@ const issueQuery = /* GraphQL */ `
 `;
 
 export const useIssueData = (repo: string, owner: string, issue: number, isPr = false) => {
-  const { kit } = useAuthStore();
+  const kit = useOctokit();
   return useQuery(["issue-data", repo, owner, issue], () =>
     kit.graphql<{ repository: { issue: IssueOrPullRequest } } | { repository: { pullRequest: IssueOrPullRequest } }>(
       isPr ? prQuery : issueQuery,

@@ -1,17 +1,18 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import { ActionList, Box, Text } from "@primer/react";
 import { Link, NavLink } from "react-router-dom";
 import { GraphIcon } from "@primer/octicons-react";
-import { getAuth } from "firebase/auth";
 import { useGetPinnedFilterLists } from "../../firebase/filter-lists";
 import { EndpointIcon } from "./endpoint-icon";
 import { useGetPinnedDashboards } from "../../firebase/dashboards";
+import { useLogout } from "../../auth/hooks";
 
 export type SidebarProps = {};
 
 export const Sidebar: FC<SidebarProps> = ({}) => {
   const [dashboards] = useGetPinnedDashboards();
   const [filterLists] = useGetPinnedFilterLists();
+  const { logout } = useLogout();
   return (
     <>
       <Box p={3}>
@@ -64,21 +65,7 @@ export const Sidebar: FC<SidebarProps> = ({}) => {
           </NavLink>
         </ActionList.Group>
         <ActionList.Divider />
-        <ActionList.Item
-          onClick={() => {
-            getAuth()
-              .signOut()
-              .then(() => {
-                window.location.href = "/";
-              })
-              .catch((error) => {
-                console.error(error);
-                // An error happened.
-              });
-          }}
-        >
-          Log Out
-        </ActionList.Item>
+        <ActionList.Item onClick={logout}>Log Out</ActionList.Item>
       </ActionList>
     </>
   );

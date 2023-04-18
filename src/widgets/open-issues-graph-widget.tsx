@@ -3,16 +3,16 @@ import { Octokit } from "@octokit/rest";
 import { useQuery } from "@tanstack/react-query";
 import { Line } from "react-chartjs-2";
 import { CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement } from "chart.js";
-import { Checkbox, FormControl, useTheme } from "@primer/react";
+import { useTheme } from "@primer/react";
 import { GraphIcon } from "@primer/octicons-react";
 import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { RepoInput } from "../components/common/repo-input";
-import { useAuthStore } from "../auth";
 import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
 import { LoadingEmptyState } from "../components/common/empty-states/loading-empty-state";
 import { IssueHistoryQueryQuery } from "../gql/graphql";
 import { isNotNullish } from "../utils";
+import { useOctokit } from "../auth/hooks";
 
 Chart.register(CategoryScale);
 Chart.register(LinearScale);
@@ -54,7 +54,7 @@ const ConfigComponent: WidgetConfigComponent<OpenIssuesGraphWidgetConfig> = ({ c
 
 const DisplayComponent: WidgetDisplayComponent<OpenIssuesGraphWidgetConfig> = ({ config, onEdit }) => {
   const { theme } = useTheme();
-  const { kit } = useAuthStore();
+  const kit = useOctokit();
   const { data } = useQuery(
     ["stargazers", config.repo],
     () =>

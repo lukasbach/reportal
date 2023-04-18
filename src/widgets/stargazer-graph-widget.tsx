@@ -8,9 +8,9 @@ import { GraphIcon } from "@primer/octicons-react";
 import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
 import { RepoInput } from "../components/common/repo-input";
-import { useAuthStore } from "../auth";
 import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
 import { LoadingEmptyState } from "../components/common/empty-states/loading-empty-state";
+import { useOctokit } from "../auth/hooks";
 
 Chart.register(CategoryScale);
 Chart.register(LinearScale);
@@ -54,7 +54,7 @@ const ConfigComponent: WidgetConfigComponent<StargazerGraphWidgetConfig> = ({ co
 
 const DisplayComponent: WidgetDisplayComponent<StargazerGraphWidgetConfig> = ({ config, onEdit }) => {
   const { theme } = useTheme();
-  const { kit } = useAuthStore();
+  const kit = useOctokit();
   const { data } = useQuery(
     ["stargazers", config.repo],
     () =>

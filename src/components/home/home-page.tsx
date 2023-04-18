@@ -1,9 +1,10 @@
 import React, { FC } from "react";
 import { Button } from "@primer/react";
-import { login } from "../../auth";
+import { useLogin } from "../../auth/hooks";
 
 export type HomePageProps = {};
 
 export const HomePage: FC<HomePageProps> = () => {
-  return <Button onClick={login}>Login</Button>;
+  const { signIn } = useLogin();
+  return <Button onClick={signIn}>Login</Button>;
 };

@@ -28,11 +28,9 @@ export const FieldSelector: FC<FieldSelectorProps> = ({ endpoint, fields, setFie
 
   const filteredItems = useMemo(() => {
     if (!filter) return items;
-    console.log("!!", items);
     return items.filter((item) => item.text.toLowerCase().indexOf(filter.toLowerCase()) >= 0);
   }, [filter, items]);
 
-  console.log("!!2", filteredItems, items);
   return (
     <SelectPanel
       renderAnchor={({ children, "aria-labelledby": ariaLabelledBy, ...anchorProps }) => (

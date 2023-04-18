@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { constructGithubSearch } from "./filter-lists/search-utils";
-import { useAuthStore } from "../auth";
+import { useOctokit } from "../auth/hooks";
 
 const query = `
   query repoDataQuery($owner:String!, $repo:String!) {
@@ -55,7 +54,7 @@ type Result = {
 };
 
 export const useRepoData = (owner: string, repo: string): Result | undefined => {
-  const { kit } = useAuthStore();
+  const kit = useOctokit();
 
   const result = useQuery({
     queryKey: ["repo-data", owner, repo],

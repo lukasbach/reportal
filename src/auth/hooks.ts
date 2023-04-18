@@ -7,25 +7,29 @@ import { GithubAuthProvider } from "firebase/auth";
 import { useNavigate } from "react-router";
 import { auth } from "./auth";
 
-export const useTokenStore = create(
-  combine({ token: localStorage.getItem("___gh") }, (set) => ({
-    setToken: (token: string) => {
-      set({ token });
-      localStorage.setItem("___gh", token);
+export const useGithubAuthStore = create(
+  combine({ token: localStorage.getItem("___ght"), login: localStorage.getItem("___ghl") }, (set) => ({
+    set: (token: string, login: string) => {
+      set({ token, login });
+      localStorage.setItem("___ght", token);
+      localStorage.setItem("___ghl", login);
     },
-    clearToken: () => {
+    clear: () => {
       set({ token: undefined });
-      localStorage.removeItem("___gh");
+      localStorage.removeItem("___ght");
+      localStorage.removeItem("___ghl");
     },
   }))
 );
 export const useOctokit = () => {
-  const token = useTokenStore((state) => state.token);
+  const token = useGithubAuthStore((state) => state.token);
   return useMemo(() => new Octokit({ auth: token }), [token]);
 };
 
+export const useAuth = () => useAuthState(auth);
+
 export const useUserId = () => {
-  const [user] = useAuthState(auth);
+  const [user] = useAuth();
   if (!user) {
     throw new Error("User is not logged in");
   }
@@ -46,7 +50,12 @@ export const useLogin = () => {
       throw new Error("Login was sucessful, but no github token could be retrieved.");
     }
 
-    useTokenStore.getState().setToken(token);
+    const kit = new Octokit({ auth: token });
+    const {
+      data: { login },
+    } = await kit.users.getAuthenticated();
+
+    useGithubAuthStore.getState().set(token, login);
     navigate("/app/dashboards");
     return result;
   }, [navigate, signInWithGithub]);
@@ -57,7 +66,7 @@ export const useLogout = () => {
   const navigate = useNavigate();
   const [signOut, loading, error] = useSignOut(auth);
   const logout = useCallback(async () => {
-    useTokenStore.getState().clearToken();
+    useGithubAuthStore.getState().clear();
     return signOut().then((r) => {
       navigate("/");
       return r;
@@ -68,7 +77,7 @@ export const useLogout = () => {
 export const useDeleteAccount = () => {
   const [deleteUser, loading, error] = useDeleteUser(auth);
   const deleteAccount = useCallback(async () => {
-    useTokenStore.getState().clearToken();
+    useGithubAuthStore.getState().clear();
     return deleteUser();
   }, [deleteUser]);
   return { deleteAccount, loading, error };

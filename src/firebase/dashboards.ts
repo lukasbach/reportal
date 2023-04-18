@@ -32,7 +32,7 @@ export const useCreateDashboard = () => {
         pinned: false,
       },
     };
-    await addDoc(dashboardCollection, entry);
+    return addDoc(dashboardCollection, entry);
   });
 };
 

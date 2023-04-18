@@ -31,8 +31,14 @@ export const DashboardPage: FC = () => {
         if (!data) {
           return;
         }
+        const state = {
+          ...newData,
+          widgets: JSON.stringify(newData.widgets),
+          layouts: JSON.stringify(newData.layouts),
+        };
+        // console.log(JSON.stringify(state));
         update(newId, {
-          state: { ...newData, widgets: JSON.stringify(newData.widgets), layouts: JSON.stringify(newData.layouts) },
+          state,
           user: data.user,
         });
       }}

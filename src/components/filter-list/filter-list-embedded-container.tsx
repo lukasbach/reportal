@@ -9,6 +9,7 @@ import { ColumnSizing, FilterListState } from "./types";
 import { getEndpoint } from "../../list-endpoints/endpoints";
 import { useListState } from "./use-list-state";
 import { useListTable } from "../table/use-list-table";
+import { LoadingEmptyState } from "../common/empty-states/loading-empty-state";
 
 export type FilterListEmbeddedContainerProps = {
   data: FilterListState;
@@ -39,6 +40,10 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
     },
     true
   );
+
+  if (fetchData.isFetching && !fetchData.list.length) {
+    return <LoadingEmptyState />;
+  }
 
   return (
     <FilterListProvider onChangeFields={() => {}} data={fetchData.list} fields={data.fields} endpoint={endpoint}>

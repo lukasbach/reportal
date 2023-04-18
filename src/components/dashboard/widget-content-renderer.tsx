@@ -18,6 +18,7 @@ export const WidgetContentRenderer: FC<WidgetContentRendererProps> = ({ widget, 
       icon={widgetDefinition.iconComponent({ config: widget.config })}
       actionsRef={actionsRef}
       onEdit={onEdit}
+      color={widget.color}
     >
       {widgetDefinition.displayComponent({ config: widget.config, actionsRef, onEdit })}
     </WidgetContainer>

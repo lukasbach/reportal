@@ -1,24 +1,28 @@
 import React, { FC, ReactNode, RefObject } from "react";
 import { Box, IconButton, Text } from "@primer/react";
 import { GrabberIcon, PencilIcon } from "@primer/octicons-react";
+import { widgetColors } from "./widget-colors";
 
 export type WidgetContainerProps = {
   children: ReactNode;
   title: string;
   icon: ReactNode;
+  color?: string;
   actionsRef: RefObject<HTMLDivElement>;
   onEdit: () => void;
 };
 
-export const WidgetContainer: FC<WidgetContainerProps> = ({ icon, children, onEdit, title, actionsRef }) => {
+export const WidgetContainer: FC<WidgetContainerProps> = ({ icon, children, onEdit, title, actionsRef, color }) => {
+  const colorObj = widgetColors[color ?? "default"];
+
   return (
     <Box
       sx={{
-        border: "1px solid",
-        borderColor: "border.default",
-        borderRadius: "8px",
         // bg: "canvas.subtle",
-        bg: "canvas.default",
+        bg: colorObj.bg,
+        border: "1px solid",
+        borderColor: colorObj.border,
+        borderRadius: "8px",
         boxShadow: "shadow.small",
         height: "100%",
         width: "100%",

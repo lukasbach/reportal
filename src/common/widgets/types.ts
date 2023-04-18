@@ -21,6 +21,7 @@ export type WidgetPayload<T = any> = {
   config: T;
   name: string;
   type: string;
+  color: string;
 };
 
 export type DashboardConfig = {

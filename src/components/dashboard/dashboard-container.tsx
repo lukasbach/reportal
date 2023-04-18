@@ -24,11 +24,11 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
   const [editingWidget, setEditingWidget] = useState<string | null>(null);
   const [layouts, setLayouts] = useState<Layouts>(data.layouts);
   const [widgets, setWidgets] = useState(data.widgets);
-  const applyWidgetChanges = useStableHandler((newConfig: DashboardConfig["widgets"][string], name: string) => {
+  const applyWidgetChanges = useStableHandler((newConfig: DashboardConfig["widgets"][string], name: string, color: string) => {
     if (!editingWidget) {
       return;
     }
-    setWidgets((old) => ({ ...old, [editingWidget]: { ...old[editingWidget], name, config: newConfig } }));
+    setWidgets((old) => ({ ...old, [editingWidget]: { ...old[editingWidget], name, color, config: newConfig } }));
   });
   const deleteEditingWidget = useStableHandler(() => {
     if (!editingWidget) {
@@ -52,7 +52,7 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
     const [w, h] = widget.defaultSize ?? [3, 1];
     setWidgets((old) => ({
       ...old,
-      [newId]: { name: widget.name, config, type: widget.id },
+      [newId]: { name: widget.name, config, type: widget.id, color: "default" },
     }));
     setLayouts((old) => {
       for (const key of Object.keys(old)) {

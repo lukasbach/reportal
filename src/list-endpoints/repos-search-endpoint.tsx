@@ -117,7 +117,6 @@ export class ReposSearchEndpoint extends ListEndpointDefinition {
     )),
     this.responseField.text("Description", "description"),
     this.responseField.date("Created Date", "createdAt"),
-    this.responseField.text("Description", "description"),
     this.responseField.diskUsage("Disk Usage", "diskUsage"),
     this.responseField.number("Fork Count", "forkCount"),
     this.responseField.boolean("Is Archived", "isArchived"),

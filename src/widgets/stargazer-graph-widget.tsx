@@ -56,7 +56,7 @@ const DisplayComponent: WidgetDisplayComponent<StargazerGraphWidgetConfig> = ({ 
   const { theme } = useTheme();
   const kit = useOctokit();
   const { data } = useQuery(
-    ["stargazers", config.repo],
+    ["stargazers-graphdata", config.repo],
     () =>
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       StargazerGraphWidget.fetchStargazers(config.repo, kit),

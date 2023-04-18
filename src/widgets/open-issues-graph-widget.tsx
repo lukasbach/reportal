@@ -56,7 +56,7 @@ const DisplayComponent: WidgetDisplayComponent<OpenIssuesGraphWidgetConfig> = ({
   const { theme } = useTheme();
   const kit = useOctokit();
   const { data } = useQuery(
-    ["stargazers", config.repo],
+    ["openissues-graphdata", config.repo],
     () =>
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       OpenIssuesGraphWidget.fetchIssues(config.repo, kit),

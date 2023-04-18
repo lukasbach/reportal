@@ -54,7 +54,7 @@ const testSuggestion = (suggestion: string, matchPart: string) => {
   );
 };
 
-const getSuggestions = (finalPart: string, search: string, endpoint: ListEndpointDefinition<any>) => {
+export const getSuggestions = (finalPart: string, search: string, endpoint: ListEndpointDefinition<any>) => {
   const searchPrefix = search.slice(0, search.length - finalPart.length);
 
   if (finalPart.includes(":")) {
@@ -120,8 +120,7 @@ export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any
         : null;
     })
     .filter(isNotNullish);
-  const suggestions = getSuggestions(finalItem, search, endpoint);
-  return { filters, searchTerms, finalItem, serverFilters, clientFilters, suggestions, search };
+  return { filters, searchTerms, finalItem, serverFilters, clientFilters, search };
 };
 
 export type ParsedSearchResult = ReturnType<typeof parseSearch>;

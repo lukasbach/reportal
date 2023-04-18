@@ -4,6 +4,7 @@ import { PencilIcon, SearchIcon } from "@primer/octicons-react";
 import { ParsedSearchResult, parseSearch } from "../../common/filter-lists/search-utils";
 import { ListEndpointDefinition } from "../../common/filter-lists/list-endpoint-definition";
 import { useSearchHelpers } from "../../common/filter-lists/use-search-helpers";
+import { useSuggestions } from "./use-suggestions";
 
 export type SearchInputProps = {
   endpoint: ListEndpointDefinition;
@@ -23,6 +24,7 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
     onChange(parseSearch(v, endpoint));
   });
   const orderBy = endpoint.getSelectedOrderBy?.(parsed);
+  const { suggestions, suggestionIndex } = useSuggestions(parsed, isFocused, endpoint, () => onChange(parsed));
 
   return (
     <Box position="relative" flexGrow={1}>
@@ -73,7 +75,7 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
       </Box>
       <Box
         ref={overlayRef}
-        sx={{ visibility: isFocused && parsed.suggestions.length > 0 ? "visible" : "hidden" }}
+        sx={{ visibility: isFocused && suggestions.length > 0 ? "visible" : "hidden" }}
         mt={1}
         position="absolute"
         zIndex={100}
@@ -88,7 +90,7 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
       >
         <ActionList role="listbox">
           <ActionList.Group>
-            {parsed.suggestions.map((suggestion) => (
+            {suggestions.map((suggestion, index) => (
               <ActionList.Item
                 role="option"
                 key={suggestion.newValue}
@@ -96,6 +98,8 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
                   inputRef.current?.focus();
                   setValue(suggestion.newValue);
                 }}
+                active={suggestionIndex === index}
+                className="suggestion-item"
               >
                 {suggestion.text}
               </ActionList.Item>

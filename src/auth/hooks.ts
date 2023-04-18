@@ -8,15 +8,16 @@ import { useNavigate } from "react-router";
 import { auth } from "./auth";
 
 export const useTokenStore = create(
-  combine(
-    { string: undefined } as {
-      token?: string;
+  combine({ token: localStorage.getItem("___gh") }, (set) => ({
+    setToken: (token: string) => {
+      set({ token });
+      localStorage.setItem("___gh", token);
     },
-    (set) => ({
-      setToken: (token: string) => set({ token }),
-      clearToken: () => set({ token: undefined }),
-    })
-  )
+    clearToken: () => {
+      set({ token: undefined });
+      localStorage.removeItem("___gh");
+    },
+  }))
 );
 export const useOctokit = () => {
   const token = useTokenStore((state) => state.token);

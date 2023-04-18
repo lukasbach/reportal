@@ -8,7 +8,8 @@ export const useSuggestions = (
   search: ParsedSearchResult,
   focused: boolean,
   endpoint: ListEndpointDefinition,
-  onSubmit: () => void
+  onSubmit: () => void,
+  onClose: () => void
 ) => {
   const suggestions = useMemo(
     () => getSuggestions(search.finalItem, search.search, endpoint),
@@ -54,6 +55,12 @@ export const useSuggestions = (
     if (isFocusedRef.current && suggestions.length > 0) {
       e.preventDefault();
       (document.getElementsByClassName("suggestion-item").item(suggestionIndex) as HTMLDivElement)?.click();
+    }
+  });
+
+  useKeyboardEvent("Escape", () => {
+    if (isFocusedRef.current) {
+      onClose();
     }
   });
 

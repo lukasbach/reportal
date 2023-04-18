@@ -24,7 +24,13 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
     onChange(parseSearch(v, endpoint));
   });
   const orderBy = endpoint.getSelectedOrderBy?.(parsed);
-  const { suggestions, suggestionIndex } = useSuggestions(parsed, isFocused, endpoint, () => onChange(parsed));
+  const { suggestions, suggestionIndex } = useSuggestions(
+    parsed,
+    isFocused,
+    endpoint,
+    () => onChange(parsed),
+    () => setIsFocused(false)
+  );
 
   return (
     <Box position="relative" flexGrow={1}>
@@ -35,7 +41,10 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
           loading={isLoading}
           leadingVisual={SearchIcon}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            setValue(e.target.value);
+            setIsFocused(true);
+          }}
           ref={inputRef}
           width="100%"
           onFocus={() => setIsFocused(true)}

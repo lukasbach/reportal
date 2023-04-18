@@ -1,5 +1,5 @@
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
-import { deleteDoc, addDoc, updateDoc, query, where } from "firebase/firestore";
+import { deleteDoc, addDoc, updateDoc, query, where, orderBy } from "firebase/firestore";
 import { getListDoc, listCollection } from "./db";
 import { useStableHandler } from "../utils";
 import { FilterListStateEntry } from "../components/filter-list/types";
@@ -7,10 +7,13 @@ import { FilterListStateEntry } from "../components/filter-list/types";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { useUserId } from "../auth/hooks";
 
-export const useGetFilterLists = () => useCollection(query(listCollection, where("user", "==", useUserId())));
+export const useGetFilterLists = () =>
+  useCollection(query(listCollection, where("user", "==", useUserId()), orderBy("state.name")));
 
 export const useGetPinnedFilterLists = () =>
-  useCollection(query(listCollection, where("user", "==", useUserId()), where("state.pinned", "==", true)));
+  useCollection(
+    query(listCollection, where("user", "==", useUserId()), where("state.pinned", "==", true), orderBy("state.name"))
+  );
 export const useFilterListData = (id: string | null) => useDocument<FilterListStateEntry>(id ? getListDoc(id) : null);
 
 export const useCreateFilterList = () => {

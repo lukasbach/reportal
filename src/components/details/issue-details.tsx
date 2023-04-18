@@ -24,7 +24,7 @@ export const IssueDetails: FC<IssueDetailsProps> = ({ issueProps }) => {
   }
 
   return (
-    <Box>
+    <>
       <Box p={4} display="flex" borderBottom="1px solid" borderColor="border.default">
         <Box flexGrow={1}>
           <Text as="p" m={0} fontSize={1} color="fg.muted">
@@ -62,7 +62,7 @@ export const IssueDetails: FC<IssueDetailsProps> = ({ issueProps }) => {
           <IconButton icon={XIcon} onClick={close} aria-label="Close" />
         </Box>
       </Box>
-      <Box bg="canvas.subtle">
+      <Box bg="canvas.subtle" flexGrow={1}>
         <IssueDetailsComment comment={issue as any} />
         {issue.comments.totalCount > 50 && (
           <Timeline sx={{ ml: 6 }}>
@@ -94,6 +94,6 @@ export const IssueDetails: FC<IssueDetailsProps> = ({ issueProps }) => {
           </Timeline.Item>
         </Timeline>
       </Box>
-    </Box>
+    </>
   );
 };

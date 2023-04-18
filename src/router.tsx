@@ -7,6 +7,7 @@ import { FilterListPage } from "./components/filter-list/filter-list-page";
 import { DashboardPage } from "./components/dashboard/dashboard-page";
 import { DashboardsOverviewPage } from "./components/dashboard/dashboards-overview-page";
 import { withAuthWrapper } from "./auth/with-auth-wrapper";
+import { AppMainpageReroute } from "./app-mainpage-reroute";
 
 export const router = createHashRouter([
   {
@@ -17,6 +18,7 @@ export const router = createHashRouter([
     path: "/app",
     element: withAuthWrapper(<AppLayout />),
     children: [
+      { path: "", element: <AppMainpageReroute /> },
       {
         path: "dashboards",
         element: <DashboardsOverviewPage />,

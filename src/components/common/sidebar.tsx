@@ -16,7 +16,7 @@ export const Sidebar: FC<SidebarProps> = () => {
   return (
     <>
       <Box p={3}>
-        <Link to="/app" className="unstyled-link">
+        <Link to="/app/dashboards" className="unstyled-link">
           <Box
             fontSize={5}
             textAlign="center"

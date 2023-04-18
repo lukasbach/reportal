@@ -3,9 +3,7 @@ import { LinkIcon, RepoIcon } from "@primer/octicons-react";
 import { Textarea, Text, ActionList } from "@primer/react";
 import { AbstractWidgetDefinition } from "../common/widgets/abstract-widget-definition";
 import { WidgetConfigComponent, WidgetDisplayComponent } from "../common/widgets/types";
-import { FilterListEmbeddedContainer } from "../components/filter-list/filter-list-embedded-container";
 import { ConfigureWidgetEmptyState } from "../components/common/empty-states/configure-widget-empty-state";
-import { useUnwrapEmbeddedFilterListConfig } from "../components/filter-list/use-unwrap-embedded-filter-list-config";
 import { isNotNullish } from "../utils";
 
 type LinkListWidgetConfig = {
@@ -24,7 +22,7 @@ const ConfigComponent: WidgetConfigComponent<LinkListWidgetConfig> = ({ config, 
     <>
       <Text fontSize={1}>
         Enter one link per line. You can enter &quot;user/repo&quot; to link to a repo, or a full URL to link to any
-        other page.
+        other page. Seperate the link from the label with a space.
       </Text>
       <Textarea
         sx={{ width: "100%" }}
@@ -70,7 +68,7 @@ export class LinkListWidget extends AbstractWidgetDefinition<LinkListWidgetConfi
 
   override async generateDefaultConfig(): Promise<LinkListWidgetConfig> {
     return {
-      links: "octocat/Hello-World\nhttps://google.com",
+      links: "octocat/Hello-World\nhttps://google.com Link Description goes here",
     };
   }
 
@@ -80,18 +78,22 @@ export class LinkListWidget extends AbstractWidgetDefinition<LinkListWidgetConfi
     return links
       .split("\n")
       .map((line) => {
-        if (line.startsWith("http")) {
+        const [url, ...labelParts] = line.split(" ");
+        const label = labelParts.join(" ");
+        if (url.startsWith("http")) {
           return {
-            text: /https?:\/\/([^/]+)/.exec(line)?.[1] ?? line,
-            url: line,
+            text: label ?? /https?:\/\/([^/]+)/.exec(url)?.[1] ?? url,
+            url,
             icon: <LinkIcon size={16} />,
+            label: label ? /https?:\/\/([^/]+)/.exec(url)?.[1] ?? url : undefined,
           };
         }
-        if (/^[a-z0-9-]+\/[a-z0-9-]+$/i.test(line)) {
+        if (/^[a-z0-9-]+\/[a-z0-9-]+$/i.test(url)) {
           return {
-            text: line,
-            url: `https://github.com/${line}`,
+            text: url,
+            url: `https://github.com/${url}`,
             icon: <RepoIcon size={16} />,
+            label,
           };
         }
         return null;

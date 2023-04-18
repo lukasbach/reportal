@@ -55,7 +55,7 @@ export const DashboardsOverviewPage: FC = () => {
         subtitle="Manage your dashboards, or create a new one. You can use dashboards to keep track of issue and PR counts, create repo-related graphs, or embed multiple filter lists into one page."
         icon={<GraphIcon />}
       >
-        <Box display="flex">
+        <Box display="flex" ml={2}>
           <Button size="large" sx={{ mr: 2 }} onClick={createFromTemplate} ref={returnRef}>
             Create from template...
           </Button>

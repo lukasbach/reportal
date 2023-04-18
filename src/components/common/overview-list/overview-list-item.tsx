@@ -1,6 +1,6 @@
 import React, { FC, useRef } from "react";
 import { Box, Button, ButtonGroup, Text } from "@primer/react";
-import { PinIcon } from "@primer/octicons-react";
+import { ChevronRightIcon, PencilIcon, PinIcon, TrashIcon } from "@primer/octicons-react";
 import { Link } from "react-router-dom";
 import { useConfirm, usePrompt } from "../../../dialogs";
 
@@ -112,10 +112,24 @@ export const OverviewListItem: FC<FilterListItemProps> = ({
           className="actions"
         >
           <ButtonGroup>
-            {onRename && <Button onClick={() => promptRename(name).then(onRename)}>Rename</Button>}
-            {setPinned && <Button onClick={() => setPinned(!pinned)}>{pinned ? "Unpin" : "Pin"}</Button>}
-            <Button onClick={() => linkRef.current?.click?.()}>Edit</Button>
-            {onDelete && <Button onClick={() => confirmDelete().then(onDelete)}>Delete</Button>}
+            <Button onClick={() => linkRef.current?.click?.()} leadingIcon={ChevronRightIcon}>
+              Open
+            </Button>
+            {onRename && (
+              <Button onClick={() => promptRename(name).then(onRename)} leadingIcon={PencilIcon}>
+                Rename
+              </Button>
+            )}
+            {setPinned && (
+              <Button onClick={() => setPinned(!pinned)} leadingIcon={PinIcon}>
+                {pinned ? "Unpin" : "Pin"}
+              </Button>
+            )}
+            {onDelete && (
+              <Button onClick={() => confirmDelete().then(onDelete)} leadingIcon={TrashIcon}>
+                Delete
+              </Button>
+            )}
           </ButtonGroup>
         </Box>
       </Box>

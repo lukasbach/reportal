@@ -90,8 +90,11 @@ export const tableStyles = {
     // ":nth-child(2n):hover": { bg: "accent.subtle" },
   },
   cell: {
+    height: "100%",
     ...baseStyles.cellSpacing,
     ...baseStyles.noWrap,
+    display: "inline-flex",
+    alignItems: "center",
   },
   checkboxCell: {
     ...baseStyles.cellSpacing,

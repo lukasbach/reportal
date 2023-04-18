@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { ActionList, Box, Text } from "@primer/react";
 import { Link, NavLink } from "react-router-dom";
-import { GraphIcon } from "@primer/octicons-react";
+import { GraphIcon, TelescopeFillIcon, TelescopeIcon } from "@primer/octicons-react";
 import { useGetPinnedFilterLists } from "../../firebase/filter-lists";
 import { EndpointIcon } from "./endpoint-icon";
 import { useGetPinnedDashboards } from "../../firebase/dashboards";
@@ -9,7 +9,7 @@ import { useLogout } from "../../auth/hooks";
 
 export type SidebarProps = {};
 
-export const Sidebar: FC<SidebarProps> = ({}) => {
+export const Sidebar: FC<SidebarProps> = () => {
   const [dashboards] = useGetPinnedDashboards();
   const [filterLists] = useGetPinnedFilterLists();
   const { logout } = useLogout();
@@ -17,9 +17,23 @@ export const Sidebar: FC<SidebarProps> = ({}) => {
     <>
       <Box p={3}>
         <Link to="/app" className="unstyled-link">
-          <Box fontSize={5} textAlign="center" sx={{ ":hover > :nth-child(2)": { color: "accent.fg" } }}>
-            <Text>hello</Text>
-            <Text fontWeight="bolder">GH</Text>
+          <Box
+            fontSize={5}
+            textAlign="center"
+            sx={{
+              " svg:nth-child(2)": { display: "none !important" },
+              ":hover > svg:nth-child(1)": { display: "none !important" },
+              ":hover > svg:nth-child(2)": { display: "inline-block !important" },
+            }}
+          >
+            <TelescopeIcon size={38} />
+            <TelescopeFillIcon size={38} />
+            {/* <Text fontFamily="Ubuntu" fontWeight="700" fontSize="30px" ml={2}>
+              hello
+            </Text>
+            <Text fontFamily="Ubuntu" fontWeight="700" fontSize="30px" color="accent.fg">
+              GH
+            </Text> */}
           </Box>
         </Link>
       </Box>

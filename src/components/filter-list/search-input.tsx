@@ -1,6 +1,6 @@
 import React, { FC, useMemo, useRef, useState } from "react";
 import { ActionList, ActionMenu, Box, TextInput } from "@primer/react";
-import { PencilIcon, SearchIcon } from "@primer/octicons-react";
+import { CloudIcon, CloudOfflineIcon, PencilIcon, SearchIcon } from "@primer/octicons-react";
 import { ParsedSearchResult, parseSearch } from "../../common/filter-lists/search-utils";
 import { ListEndpointDefinition } from "../../common/filter-lists/list-endpoint-definition";
 import { useSearchHelpers } from "../../common/filter-lists/use-search-helpers";
@@ -101,7 +101,11 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
                 active={suggestionIndex === index}
                 className="suggestion-item"
               >
+                <ActionList.LeadingVisual>
+                  {suggestion.isClientFilter ? <CloudOfflineIcon size={16} /> : <CloudIcon size={16} />}
+                </ActionList.LeadingVisual>
                 {suggestion.text}
+                {suggestion.description && <ActionList.Description>{suggestion.description}</ActionList.Description>}
               </ActionList.Item>
             ))}
           </ActionList.Group>

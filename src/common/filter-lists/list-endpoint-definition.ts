@@ -80,6 +80,8 @@ export abstract class ListEndpointDefinition<T = any> {
       jsonKey,
       name,
       renderCell: cellRenderers.boolean(),
+      suggestions: ["true", "false"],
+      isBoolean: true,
     }),
     enum: (name: string, jsonKey: string, options: string[]): ResponseField => ({
       jsonKey,
@@ -96,20 +98,24 @@ export abstract class ListEndpointDefinition<T = any> {
   protected serverFilter = {
     text: (key: string, label: string, multiple = false): ServerFilter => ({
       key,
+      desc: label,
       multiple,
     }),
     boolean: (key: string, label: string, multiple = false): ServerFilter => ({
       key,
+      desc: label,
       multiple,
       suggestions: ["true", "false"],
       isBoolean: true,
     }),
     date: (key: string, label: string, multiple = false): ServerFilter => ({
       key,
+      desc: label,
       multiple,
     }),
     enum: (key: string, label: string, options: string[], multiple = false): ServerFilter => ({
       key,
+      desc: label,
       multiple,
       suggestions: options,
     }),

@@ -1,16 +1,24 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createColumnHelper, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { resolveRecursiveSubitem } from "../../utils";
 import { useListState } from "../filter-list/use-list-state";
 import { ColumnSizing, RowSelection } from "../filter-list/types";
 
 export const useListTable = (
-  { fields, pagination: { pagination }, endpoint, fetchData, itemsPerPage }: ReturnType<typeof useListState>,
+  { fields, pagination: { pagination }, endpoint, fetchData, itemsPerPage, colSizing }: ReturnType<typeof useListState>,
   data: any[],
-  onChangeColumnSizing?: (state: ColumnSizing) => void,
+  onChangeColumnSizing?: () => void,
   canSelect = false
 ) => {
+  const [columnSizing, setColumnSizing] = useState<ColumnSizing>(colSizing.current);
   const [rowSelection, setRowSelection] = useState<RowSelection>({});
+
+  // eslint-disable-next-line no-param-reassign
+  colSizing.current = columnSizing;
+
+  useEffect(() => {
+    onChangeColumnSizing?.();
+  }, [columnSizing, onChangeColumnSizing]);
 
   const columnConfig = useMemo(() => {
     const columnHelper = createColumnHelper();
@@ -47,22 +55,11 @@ export const useListTable = (
     onRowSelectionChange: setRowSelection,
 
     columnResizeMode: "onChange",
-    onColumnSizingChange: (updaterOrValue) => {
-      const updater = <T,>(input: T): T =>
-        typeof updaterOrValue === "function" ? (updaterOrValue as (input: T) => T)(input) : (updaterOrValue as T);
-      table.setState((old) => {
-        const columnSizing = updater(old.columnSizing);
-        onChangeColumnSizing?.(columnSizing);
-        return {
-          ...old,
-          columnSizing,
-        };
-      });
-    },
+    onColumnSizingChange: setColumnSizing,
 
     manualPagination: true,
     pageCount,
-    state: { pagination, rowSelection },
+    state: { pagination, rowSelection, columnSizing },
   });
   return { table, rowSelection };
 };

@@ -16,6 +16,7 @@ export const useTriggerPersist = <T>(id: string, persist: (id: string, state: T)
     if (!dirty.current) {
       return;
     }
+
     persist(id, currentData);
     dirty.current = false;
   });
@@ -24,6 +25,9 @@ export const useTriggerPersist = <T>(id: string, persist: (id: string, state: T)
 
   useEffect(
     () => () => {
+      // TODO not triggering when leaving dashboard view
+      // TODO also todo: selection of columns in filter lists doesnt persist
+      console.log("useTriggerPersist: unmounting", dirty.current, previousIdRef.current, previousDataRef.current);
       if (!dirty.current) {
         return;
       }

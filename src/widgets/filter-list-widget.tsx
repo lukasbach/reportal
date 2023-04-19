@@ -27,7 +27,7 @@ const ConfigComponent: WidgetConfigComponent<FilterListWidgetConfig> = ({ config
   );
 };
 
-const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ config, actionsRef, onEdit }) => {
+const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ config, actionsRef, onEdit, onChange }) => {
   const { id, data } = useUnwrapEmbeddedFilterListConfig(config.filterList);
 
   if (config.filterList.type === "unset") {
@@ -42,7 +42,15 @@ const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ conf
     <FilterListEmbeddedContainer
       data={data}
       id={id ?? "embedded"}
-      onChangeColSizing={console.log}
+      onChangeColSizing={(id, fieldWidths) => {
+        onChange({
+          ...config,
+          filterList: {
+            ...config.filterList,
+            ...(config.filterList.type === "embedded" ? { state: { ...config.filterList.state, fieldWidths } } : {}),
+          },
+        });
+      }}
       actionsRef={actionsRef}
     />
   );

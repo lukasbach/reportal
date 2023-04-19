@@ -1,6 +1,5 @@
 import { FC, RefObject } from "react";
 import { Layouts } from "react-grid-layout";
-import { FilterListState } from "../../components/filter-list/types";
 
 export type WidgetConfigComponent<T> = FC<{
   config: T;
@@ -11,6 +10,7 @@ export type WidgetDisplayComponent<T> = FC<{
   config: T;
   actionsRef: RefObject<HTMLDivElement>;
   onEdit: () => void;
+  onChange: (payload: Partial<T>) => void;
 }>;
 
 export type WidgetIconComponent<T> = FC<{

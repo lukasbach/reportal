@@ -9,7 +9,7 @@ import { ColumnSizing, FilterListState } from "./types";
 export const useListState = (data: FilterListState) => {
   const endpoint = getEndpoint(data.endpointId);
   const [search, setSearch] = useState<ParsedSearchResult>(parseSearch(data.search, endpoint));
-  const colSizing = useRef<ColumnSizing>({});
+  const colSizing = useRef<ColumnSizing>(data.fieldWidths);
   const [fields, setFields] = useState<string[]>(data.fields);
   const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(37);
   const fetchData = useFetchListItems(endpoint, search ?? null, itemsPerPage, 30);

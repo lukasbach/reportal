@@ -3,7 +3,7 @@ import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import { ActionList, ActionMenu, Box } from "@primer/react";
 import { GraphIcon } from "@primer/octicons-react";
 import { widgetDefinitions } from "../../widgets/widget-definitions";
-import { DashboardConfig } from "../../common/widgets/types";
+import { DashboardConfig, WidgetPayload } from "../../common/widgets/types";
 import { WidgetContentRenderer } from "./widget-content-renderer";
 import { WidgetConfigDialog } from "./widget-config-dialog";
 import { useStableHandler } from "../../utils";
@@ -24,11 +24,30 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
   const [editingWidget, setEditingWidget] = useState<string | null>(null);
   const [layouts, setLayouts] = useState<Layouts>(data.layouts);
   const [widgets, setWidgets] = useState(data.widgets);
-  const applyWidgetChanges = useStableHandler((newConfig: DashboardConfig["widgets"][string], name: string, color: string) => {
+  const applyEditingWidgetChanges = useStableHandler((newConfig: any, name?: string, color?: string) => {
     if (!editingWidget) {
       return;
     }
-    setWidgets((old) => ({ ...old, [editingWidget]: { ...old[editingWidget], name, color, config: newConfig } }));
+    setWidgets((old) => ({
+      ...old,
+      [editingWidget]: {
+        ...old[editingWidget],
+        name: name ?? old[editingWidget].name,
+        color: color ?? old[editingWidget].color,
+        config: newConfig,
+      },
+    }));
+  });
+  const applyAnyWidgetChanges = useStableHandler((widgetId: string, newConfig: any, name?: string, color?: string) => {
+    setWidgets((old) => ({
+      ...old,
+      [widgetId]: {
+        ...old[widgetId],
+        name: name ?? old[widgetId].name,
+        color: color ?? old[widgetId].color,
+        config: newConfig,
+      },
+    }));
   });
   const deleteEditingWidget = useStableHandler(() => {
     if (!editingWidget) {
@@ -63,7 +82,6 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
   });
 
   const markDirty = useTriggerPersist(id, onUpdate, { widgets, layouts, name, pinned });
-
   useEffect(markDirty, [widgets, layouts, name, pinned, markDirty]);
 
   return (
@@ -108,7 +126,11 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
         >
           {Object.entries(widgets).map(([key, widget]) => (
             <div key={key}>
-              <WidgetContentRenderer widget={widget} onEdit={() => setEditingWidget(key)} />
+              <WidgetContentRenderer
+                widget={widget}
+                onEdit={() => setEditingWidget(key)}
+                onChange={(...args) => applyAnyWidgetChanges(key, ...args)}
+              />
             </div>
           ))}
         </ResponsiveGridLayout>
@@ -117,7 +139,7 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
       {editingWidget && (
         <WidgetConfigDialog
           widget={widgets[editingWidget]}
-          onChange={applyWidgetChanges}
+          onChange={applyEditingWidgetChanges}
           onClose={() => setEditingWidget(null)}
           onDelete={deleteEditingWidget}
         />

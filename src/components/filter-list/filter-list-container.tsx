@@ -36,15 +36,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
     name,
   });
 
-  const { table, rowSelection } = useListTable(
-    listState,
-    fetchData.list,
-    (state) => {
-      colSizing.current = state;
-      markDirty();
-    },
-    !embedded
-  );
+  const { table, rowSelection } = useListTable(listState, fetchData.list, markDirty, !embedded);
 
   useEffect(markDirty, [markDirty, endpoint.name, search, fields]);
 

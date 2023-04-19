@@ -44,7 +44,7 @@ export const FilterListHeader: FC<FilterListHeaderProps> = ({
           <Token
             text={endpoint.name}
             size="xlarge"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, color: "accent.fg", borderColor: "accent.emphasis", bg: "accent.subtle" }}
             leadingVisual={() => <EndpointIcon endpointId={endpoint.id} />}
           />
           <TextInput value={name} onChange={(e) => setName(e.target.value)} sx={{ flexGrow: 1 }} />

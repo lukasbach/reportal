@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
-import { ActionList, ActionMenu, Box } from "@primer/react";
-import { GraphIcon } from "@primer/octicons-react";
+import { ActionList, ActionMenu, Box, IconButton } from "@primer/react";
+import { GraphIcon, PencilIcon } from "@primer/octicons-react";
 import { widgetDefinitions } from "../../widgets/widget-definitions";
 import { DashboardConfig, WidgetPayload } from "../../common/widgets/types";
 import { WidgetContentRenderer } from "./widget-content-renderer";
@@ -10,6 +10,7 @@ import { useStableHandler } from "../../utils";
 import { AbstractWidgetDefinition } from "../../common/widgets/abstract-widget-definition";
 import { useTriggerPersist } from "../../common/use-trigger-persist";
 import { PageHeader } from "../common/page-header";
+import { usePrompt } from "../../dialogs";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 export type DashboardContainerProps = {
@@ -84,8 +85,11 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
   const markDirty = useTriggerPersist(id, onUpdate, { widgets, layouts, name, pinned });
   useEffect(markDirty, [widgets, layouts, name, pinned, markDirty]);
 
+  const { dialog: renameDialog, prompt: promptRename } = usePrompt(`Rename Dashboard`, `Dashboard name`, "New name");
+
   return (
     <>
+      {renameDialog}
       <Box
         sx={{
           " .react-grid-item.react-grid-placeholder": {
@@ -96,7 +100,23 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
         }}
       >
         <Box mx={2}>
-          <PageHeader title={data.name} icon={<GraphIcon size={24} />} backLink="/app/dashboards" compact>
+          <PageHeader
+            title={
+              <Box display="flex" alignItems="center" sx={{ ":hover > button": { display: "block" } }}>
+                {name}
+                <IconButton
+                  icon={PencilIcon}
+                  aria-label="Rename"
+                  variant="invisible"
+                  sx={{ ml: 2, display: "none" }}
+                  onClick={() => promptRename(name).then(setName)}
+                />
+              </Box>
+            }
+            icon={<GraphIcon size={24} />}
+            backLink="/app/dashboards"
+            compact
+          >
             <ActionMenu>
               <ActionMenu.Button variant="primary" size="large" sx={{ m: 2 }}>
                 Add Widget

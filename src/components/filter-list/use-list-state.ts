@@ -21,7 +21,7 @@ export const useListState = (data: FilterListState) => {
 
   useEffect(() => {
     setSearch(parseSearch(data.search, endpoint));
-  }, [data.search]);
+  }, [data.search, endpoint]);
 
   return {
     search,

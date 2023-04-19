@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export type PageHeaderProps = {
   children: ReactNode;
-  title: string;
+  title: string | JSX.Element;
   subtitle?: string;
   icon?: JSX.Element;
   backLink?: string;

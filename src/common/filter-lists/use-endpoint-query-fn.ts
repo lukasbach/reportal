@@ -10,7 +10,6 @@ export const useEndpointQueryFn = (
   endpoint: ListEndpointDefinition | null
 ) => {
   const octokit = useOctokit();
-  // TODO !!!! missing orderby props?
   return useMemo(
     () =>
       search && endpoint

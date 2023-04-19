@@ -15,7 +15,7 @@ export const SettingsPage: FC = () => {
   const { fileInput, handleImport, importDialogs, isImporting } = useImportFlow();
 
   return (
-    <Box p={4}>
+    <Box p={4} maxWidth="800px">
       {importDialogs}
       {clearDialogs}
       {deleteDialogs}

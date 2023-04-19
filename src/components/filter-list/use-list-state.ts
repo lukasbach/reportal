@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ParsedSearchResult, parseSearch } from "../../common/filter-lists/search-utils";
 import { useCalcPageSize } from "./use-calc-page-size";
 import { useFetchListItems } from "../../common/filter-lists/use-fetch-list-items";
@@ -14,6 +14,14 @@ export const useListState = (data: FilterListState) => {
   const [listContainerRef, itemsPerPage] = useCalcPageSize<HTMLDivElement>(37);
   const fetchData = useFetchListItems(endpoint, search ?? null, itemsPerPage, 30);
   const pagination = usePagination(itemsPerPage, fetchData.totalCount, fetchData.loadedCount, fetchData.fetchUntil);
+
+  useEffect(() => {
+    setFields(data.fields);
+  }, [data.fields]);
+
+  useEffect(() => {
+    setSearch(parseSearch(data.search, endpoint));
+  }, [data.search]);
 
   return {
     search,

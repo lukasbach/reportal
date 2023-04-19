@@ -29,6 +29,7 @@ const ConfigComponent: WidgetConfigComponent<FilterListWidgetConfig> = ({ config
 
 const DisplayComponent: WidgetDisplayComponent<FilterListWidgetConfig> = ({ config, actionsRef, onEdit, onChange }) => {
   const { id, data } = useUnwrapEmbeddedFilterListConfig(config.filterList);
+  console.log("NEWSTATE", config, data);
 
   if (config.filterList.type === "unset") {
     return <ConfigureWidgetEmptyState onEdit={onEdit} />;

@@ -79,7 +79,7 @@ export class LinkListWidget extends AbstractWidgetDefinition<LinkListWidgetConfi
       .split("\n")
       .map((line) => {
         const [url, ...labelParts] = line.split(" ");
-        const label = labelParts.join(" ");
+        const label = labelParts.join(" ") || undefined;
         if (url.startsWith("http")) {
           return {
             text: label ?? /https?:\/\/([^/]+)/.exec(url)?.[1] ?? url,

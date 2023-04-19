@@ -89,27 +89,27 @@ export const Sidebar: FC<SidebarProps> = () => {
           </ActionMenu.Anchor>
 
           <ActionMenu.Overlay>
-            <ActionList selectionVariant="single">
-              <ActionList.Item selected={colorMode === ColorMode.Auto} onClick={() => setColorMode(ColorMode.Auto)}>
+            <ActionList>
+              <ActionList.Item active={colorMode === ColorMode.Auto} onClick={() => setColorMode(ColorMode.Auto)}>
                 <ActionList.TrailingVisual>
                   <PaintbrushIcon />
                 </ActionList.TrailingVisual>
                 Auto
               </ActionList.Item>
-              <ActionList.Item selected={colorMode === ColorMode.Light} onClick={() => setColorMode(ColorMode.Light)}>
+              <ActionList.Item active={colorMode === ColorMode.Light} onClick={() => setColorMode(ColorMode.Light)}>
                 <ActionList.TrailingVisual>
                   <SunIcon />
                 </ActionList.TrailingVisual>
                 Light
               </ActionList.Item>
-              <ActionList.Item selected={colorMode === ColorMode.Dark} onClick={() => setColorMode(ColorMode.Dark)}>
+              <ActionList.Item active={colorMode === ColorMode.Dark} onClick={() => setColorMode(ColorMode.Dark)}>
                 <ActionList.TrailingVisual>
                   <MoonIcon />
                 </ActionList.TrailingVisual>
                 Dark
               </ActionList.Item>
               <ActionList.Item
-                selected={colorMode === ColorMode.DarkDimmed}
+                active={colorMode === ColorMode.DarkDimmed}
                 onClick={() => setColorMode(ColorMode.DarkDimmed)}
               >
                 <ActionList.TrailingVisual>

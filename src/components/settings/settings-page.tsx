@@ -6,16 +6,19 @@ import { useExport } from "./use-export";
 import { useImportFlow } from "./use-import-flow";
 import { useClearDataFlow } from "./use-clear-data-flow";
 import { ThemeSelector } from "./theme-selector";
+import { useDeleteUserFlow } from "./use-delete-user-flow";
 
 export const SettingsPage: FC = () => {
   const exportData = useExport();
   const { clearDataFlow, clearDialogs, isClearing } = useClearDataFlow();
+  const { deleteDialogs, isDeleting, deleteUserFlow } = useDeleteUserFlow();
   const { fileInput, handleImport, importDialogs, isImporting } = useImportFlow();
 
   return (
     <Box p={4}>
       {importDialogs}
       {clearDialogs}
+      {deleteDialogs}
       <PageHeader title="Settings" subtitle="Settings regarding your user." icon={<GearIcon size={16} />} />
 
       <Heading as="h2" sx={{ fontSize: 4, mt: 4 }}>
@@ -62,10 +65,26 @@ export const SettingsPage: FC = () => {
           filter list queries. This cannot be undone. Export your data first if you want to keep it.
         </Text>
         <Box display="flex" alignItems="center">
-          <Button onClick={clearDataFlow} sx={{ mr: 2 }}>
+          <Button onClick={clearDataFlow} sx={{ mr: 2 }} variant="danger">
             Clear all my data
           </Button>
           {isClearing && <Spinner size="small" />}
+        </Box>
+      </Flash>
+
+      <Heading as="h2" sx={{ fontSize: 4, mt: 4 }}>
+        Delete your account
+      </Heading>
+      <Flash variant="danger">
+        <Text as="p" mt={0}>
+          Remove all your data and delete your account.This will remove all your dashboard configurations and filter
+          list queries. This cannot be undone. Export your data first if you want to keep it.
+        </Text>
+        <Box display="flex" alignItems="center">
+          <Button onClick={deleteUserFlow} sx={{ mr: 2 }} variant="danger">
+            Delete my account
+          </Button>
+          {isDeleting && <Spinner size="small" />}
         </Box>
       </Flash>
     </Box>

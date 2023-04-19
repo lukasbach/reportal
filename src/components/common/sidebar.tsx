@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { ActionList, ActionMenu, Box, Text } from "@primer/react";
+import { ActionList, Box } from "@primer/react";
 import { Link, NavLink } from "react-router-dom";
 import { GearIcon, GraphIcon, PaintbrushIcon, TelescopeFillIcon, TelescopeIcon } from "@primer/octicons-react";
 import { useGetPinnedFilterLists } from "../../firebase/filter-lists";

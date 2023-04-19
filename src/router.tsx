@@ -8,6 +8,7 @@ import { DashboardPage } from "./components/dashboard/dashboard-page";
 import { DashboardsOverviewPage } from "./components/dashboard/dashboards-overview-page";
 import { withAuthWrapper } from "./auth/with-auth-wrapper";
 import { AppMainpageReroute } from "./app-mainpage-reroute";
+import { SettingsPage } from "./components/settings/settings-page";
 
 export const router = createHashRouter([
   {
@@ -34,6 +35,10 @@ export const router = createHashRouter([
       {
         path: "filterlists/:id",
         element: <FilterListPage />,
+      },
+      {
+        path: "settings",
+        element: <SettingsPage />,
       },
     ],
   },

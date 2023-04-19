@@ -1,20 +1,18 @@
 import React, { FC } from "react";
 import { ActionList, ActionMenu, Box, Text } from "@primer/react";
 import { Link, NavLink } from "react-router-dom";
-import { GraphIcon, MoonIcon, PaintbrushIcon, SunIcon, TelescopeFillIcon, TelescopeIcon } from "@primer/octicons-react";
+import { GearIcon, GraphIcon, PaintbrushIcon, TelescopeFillIcon, TelescopeIcon } from "@primer/octicons-react";
 import { useGetPinnedFilterLists } from "../../firebase/filter-lists";
 import { EndpointIcon } from "./endpoint-icon";
 import { useGetPinnedDashboards } from "../../firebase/dashboards";
 import { useLogout } from "../../auth/hooks";
-import { ColorMode, useColorModeStore } from "./theme/use-color-mode-store";
+import { ThemeSelector } from "../settings/theme-selector";
 
 export type SidebarProps = {};
 
 export const Sidebar: FC<SidebarProps> = () => {
   const [dashboards] = useGetPinnedDashboards();
   const [filterLists] = useGetPinnedFilterLists();
-  const colorMode = useColorModeStore((state) => state.mode);
-  const setColorMode = useColorModeStore((state) => state.set);
   const { logout } = useLogout();
 
   return (
@@ -83,43 +81,26 @@ export const Sidebar: FC<SidebarProps> = () => {
           </NavLink>
         </ActionList.Group>
         <ActionList.Divider />
-        <ActionMenu>
-          <ActionMenu.Anchor>
-            <ActionList.Item>Color Theme</ActionList.Item>
-          </ActionMenu.Anchor>
+        <ThemeSelector>
+          <ActionList.Item>
+            <ActionList.LeadingVisual>
+              <PaintbrushIcon size={16} />
+            </ActionList.LeadingVisual>{" "}
+            Color Theme
+          </ActionList.Item>
+        </ThemeSelector>
 
-          <ActionMenu.Overlay>
-            <ActionList>
-              <ActionList.Item active={colorMode === ColorMode.Auto} onClick={() => setColorMode(ColorMode.Auto)}>
-                <ActionList.TrailingVisual>
-                  <PaintbrushIcon />
-                </ActionList.TrailingVisual>
-                Auto
-              </ActionList.Item>
-              <ActionList.Item active={colorMode === ColorMode.Light} onClick={() => setColorMode(ColorMode.Light)}>
-                <ActionList.TrailingVisual>
-                  <SunIcon />
-                </ActionList.TrailingVisual>
-                Light
-              </ActionList.Item>
-              <ActionList.Item active={colorMode === ColorMode.Dark} onClick={() => setColorMode(ColorMode.Dark)}>
-                <ActionList.TrailingVisual>
-                  <MoonIcon />
-                </ActionList.TrailingVisual>
-                Dark
-              </ActionList.Item>
-              <ActionList.Item
-                active={colorMode === ColorMode.DarkDimmed}
-                onClick={() => setColorMode(ColorMode.DarkDimmed)}
-              >
-                <ActionList.TrailingVisual>
-                  <MoonIcon />
-                </ActionList.TrailingVisual>
-                Dark Dimmed
-              </ActionList.Item>
-            </ActionList>
-          </ActionMenu.Overlay>
-        </ActionMenu>
+        <NavLink to="/app/settings" className="unstyled-link" end>
+          {({ isActive }) => (
+            <ActionList.Item active={isActive}>
+              <ActionList.LeadingVisual>
+                <GearIcon size={16} />
+              </ActionList.LeadingVisual>
+              Settings
+            </ActionList.Item>
+          )}
+        </NavLink>
+
         <ActionList.Item onClick={logout}>Log Out</ActionList.Item>
       </ActionList>
     </>

@@ -4,7 +4,7 @@ import { ChevronLeftIcon } from "@primer/octicons-react";
 import { Link } from "react-router-dom";
 
 export type PageHeaderProps = {
-  children: ReactNode;
+  children?: ReactNode;
   title: string | JSX.Element;
   subtitle?: string;
   icon?: JSX.Element;

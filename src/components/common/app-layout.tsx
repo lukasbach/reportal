@@ -14,6 +14,8 @@ export const AppLayout: FC = () => {
         borderColor="border.default"
         borderWidth="1px"
         borderStyle="solid"
+        maxHeight="100%"
+        overflow="auto"
       >
         <Sidebar />
       </Box>

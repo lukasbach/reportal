@@ -2990,7 +2990,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/behaviors@npm:1.3.3":
+"@primer/behaviors@npm:1.3.3, @primer/behaviors@npm:^1.3.3":
   version: 1.3.3
   resolution: "@primer/behaviors@npm:1.3.3"
   checksum: 017cb965a6b7fc2d64c89c636491ad18f195d5cbb28a8ac4fb32e3811f4ca4f85bf8e02aaf94358e6f0a7a4660e98ef97406b3de3dd5bc1bf4a94830798bfa60
@@ -3010,6 +3010,19 @@ __metadata:
   version: 7.11.1
   resolution: "@primer/primitives@npm:7.11.1"
   checksum: 876a8da46bf95758386f6ef9296af1eed0b2a0d826a1106ec4422752dc4a2e01e924d668ce69d498d0fe696b37d525e4b727eb4a8a3a115651db22412b5c2336
+  languageName: node
+  linkType: hard
+
+"@primer/react-brand@npm:^0.16.1":
+  version: 0.16.1
+  resolution: "@primer/react-brand@npm:0.16.1"
+  dependencies:
+    "@primer/behaviors": ^1.3.3
+    clsx: ^1.1.1
+  peerDependencies:
+    react: ">=17 <= 18"
+    react-dom: ">=17 <= 18"
+  checksum: 8af9c269a75ffab77e4ea4c09ed831e5f1651812d1e4ca9894c58a4db808010fc1020fae110b66a0b458e202b68e8ff0e9337d549a5aefc32b3402f4973e7a84
   languageName: node
   linkType: hard
 
@@ -6471,6 +6484,7 @@ __metadata:
     "@octokit/rest": ^19.0.7
     "@primer/octicons-react": ^18.3.0
     "@primer/react": ^35.24.0
+    "@primer/react-brand": ^0.16.1
     "@react-hookz/web": ^23.0.0
     "@tanstack/react-query": ^4.28.0
     "@tanstack/react-table": ^8.8.5

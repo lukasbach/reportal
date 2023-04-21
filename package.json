@@ -63,6 +63,7 @@
     "@octokit/rest": "^19.0.7",
     "@primer/octicons-react": "^18.3.0",
     "@primer/react": "^35.24.0",
+    "@primer/react-brand": "^0.16.1",
     "@react-hookz/web": "^23.0.0",
     "@tanstack/react-query": "^4.28.0",
     "@tanstack/react-table": "^8.8.5",

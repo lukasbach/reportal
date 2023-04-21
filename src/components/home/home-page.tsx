@@ -47,7 +47,7 @@ export const HomePage: FC<HomePageProps> = () => {
             Reportal is not affiliated with GitHub, but is a free and standalone project. It integrates into the
             official GitHub API to provide dashboarding and item-management capabilities.
           </Box>
-          <Button size="large" variant="primary">
+          <Button size="large" variant="primary" as="a" href="#/login">
             Sign in
           </Button>
         </Box>
@@ -81,6 +81,14 @@ export const HomePage: FC<HomePageProps> = () => {
         <Heading>Save Lists and Dashboards for later</Heading>
         <Text>Create as many list views and dashboards as you need.</Text>
       </CustomRiver>
+
+      <NarrowContainer>
+        <Box textAlign="center" pt={40}>
+          <Button size="large" variant="primary" as="a" href="#/login">
+            Sign in
+          </Button>
+        </Box>
+      </NarrowContainer>
 
       <Footer />
     </HomeContainer>

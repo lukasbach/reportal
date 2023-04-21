@@ -1,5 +1,5 @@
-import React, { FC, ReactNode } from "react";
-import { Box, Link } from "@primer/react/lib-esm";
+import React, { FC } from "react";
+import { Box, Link } from "@primer/react";
 
 export const Footer: FC = () => {
   return (

@@ -21,6 +21,7 @@
     "lint": "eslint . --fix",
     "lint:test": "eslint .",
     "clean": "rimraf ./lib/ ./exec/",
+    "postinstall": "yarn generate",
     "generate": "graphql-codegen",
     "generate:watch": "graphql-codegen --watch"
   },

@@ -12,6 +12,7 @@ import { SettingsPage } from "./components/settings/settings-page";
 import { LoginPage } from "./components/home/login-page";
 import { LoginViaTokenPage } from "./components/home/login-via-token-page";
 import { LoginViaTokenSuccessPage } from "./components/home/login-via-token-success-page";
+import { ProvisionPage } from "./provision/provision-page";
 
 export const router = createHashRouter([
   {
@@ -54,6 +55,10 @@ export const router = createHashRouter([
       {
         path: "settings",
         element: <SettingsPage />,
+      },
+      {
+        path: "provision",
+        element: <ProvisionPage />,
       },
     ],
   },

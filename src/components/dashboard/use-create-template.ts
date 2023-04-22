@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useStableHandler } from "../../utils";
 import { useCreateDashboard, useUpdateDashboard } from "../../firebase/dashboards";
 import { useGithubAuthStore, useUserId } from "../../auth/hooks";
@@ -18,9 +17,11 @@ export const useCreateTemplate = (open = false) => {
       user: uid,
       state: data,
     });
+    const target = `/app/dashboards/${doc.id}`;
     if (open) {
-      navigate(`/app/dashboards/${doc.id}`);
+      navigate(target);
     }
+    return target;
   });
 
   const createRepoTemplate = useStableHandler(async (owner: string, repo: string) => {

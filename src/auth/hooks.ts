@@ -10,7 +10,7 @@ import {
   useSendSignInLinkToEmail,
   useSignInWithEmailLink,
 } from "react-firebase-hooks/auth";
-import { GithubAuthProvider } from "firebase/auth";
+import { GithubAuthProvider, getAdditionalUserInfo } from "firebase/auth";
 import { useNavigate } from "react-router";
 import { auth } from "./auth";
 import { useStableHandler } from "../utils";
@@ -54,7 +54,7 @@ export const useRedirectToAppIfLoggedIn = () => {
 
 export const useCompleteLogin = () => {
   const navigate = useNavigate();
-  return useStableHandler(async (token: string) => {
+  return useStableHandler(async (token: string, isNewUser = false) => {
     try {
       const kit = new Octokit({ auth: token });
       const {
@@ -62,7 +62,7 @@ export const useCompleteLogin = () => {
       } = await kit.users.getAuthenticated();
 
       useGithubAuthStore.getState().set(token, login);
-      navigate("/app/dashboards");
+      navigate(isNewUser ? "/app/provision" : "/app/dashboards");
     } catch (e) {
       console.error(e);
       alert(`Login failed: ${e.message}`);
@@ -85,7 +85,8 @@ export const useLogin = () => {
         throw new Error("Login was sucessful, but no github token could be retrieved.");
       }
 
-      await completeLogin(token);
+      const userInfo = getAdditionalUserInfo(result);
+      await completeLogin(token, userInfo?.isNewUser);
 
       return result;
     },

@@ -32,7 +32,13 @@ export const useDialog = ({
   return { dialog, returnRef, setIsOpen, isOpen, open, close };
 };
 
-export const useConfirm = (title: string, body: JSX.Element | string, yes = "Yes", no = "No", danger = false) => {
+export const useConfirm = (
+  title: string,
+  body: JSX.Element | string,
+  yes = "Yes",
+  no: string | null = "No",
+  danger = false
+) => {
   const noRef = useRef(() => {});
   const yesRef = useRef(() => {});
   const dialog = useDialog({
@@ -40,7 +46,7 @@ export const useConfirm = (title: string, body: JSX.Element | string, yes = "Yes
     body: <form onSubmit={yesRef.current}>{body}</form>,
     footer: (
       <>
-        <Button onClick={noRef.current}>{no}</Button>
+        {no !== null && <Button onClick={noRef.current}>{no}</Button>}
         <Button variant={danger ? "danger" : undefined} onClick={yesRef.current} sx={{ ml: 2 }}>
           {yes}
         </Button>

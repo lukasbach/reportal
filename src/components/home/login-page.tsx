@@ -2,13 +2,16 @@ import React, { FC } from "react";
 import { Button, Heading } from "@primer/react-brand";
 import { Box } from "@primer/react";
 import { ChevronLeftIcon, PersonFillIcon, PersonIcon, RelFilePathIcon } from "@primer/octicons-react";
+import { useNavigate } from "react-router";
 import { HomeContainer } from "./home-container";
 import { NarrowContainer } from "./narrow-container";
 import { SignInOption } from "./sign-in-option";
-import { useLogin } from "../../auth/hooks";
+import { useLogin, useRedirectToAppIfLoggedIn } from "../../auth/hooks";
 
 export const LoginPage: FC = () => {
   const { signIn } = useLogin();
+  const navigate = useNavigate();
+  useRedirectToAppIfLoggedIn();
   return (
     <HomeContainer>
       <NarrowContainer>
@@ -35,6 +38,7 @@ export const LoginPage: FC = () => {
           title="Login with custom token"
           description="Use a Github personal access token to login. You customize the capabilities of the token yourself. What you see in reportal depends on how you configured the token."
           icon={<RelFilePathIcon size={24} />}
+          onClick={() => navigate("/token-login")}
         />
         <Box>
           <Button hasArrow={false} leadingVisual={<ChevronLeftIcon />} as="a" href="#/">

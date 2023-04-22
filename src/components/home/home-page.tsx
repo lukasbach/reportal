@@ -10,10 +10,12 @@ import { CustomRiver } from "./custom-river";
 import { HomeContainer } from "./home-container";
 import { NarrowContainer } from "./narrow-container";
 import { Footer } from "./footer";
+import { useAttemptToCompleteTokenLogin } from "../../auth/hooks";
 
 export type HomePageProps = {};
 
 export const HomePage: FC<HomePageProps> = () => {
+  useAttemptToCompleteTokenLogin();
   return (
     <HomeContainer>
       <NarrowContainer>

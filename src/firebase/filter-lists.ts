@@ -18,10 +18,10 @@ export const useFilterListData = (id: string | null) => useDocument<FilterListSt
 
 export const useCreateFilterList = () => {
   const uid = useUserId();
-  return useStableHandler(async (endpoint: ListEndpointDefinition) => {
+  return useStableHandler(async (endpoint: ListEndpointDefinition, defaultData = endpoint.defaultData) => {
     const entry: FilterListStateEntry = {
       user: uid,
-      state: endpoint.defaultData,
+      state: defaultData,
     };
     await addDoc(listCollection, entry);
   });

@@ -13,13 +13,13 @@ export enum EndpointId {
   Discussions = "discussions",
 }
 
-export const endpoints: Record<string, ListEndpointDefinition> = {
+export const endpoints = {
   issues: new IssueSearchEndpoint(),
   discussions: new DiscussionSearchEndpoint(),
   repos: new ReposSearchEndpoint(),
   notifications: new NotificationsEndpoint(),
   events: new EventsEndpoint(),
-};
+} satisfies Record<string, ListEndpointDefinition>;
 
 export const getEndpoint = (id: string) => {
   if (endpoints[id]) {

@@ -4,6 +4,8 @@ import { useOctokit } from "../auth/hooks";
 import { useCreateTemplate } from "../components/dashboard/use-create-template";
 import { TopUserReposQueryQuery } from "../gql/graphql";
 import { useConfirm } from "../dialogs";
+import { useCreateFilterList } from "../firebase/filter-lists";
+import { endpoints } from "../list-endpoints/endpoints";
 
 const query = /* GraphQL */ `
   query TopUserReposQuery {
@@ -35,9 +37,12 @@ export const useProvisioning = () => {
     "Show me",
     null
   );
+
   const navigate = useNavigate();
   const { createRepoTemplate, createUserTemplate } = useCreateTemplate();
   const octokit = useOctokit();
+  const createList = useCreateFilterList();
+
   useEffect(() => {
     (async () => {
       const data: TopUserReposQueryQuery = await octokit.graphql(query);
@@ -49,11 +54,31 @@ export const useProvisioning = () => {
           }
         }
         await createUserTemplate();
+        // TODO more default lists
+        await createList(endpoints.issues, {
+          ...endpoints.issues.defaultData,
+          name: "My Issues",
+          pinned: true,
+          search: `is:open is:issue author:@me`,
+        });
+        await createList(endpoints.issues, {
+          ...endpoints.issues.defaultData,
+          name: "My PRs",
+          pinned: true,
+          search: `is:open is:pr author:@me`,
+        });
+        await createList(endpoints.repos, {
+          ...endpoints.repos.defaultData,
+          name: "My Top Repos",
+          pinned: true,
+          search: `user:@me sort:stars`,
+        });
       } catch (e) {
         console.error(e);
       }
       confirm().then(() => navigate(target));
     })();
-  }, [confirm, createRepoTemplate, createUserTemplate, navigate, octokit]);
+  }, [confirm, createList, createRepoTemplate, createUserTemplate, navigate, octokit]);
+
   return dialog;
 };

@@ -19,7 +19,7 @@ export const LoginPage: FC = () => {
           <Heading>Sign in</Heading>
         </Box>
         <SignInOption
-          title="Normal Login"
+          title="Login through GitHub"
           description={
             'Login through GitHub, and give reportal "repo" and "user" read access. You can see private repos in reportal.'
           }
@@ -29,7 +29,7 @@ export const LoginPage: FC = () => {
         <SignInOption
           title="Login with minimal capabilities"
           description={
-            "Login through GitHub, and don't give reportal any capabilities. You can only see public repos in reportal."
+            "Login through GitHub, and don't give reportal any access scopes. You can only see public repos in reportal."
           }
           icon={<PersonIcon size={24} />}
           onClick={() => signIn([])}

@@ -115,7 +115,7 @@ export const useTokenLogin = () => {
 
       return success;
     },
-    [sendSignInLinkToEmail]
+    [navigate, sendSignInLinkToEmail]
   );
   return { signIn, user, loading };
 };

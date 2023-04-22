@@ -20,15 +20,16 @@ export const LoginPage: FC = () => {
           description={
             'Login through GitHub, and give reportal "repo" and "user" read access. You can see private repos in reportal.'
           }
-          icon={<PersonIcon size={24} />}
-          onClick={signIn}
+          icon={<PersonFillIcon size={24} />}
+          onClick={() => signIn(["repo", "user"])}
         />
         <SignInOption
           title="Login with minimal capabilities"
           description={
             "Login through GitHub, and don't give reportal any capabilities. You can only see public repos in reportal."
           }
-          icon={<PersonFillIcon size={24} />}
+          icon={<PersonIcon size={24} />}
+          onClick={() => signIn([])}
         />
         <SignInOption
           title="Login with custom token"

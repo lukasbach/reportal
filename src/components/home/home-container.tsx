@@ -9,7 +9,7 @@ export type HomeContainerProps = {
 
 export const HomeContainer: FC<HomeContainerProps> = ({ children }) => {
   return (
-    <ThemeProvider colorMode="dark">
+    <ThemeProvider colorMode="dark" style={{ height: "100%" }}>
       <Box
         style={{ backgroundImage: `url(${mySvg})`, backgroundRepeat: "no-repeat" }}
         minHeight="100%"

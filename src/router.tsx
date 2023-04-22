@@ -9,11 +9,16 @@ import { DashboardsOverviewPage } from "./components/dashboard/dashboards-overvi
 import { withAuthWrapper } from "./auth/with-auth-wrapper";
 import { AppMainpageReroute } from "./app-mainpage-reroute";
 import { SettingsPage } from "./components/settings/settings-page";
+import { LoginPage } from "./components/home/login-page";
 
 export const router = createHashRouter([
   {
     path: "/",
     element: <HomePage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
   {
     path: "/app",

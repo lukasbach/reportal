@@ -5,6 +5,7 @@ import { ParsedSearchResult, parseSearch } from "../../common/filter-lists/searc
 import { ListEndpointDefinition } from "../../common/filter-lists/list-endpoint-definition";
 import { useSearchHelpers } from "../../common/filter-lists/use-search-helpers";
 import { useSuggestions } from "./use-suggestions";
+import { SearchSuggestions } from "./search-suggestions";
 
 export type SearchInputProps = {
   endpoint: ListEndpointDefinition;
@@ -82,44 +83,16 @@ export const SearchInput: FC<SearchInputProps> = ({ endpoint, onChange, value: p
           </ActionMenu>
         )}
       </Box>
-      <Box
-        ref={overlayRef}
-        sx={{ visibility: isFocused && suggestions.length > 0 ? "visible" : "hidden" }}
-        mt={1}
-        position="absolute"
-        zIndex={100}
-        width="100%"
-        borderWidth="1px"
-        borderStyle="solid"
-        borderColor="border.default"
-        borderRadius={2}
-        bg="canvas.overlay"
-        maxHeight="300px"
-        overflow="auto"
-      >
-        <ActionList role="listbox">
-          <ActionList.Group>
-            {suggestions.map((suggestion, index) => (
-              <ActionList.Item
-                role="option"
-                key={suggestion.newValue}
-                onSelect={() => {
-                  inputRef.current?.focus();
-                  setValue(suggestion.newValue);
-                }}
-                active={suggestionIndex === index}
-                className="suggestion-item"
-              >
-                <ActionList.LeadingVisual>
-                  {suggestion.isClientFilter ? <CloudOfflineIcon size={16} /> : <CloudIcon size={16} />}
-                </ActionList.LeadingVisual>
-                {suggestion.text}
-                {suggestion.description && <ActionList.Description>{suggestion.description}</ActionList.Description>}
-              </ActionList.Item>
-            ))}
-          </ActionList.Group>
-        </ActionList>
-      </Box>
+      <SearchSuggestions
+        suggestions={suggestions}
+        overlayRef={overlayRef}
+        isFocused={isFocused}
+        focusedIndex={suggestionIndex}
+        onSelect={({ newValue }) => {
+          inputRef.current?.focus();
+          setValue(newValue);
+        }}
+      />
     </Box>
   );
 };

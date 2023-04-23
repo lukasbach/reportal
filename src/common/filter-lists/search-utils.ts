@@ -97,6 +97,8 @@ export const getSuggestions = (finalPart: string, search: string, endpoint: List
   return all.filter((item, index) => all.findIndex((item2) => item2.text === item.text) === index);
 };
 
+export type Suggestion = ReturnType<typeof getSuggestions>[number];
+
 export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any>) => {
   const { filters, searchTerms, finalItem } = parseIntoFilters(search);
   const serverFilters = filters

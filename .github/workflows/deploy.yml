@@ -17,7 +17,7 @@ jobs:
       - run: yarn build
       - run: yarn test
       - run: yarn lint:test
-      - uses: actions/upload-pages-artifact
+      - uses: actions/upload-pages-artifact@v1
         with:
           path: ./dist
       - uses: actions/deploy-pages@v2

@@ -3,9 +3,6 @@ on:
   push:
   workflow_dispatch:
 
-permissions:
-  pages: write
-
 jobs:
   test:
     runs-on: ubuntu-latest

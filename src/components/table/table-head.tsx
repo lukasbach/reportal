@@ -1,14 +1,13 @@
 import React, { FC } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Box } from "@primer/react";
-import { Column, flexRender, Header, RowData, Table } from "@tanstack/react-table";
+import { Column, flexRender, Header, RowData } from "@tanstack/react-table";
 import { GrabberIcon } from "@primer/octicons-react";
 import { tableStyles } from "./table-styles";
 import { useFilterListContext } from "../filter-list/filter-list-context";
 
 export type DataTableHeadProps = {
   header: Header<RowData, unknown>;
-  table: Table<RowData>;
 };
 
 const reorderColumn = (draggedColumnId: string, targetColumnId: string, columnOrder: string[]): string[] => {
@@ -20,7 +19,7 @@ const reorderColumn = (draggedColumnId: string, targetColumnId: string, columnOr
   return [...columnOrder];
 };
 
-export const TableHead: FC<DataTableHeadProps> = ({ header, table }) => {
+export const TableHead: FC<DataTableHeadProps> = ({ header }) => {
   const { fields, onChangeFields } = useFilterListContext();
   const { column } = header;
 
@@ -33,7 +32,8 @@ export const TableHead: FC<DataTableHeadProps> = ({ header, table }) => {
     },
   });
 
-  const [{ isDragging }, dragRef, previewRef] = useDrag({
+  // eslint-disable-next-line @typescript-eslint/naming-convention,@typescript-eslint/no-unused-vars
+  const [_, dragRef] = useDrag({
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),

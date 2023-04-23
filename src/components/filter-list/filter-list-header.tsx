@@ -1,7 +1,6 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import { Box, IconButton, TextInput, Token } from "@primer/react";
-import { ChevronDownIcon, PinIcon, StarFillIcon, StarIcon } from "@primer/octicons-react";
-import { FilterListTypeSelector } from "./filter-list-type-selector";
+import { StarFillIcon, StarIcon } from "@primer/octicons-react";
 import { SearchInput } from "./search-input";
 import { FieldSelector } from "./field-selector";
 import { getEndpoint } from "../../list-endpoints/endpoints";
@@ -45,6 +44,7 @@ export const FilterListHeader: FC<FilterListHeaderProps> = ({
             text={endpoint.name}
             size="xlarge"
             sx={{ mr: 2, color: "accent.fg", borderColor: "accent.emphasis", bg: "accent.subtle" }}
+            // eslint-disable-next-line react/no-unstable-nested-components
             leadingVisual={() => <EndpointIcon endpointId={endpoint.id} />}
           />
           <TextInput value={name} onChange={(e) => setName(e.target.value)} sx={{ flexGrow: 1 }} />

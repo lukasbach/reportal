@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import { Box, RelativeTime, Text, Token } from "@primer/react";
 import { MarkdownViewer } from "@primer/react/drafts";
 import { IssueComment } from "../../gql/graphql";

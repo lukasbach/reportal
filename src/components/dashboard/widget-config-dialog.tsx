@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Box, Button, Dialog, Text, FormControl, TextInput } from "@primer/react";
+import { Box, Button, Dialog, FormControl, TextInput } from "@primer/react";
 import { WidgetPayload } from "../../common/widgets/types";
 import { getWidgetDefinition } from "../../widgets/widget-definitions";
 import { useStableHandler } from "../../utils";
@@ -26,7 +26,7 @@ export const WidgetConfigDialog: FC<WidgetConfigDialogProps> = ({ widget, onClos
     <Dialog isOpen onDismiss={onClose} sx={{ width: "750px", overflow: "auto" }}>
       <Dialog.Header id="header-id">Editing Widget</Dialog.Header>
       <Box sx={{ p: 3, pb: 0, display: "flex", alignItems: "flex-end" }}>
-        <FormControl sx={{flexGrow: 1}}>
+        <FormControl sx={{ flexGrow: 1 }}>
           <FormControl.Label>Widget Name</FormControl.Label>
           <TextInput
             value={name}

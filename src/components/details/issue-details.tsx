@@ -1,5 +1,5 @@
-import React, { FC, ReactNode } from "react";
-import { Box, Button, IconButton, Link, StateLabel, Text, Timeline } from "@primer/react";
+import React, { FC } from "react";
+import { Box, IconButton, Link, Text, Timeline } from "@primer/react";
 import { CommentIcon, KebabHorizontalIcon, XIcon } from "@primer/octicons-react";
 import { DetailsState } from "./types";
 import { useIssueData } from "./use-issue-data";

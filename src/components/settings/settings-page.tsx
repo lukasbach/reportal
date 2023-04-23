@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useRef } from "react";
+import React, { FC } from "react";
 import { Box, Button, FormControl, Heading, Spinner, TextInput, Text, Flash } from "@primer/react";
 import { GearIcon } from "@primer/octicons-react";
 import { PageHeader } from "../common/page-header";

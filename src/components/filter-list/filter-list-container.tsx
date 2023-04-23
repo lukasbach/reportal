@@ -58,7 +58,7 @@ export const FilterListContainer: FC<FilterListPageProps> = ({ data, onUpdate, i
             embedded={embedded}
           />
         </Box>
-        <SelectionMenu data={fetchData.list} selection={rowSelection} endpoint={endpoint} />
+        <SelectionMenu selection={rowSelection} endpoint={endpoint} />
         <Box flexGrow={1} overflow="auto">
           <ListTable
             scrollRef={listContainerRef}

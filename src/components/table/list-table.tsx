@@ -20,7 +20,7 @@ export const ListTable: FC<ListTableProps> = ({ scrollRef, expandItems, onClickR
           <Box as="tr" sx={tableStyles.headerGroup} key={headerGroup.id}>
             {canSelect && <Box as="th" sx={tableStyles.checkboxCell} />}
             {headerGroup.headers.map((header) => (
-              <TableHead header={header} table={table} key={header.id} />
+              <TableHead header={header} key={header.id} />
             ))}
           </Box>
         ))}

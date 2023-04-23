@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC } from "react";
 import { ValueBoardItem } from "../../widgets/value-board-widget";
 import { useCountListItems } from "../../common/filter-lists/use-count-list-items";
 import { getEndpoint } from "../../list-endpoints/endpoints";

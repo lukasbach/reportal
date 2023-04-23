@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Button } from "@primer/react";
+import { Box } from "@primer/react";
 import { GraphIcon } from "@primer/octicons-react";
 import {
   useCreateFilterList,

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useStableHandler } from "../../utils";
 import { useImport } from "./use-import";
-import { useConfirm, usePrompt } from "../../dialogs";
+import { useConfirm } from "../../dialogs";
 
 export const useImportFlow = () => {
   const importData = useImport();

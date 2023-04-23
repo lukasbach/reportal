@@ -7,7 +7,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { router } from "./router";
-import { DetailsProvider } from "./components/details/details-provider";
 import { ThemeWrapper } from "./components/common/theme/theme-wrapper";
 
 import "react-grid-layout/css/styles.css";

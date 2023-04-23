@@ -1,6 +1,6 @@
 import React, { FC, useMemo, useRef, useState } from "react";
 import { ActionList, ActionMenu, Box, TextInput } from "@primer/react";
-import { CloudIcon, CloudOfflineIcon, PencilIcon, SearchIcon } from "@primer/octicons-react";
+import { PencilIcon, SearchIcon } from "@primer/octicons-react";
 import { ParsedSearchResult, parseSearch } from "../../common/filter-lists/search-utils";
 import { ListEndpointDefinition } from "../../common/filter-lists/list-endpoint-definition";
 import { useSearchHelpers } from "../../common/filter-lists/use-search-helpers";

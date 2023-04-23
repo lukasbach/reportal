@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Outlet } from "react-router";
-import { Avatar, Box, Header } from "@primer/react";
+import { Box } from "@primer/react";
 import { Sidebar } from "./sidebar";
 import { DetailsProvider } from "../details/details-provider";
 

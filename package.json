@@ -54,9 +54,13 @@
     "parserOptions": {
       "project": "./tsconfig.json"
     },
+    "rules": {
+      "@typescript-eslint/no-shadow": "off"
+    },
     "ignorePatterns": [
       "lib",
-      "*.js"
+      "*.js",
+      "src/gql"
     ]
   },
   "dependencies": {

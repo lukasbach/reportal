@@ -7,12 +7,12 @@ export type PageHeaderProps = {
   children?: ReactNode;
   title: string | JSX.Element;
   subtitle?: string;
+  // eslint-disable-next-line react/no-unused-prop-types
   icon?: JSX.Element;
   backLink?: string;
-  compact?: boolean;
 };
 
-export const PageHeader: FC<PageHeaderProps> = ({ children, title, subtitle, icon, backLink, compact }) => {
+export const PageHeader: FC<PageHeaderProps> = ({ children, title, subtitle, backLink }) => {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       {backLink && (

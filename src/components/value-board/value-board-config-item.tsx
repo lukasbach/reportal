@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { ActionList, ActionMenu, Box, FormControl, IconButton, SegmentedControl, TextInput } from "@primer/react";
+import { ActionList, ActionMenu, Box, FormControl, IconButton, TextInput } from "@primer/react";
 import { GrabberIcon, TrashIcon } from "@primer/octicons-react";
 import { useDrag, useDrop } from "react-dnd";
 import { ValueBoardItem } from "../../widgets/value-board-widget";

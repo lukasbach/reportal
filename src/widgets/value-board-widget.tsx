@@ -82,6 +82,7 @@ const DisplayComponent: WidgetDisplayComponent<ValueBoardWidgetConfig> = ({ conf
       sx={{ display: "flex", flexWrap: "wrap", alignContent: "center", justifyContent: "flex-start", height: "100%" }}
     >
       {config.items.map((item, index) => (
+        // eslint-disable-next-line react/no-array-index-key
         <ValueBoardDisplayItem config={item} key={index} />
       ))}
     </Box>

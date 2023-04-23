@@ -1,7 +1,7 @@
-import { Avatar, Box, RelativeTime, Text } from "@primer/react";
+import { RelativeTime } from "@primer/react";
 import React from "react";
 import byteSize from "byte-size";
-import { CheckCircleFillIcon, CircleIcon } from "@primer/octicons-react";
+import { CheckCircleFillIcon } from "@primer/octicons-react";
 import { ResponseField } from "./types";
 import { IssueStateIcon } from "../../components/common/issue-state-icon";
 import { CellContentWithIcon } from "../../components/common/cell-content-with-icon";

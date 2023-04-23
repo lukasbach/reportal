@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { filterByClientFilters, ParsedSearchResult } from "./search-utils";
 import { useFetchInitialPage } from "../../components/filter-list/use-fetch-initial-page";
 import { useRefCopy, useStableHandler } from "../../utils";

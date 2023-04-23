@@ -1,18 +1,17 @@
-import React, { FC, ReactNode, useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import { Box, Button, ButtonGroup } from "@primer/react";
 import { RowSelection } from "./types";
 import { ListEndpointDefinition } from "../../common/filter-lists/list-endpoint-definition";
 import { getActionsForEndpoint } from "../../actions/action-definitions";
 
 export type SelectionMenuProps = {
-  data: any[];
   selection: RowSelection;
   endpoint: ListEndpointDefinition;
 };
 
 // TODO issue: pagination in table is handled manually, so changing the page screws up the selection
 
-export const SelectionMenu: FC<SelectionMenuProps> = ({ selection, data, endpoint }) => {
+export const SelectionMenu: FC<SelectionMenuProps> = ({ selection, endpoint }) => {
   const selectedItemCount = Object.keys(selection).length;
   const actions = useMemo(() => getActionsForEndpoint(endpoint.id), [endpoint.id]);
 

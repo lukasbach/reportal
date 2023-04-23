@@ -3,7 +3,7 @@ import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import { ActionList, ActionMenu, Box, IconButton } from "@primer/react";
 import { GraphIcon, PencilIcon } from "@primer/octicons-react";
 import { widgetDefinitions } from "../../widgets/widget-definitions";
-import { DashboardConfig, WidgetPayload } from "../../common/widgets/types";
+import { DashboardConfig } from "../../common/widgets/types";
 import { WidgetContentRenderer } from "./widget-content-renderer";
 import { WidgetConfigDialog } from "./widget-config-dialog";
 import { useStableHandler } from "../../utils";
@@ -21,7 +21,7 @@ export type DashboardContainerProps = {
 
 export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, data }) => {
   const [name, setName] = useState(data.name);
-  const [pinned, setPinned] = useState(data.pinned);
+  const [pinned] = useState(data.pinned);
   const [editingWidget, setEditingWidget] = useState<string | null>(null);
   const [layouts, setLayouts] = useState<Layouts>(data.layouts);
   const [widgets, setWidgets] = useState(data.widgets);
@@ -55,6 +55,7 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
       return;
     }
     setWidgets((old) => {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       const { [editingWidget]: _, ...rest } = old;
       return rest;
     });
@@ -115,7 +116,6 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
             }
             icon={<GraphIcon size={24} />}
             backLink="/app/dashboards"
-            compact
           >
             <ActionMenu>
               <ActionMenu.Button variant="primary" size="large" sx={{ m: 2 }}>

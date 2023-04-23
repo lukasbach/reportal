@@ -1,5 +1,5 @@
 import { Octokit } from "@octokit/rest";
-import { FilterValue, SearchQueryDefinition, ServerFilter } from "../common/filter-lists/types";
+import { FieldType, FilterValue, SearchQueryDefinition, ServerFilter } from "../common/filter-lists/types";
 import { cellRenderers } from "../common/filter-lists/cell-renderers";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
@@ -46,7 +46,7 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
     },
     { jsonKey: "actor.login", name: "Actor Login", renderCell: cellRenderers.author("actor", "login", "avatar_url") },
     { jsonKey: "repo.name", name: "Repo Name" },
-    { jsonKey: "public", name: "Public", isBoolean: true },
+    { jsonKey: "public", name: "Public", type: FieldType.Boolean },
     { jsonKey: "created_at", name: "Created Date", renderCell: cellRenderers.date() },
 
     // TODO https://docs.github.com/en/webhooks-and-events/events/github-event-types#commitcommentevent
@@ -57,7 +57,7 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
     { key: "receivedby" },
     { key: "repo" },
     { key: "org" },
-    { key: "public", isBoolean: true },
+    { key: "public", type: FieldType.Boolean },
   ];
 
   override orderByOptions = undefined;

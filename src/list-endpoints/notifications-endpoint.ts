@@ -1,4 +1,4 @@
-import { SearchQueryDefinition } from "../common/filter-lists/types";
+import { FieldType, SearchQueryDefinition } from "../common/filter-lists/types";
 import { cellRenderers } from "../common/filter-lists/cell-renderers";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
@@ -21,7 +21,7 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
     { jsonKey: "id", name: "ID" },
     { jsonKey: "subject.title", name: "Title" },
     { jsonKey: "subject.type", name: "Type", suggestions: ["Issue", "PullRequest", "CheckSuite"] },
-    { jsonKey: "unread", name: "Unread", isBoolean: true },
+    { jsonKey: "unread", name: "Unread", type: FieldType.Boolean },
     {
       jsonKey: "reason",
       name: "Reason",
@@ -49,8 +49,8 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
   ];
 
   override readonly serverFilters = [
-    { key: "all", isBoolean: true },
-    { key: "participating", isBoolean: true },
+    { key: "all", type: FieldType.Boolean },
+    { key: "participating", type: FieldType.Boolean },
     { key: "since" },
     { key: "before" },
   ];

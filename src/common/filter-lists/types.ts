@@ -1,11 +1,21 @@
 import { Octokit } from "@octokit/rest";
 import { QueryFunctionContext, QueryKey } from "@tanstack/react-query";
 
+export enum FieldType {
+  Text = "text",
+  User = "user",
+  Enum = "enum",
+  Boolean = "boolean",
+  Date = "date",
+  Number = "number",
+  Range = "range",
+}
+
 export type ResponseField = {
   jsonKey: string;
   name: string;
   suggestions?: string[];
-  isBoolean?: boolean;
+  type?: FieldType;
   renderCell?: (value: string, dataObject: any) => JSX.Element | string;
 };
 
@@ -13,7 +23,7 @@ export type ServerFilter = {
   key: string;
   desc?: string;
   suggestions?: string[];
-  isBoolean?: boolean;
+  type?: FieldType;
   multiple?: boolean;
 };
 

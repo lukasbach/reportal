@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Outlet } from "react-router";
 import { Avatar, Box, Header } from "@primer/react";
 import { Sidebar } from "./sidebar";
+import { DetailsProvider } from "../details/details-provider";
 
 export const AppLayout: FC = () => {
   return (
@@ -20,6 +21,7 @@ export const AppLayout: FC = () => {
         <Sidebar />
       </Box>
       <Box flexGrow={1} overflow="auto">
+        <DetailsProvider />
         <Outlet />
       </Box>
     </Box>

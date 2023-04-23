@@ -17,6 +17,8 @@ import "@primer/react-brand/lib/css/main.css";
 
 const queryClient = new QueryClient();
 
+// TODO recolor resize handle in widget corner for dark mode
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   // <React.StrictMode>
   <DndProvider backend={HTML5Backend}>
@@ -24,7 +26,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <ThemeWrapper>
         <BaseStyles bg="canvas.default">
           <RouterProvider router={router} />
-          <DetailsProvider />
         </BaseStyles>
       </ThemeWrapper>
     </QueryClientProvider>

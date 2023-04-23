@@ -1,5 +1,6 @@
 import { FilterListState } from "../../components/filter-list/types";
 import {
+  FieldType,
   FilterValue,
   ListSearchProps,
   OrderByOption,
@@ -52,28 +53,34 @@ export abstract class ListEndpointDefinition<T = any> {
     text: (name: string, jsonKey: string): ResponseField => ({
       jsonKey,
       name,
+      type: FieldType.Text,
     }),
     user: (name: string, jsonKey: string, login = "login", avatarUrl = "avatarUrl"): ResponseField => ({
       jsonKey: `${jsonKey}.${login}`,
       name,
+      type: FieldType.User,
       renderCell: cellRenderers.author(jsonKey, login, avatarUrl),
     }),
     date: (name: string, jsonKey: string): ResponseField => ({
       jsonKey,
       name,
+      type: FieldType.Date,
       renderCell: cellRenderers.date(),
     }),
     url: (name: string, jsonKey: string): ResponseField => ({
       jsonKey,
       name,
+      type: FieldType.Text,
     }),
     number: (name: string, jsonKey: string): ResponseField => ({
       jsonKey,
       name,
+      type: FieldType.Number,
     }),
     diskUsage: (name: string, jsonKey: string): ResponseField => ({
       jsonKey,
       name,
+      type: FieldType.Text,
       renderCell: cellRenderers.diskUsage(),
     }),
     boolean: (name: string, jsonKey: string): ResponseField => ({
@@ -81,17 +88,19 @@ export abstract class ListEndpointDefinition<T = any> {
       name,
       renderCell: cellRenderers.boolean(),
       suggestions: ["true", "false"],
-      isBoolean: true,
+      type: FieldType.Boolean,
     }),
     enum: (name: string, jsonKey: string, options: string[]): ResponseField => ({
       jsonKey,
       name,
       suggestions: options,
+      type: FieldType.Enum,
     }),
     custom: (name: string, jsonKey: string, renderCell?: ResponseField["renderCell"]): ResponseField => ({
       jsonKey,
       name,
       renderCell,
+      type: FieldType.Text,
     }),
   };
 
@@ -100,24 +109,27 @@ export abstract class ListEndpointDefinition<T = any> {
       key,
       desc: label,
       multiple,
+      type: FieldType.Text,
     }),
     boolean: (key: string, label: string, multiple = false): ServerFilter => ({
       key,
       desc: label,
       multiple,
       suggestions: ["true", "false"],
-      isBoolean: true,
+      type: FieldType.Boolean,
     }),
     date: (key: string, label: string, multiple = false): ServerFilter => ({
       key,
       desc: label,
       multiple,
+      type: FieldType.Date,
     }),
     enum: (key: string, label: string, options: string[], multiple = false): ServerFilter => ({
       key,
       desc: label,
       multiple,
       suggestions: options,
+      type: FieldType.Enum,
     }),
   };
 }

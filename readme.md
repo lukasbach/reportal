@@ -1,5 +1,16 @@
-# helloGH
+# Reportal
 
+> A dashboarding- and item management tool for Github.
+
+[![Demo](https://raw.githubusercontent.com/lukasbach/hellogh/main/src/assets/demo-medium.gif)](https://reportal.lukasbach.com)
+
+Use for free on [reportal.lukasbach.com](https://reportal.lukasbach.com).
+
+Reportal allows you to create custom dashboards and list views with your data from
+GitHub. You can create dashboards for specific repositories, which list relevant
+issues, discussions, pull requests and release information, or create a dashboard
+for your user or organization, which shows information related to all your
+repositories.
 
 ## How to develop
 

@@ -1,7 +1,6 @@
-name: Deploy
+name: Verify
 on:
   push:
-    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -17,7 +16,3 @@ jobs:
       - run: yarn build
       - run: yarn test
       - run: yarn lint:test
-      - uses: actions/upload-pages-artifact
-        with:
-          path: ./dist
-      - uses: actions/deploy-pages@v2

@@ -4,6 +4,12 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  deployments: write
+  id-token: write
+
 jobs:
   test:
     runs-on: ubuntu-latest

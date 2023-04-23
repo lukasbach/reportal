@@ -1,6 +1,5 @@
 import React, { FC, MutableRefObject, useEffect, useState } from "react";
-import { ActionList, Box } from "@primer/react";
-import { CloudIcon, CloudOfflineIcon } from "@primer/octicons-react";
+import { Box } from "@primer/react";
 import { Suggestion } from "../../common/filter-lists/search-utils";
 import { SearchSuggestionsList } from "./search-suggestions-list";
 import { SearchSuggestionsHelpbox } from "./search-suggestions-helpbox";
@@ -34,7 +33,7 @@ export const SearchSuggestions: FC<SearchSuggestionsProps> = ({
       position="absolute"
       zIndex={100}
       width="100%"
-      maxHeight="300px"
+      maxHeight="400px"
       display="flex"
     >
       <SearchSuggestionsList

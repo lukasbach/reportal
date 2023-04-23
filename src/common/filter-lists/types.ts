@@ -21,7 +21,7 @@ export type ResponseField = {
 
 export type ServerFilter = {
   key: string;
-  desc?: string;
+  name?: string;
   suggestions?: string[];
   type?: FieldType;
   multiple?: boolean;

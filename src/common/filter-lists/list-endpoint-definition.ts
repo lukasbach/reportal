@@ -107,26 +107,26 @@ export abstract class ListEndpointDefinition<T = any> {
   protected serverFilter = {
     text: (key: string, label: string, multiple = false): ServerFilter => ({
       key,
-      desc: label,
+      name: label,
       multiple,
       type: FieldType.Text,
     }),
     boolean: (key: string, label: string, multiple = false): ServerFilter => ({
       key,
-      desc: label,
+      name: label,
       multiple,
       suggestions: ["true", "false"],
       type: FieldType.Boolean,
     }),
     date: (key: string, label: string, multiple = false): ServerFilter => ({
       key,
-      desc: label,
+      name: label,
       multiple,
       type: FieldType.Date,
     }),
     enum: (key: string, label: string, options: string[], multiple = false): ServerFilter => ({
       key,
-      desc: label,
+      name: label,
       multiple,
       suggestions: options,
       type: FieldType.Enum,

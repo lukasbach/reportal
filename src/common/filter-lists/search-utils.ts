@@ -83,7 +83,7 @@ export const getSuggestions = (finalPart: string, search: string, endpoint: List
       text: `${filter.key}:`,
       newValue: `${searchPrefix}${filter.key}:`,
       isClientFilter: false,
-      description: filter.desc,
+      description: filter.name,
       filter,
     }));
   const clientFilterSuggestions = endpoint.responseFields

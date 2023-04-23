@@ -2,7 +2,7 @@ name: Deploy
 on: push
 
 permissions:
-  contents: write
+  pages: write
 
 jobs:
   test:
@@ -14,7 +14,7 @@ jobs:
       - run: yarn build
       - run: yarn test
       - run: yarn lint:test
-      - uses: peaceiris/actions-gh-pages@v3
+      - uses: actions/upload-pages-artifact
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          path: ./dist
+      - uses: actions/deploy-pages@v2

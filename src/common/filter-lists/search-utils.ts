@@ -72,26 +72,29 @@ export const getSuggestions = (finalPart: string, search: string, endpoint: List
           newValue: `${searchPrefix}${filterKey}:${suggestion} `,
           isClientFilter,
           description: undefined,
+          filter,
         }));
     }
   }
 
   const serverFilterSuggestions = endpoint.serverFilters
     .filter(({ key }) => testSuggestion(`${key}:`, finalPart))
-    .map(({ key, desc }) => ({
-      text: `${key}:`,
-      newValue: `${searchPrefix}${key}:`,
+    .map((filter) => ({
+      text: `${filter.key}:`,
+      newValue: `${searchPrefix}${filter.key}:`,
       isClientFilter: false,
-      description: desc,
+      description: filter.desc,
+      filter,
     }));
   const clientFilterSuggestions = endpoint.responseFields
     .filter(({ jsonKey }) => testSuggestion(`${jsonKey}:`, finalPart))
     .filter(({ jsonKey }) => !endpoint.serverFilters.some((serverFilter) => serverFilter.key === jsonKey))
-    .map(({ jsonKey, name }) => ({
-      text: `${jsonKey}:`,
-      newValue: `${searchPrefix}${jsonKey}:`,
+    .map((filter) => ({
+      text: `${filter.jsonKey}:`,
+      newValue: `${searchPrefix}${filter.jsonKey}:`,
       isClientFilter: true,
-      description: name,
+      description: filter.name,
+      filter,
     }));
   const all = [...serverFilterSuggestions, ...clientFilterSuggestions];
   return all.filter((item, index) => all.findIndex((item2) => item2.text === item.text) === index);

@@ -1,7 +1,9 @@
-import React, { FC, MutableRefObject } from "react";
+import React, { FC, MutableRefObject, useEffect, useState } from "react";
 import { ActionList, Box } from "@primer/react";
 import { CloudIcon, CloudOfflineIcon } from "@primer/octicons-react";
 import { Suggestion } from "../../common/filter-lists/search-utils";
+import { SearchSuggestionsList } from "./search-suggestions-list";
+import { SearchSuggestionsHelpbox } from "./search-suggestions-helpbox";
 
 export type SearchSuggestionsProps = {
   isFocused: boolean;
@@ -18,6 +20,12 @@ export const SearchSuggestions: FC<SearchSuggestionsProps> = ({
   isFocused,
   focusedIndex,
 }) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number>();
+
+  useEffect(() => {
+    setHoveredIndex(focusedIndex);
+  }, [focusedIndex]);
+
   return (
     <Box
       ref={overlayRef}
@@ -26,35 +34,17 @@ export const SearchSuggestions: FC<SearchSuggestionsProps> = ({
       position="absolute"
       zIndex={100}
       width="100%"
-      borderWidth="1px"
-      borderStyle="solid"
-      borderColor="border.default"
-      borderRadius={2}
-      bg="canvas.overlay"
       maxHeight="300px"
-      overflow="auto"
+      display="flex"
     >
-      <ActionList role="listbox">
-        <ActionList.Group>
-          {suggestions.map((suggestion, index) => (
-            <ActionList.Item
-              role="option"
-              key={suggestion.newValue}
-              onSelect={() => {
-                onSelect(suggestion);
-              }}
-              active={focusedIndex === index}
-              className="suggestion-item"
-            >
-              <ActionList.LeadingVisual>
-                {suggestion.isClientFilter ? <CloudOfflineIcon size={16} /> : <CloudIcon size={16} />}
-              </ActionList.LeadingVisual>
-              {suggestion.text}
-              {suggestion.description && <ActionList.Description>{suggestion.description}</ActionList.Description>}
-            </ActionList.Item>
-          ))}
-        </ActionList.Group>
-      </ActionList>
+      <SearchSuggestionsList
+        suggestions={suggestions}
+        onSelect={onSelect}
+        focusedIndex={focusedIndex}
+        setHoveredIndex={setHoveredIndex}
+      />
+
+      <SearchSuggestionsHelpbox suggestion={suggestions[hoveredIndex ?? focusedIndex]} />
     </Box>
   );
 };

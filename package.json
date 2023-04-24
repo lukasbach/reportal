@@ -42,7 +42,8 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.0.3",
     "vite": "^4.2.1",
-    "vite-plugin-css-injected-by-js": "^3.1.0"
+    "vite-plugin-css-injected-by-js": "^3.1.0",
+    "vite-plugin-favicons-inject": "^2.2.0"
   },
   "packageManager": "yarn@3.5.0",
   "volta": {

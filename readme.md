@@ -1,4 +1,4 @@
-# Reportal
+# ![](./src/assets/icon.svg) Reportal
 
 > A dashboarding- and item management tool for Github.
 

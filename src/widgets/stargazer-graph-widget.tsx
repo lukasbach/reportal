@@ -116,6 +116,8 @@ export class StargazerGraphWidget extends AbstractWidgetDefinition<StargazerGrap
 
   readonly defaultSize = [5, 2] as const;
 
+  readonly minSize = [2, 1] as const;
+
   private static query = `query repoDataQuery($owner: String!, $repo: String!, $cursor: String) {
     repository(name: $repo, owner: $owner) {
       stargazers(first: 100, after: $cursor) {

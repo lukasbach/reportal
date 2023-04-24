@@ -82,4 +82,6 @@ export class FilterListWidget extends AbstractWidgetDefinition<FilterListWidgetC
   }
 
   readonly defaultSize = [5, 2] as const;
+
+  readonly minSize = [3, 1] as const;
 }

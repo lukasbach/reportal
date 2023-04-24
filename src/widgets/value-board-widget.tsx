@@ -109,4 +109,6 @@ export class ValueBoardWidget extends AbstractWidgetDefinition<ValueBoardWidgetC
   }
 
   readonly defaultSize = [4, 1] as const;
+
+  readonly minSize = [2, 1] as const;
 }

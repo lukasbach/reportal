@@ -16,7 +16,9 @@ export const ThemeWrapper: FC<ThemeWrapperProps> = ({ children }) => {
     const isBrowserDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
     const isDark =
       mode === ColorMode.Dark || mode === ColorMode.DarkDimmed || (mode === ColorMode.Auto && isBrowserDark);
-    style.innerHTML = isDark ? `:root { color-scheme: dark; }` : "";
+    style.innerHTML = isDark
+      ? `:root { color-scheme: dark; } .react-grid-item > .react-resizable-handle::after { border-color: white !important; }`
+      : "";
     document.head.appendChild(style);
   }, [mode]);
   return (

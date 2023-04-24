@@ -72,7 +72,9 @@ export class LinkListWidget extends AbstractWidgetDefinition<LinkListWidgetConfi
     };
   }
 
-  readonly defaultSize = [5, 2] as const;
+  readonly defaultSize = [3, 2] as const;
+
+  readonly minSize = [2, 1] as const;
 
   static parseItems(links: string): ParsedLinkItem[] {
     return links

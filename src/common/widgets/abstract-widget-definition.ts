@@ -8,6 +8,8 @@ export abstract class AbstractWidgetDefinition<T = any> {
 
   abstract readonly defaultSize: readonly [number, number] | undefined;
 
+  abstract readonly minSize: readonly [number, number] | undefined;
+
   abstract readonly configComponent: WidgetConfigComponent<T>;
 
   abstract readonly displayComponent: WidgetDisplayComponent<T>;

@@ -71,13 +71,14 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
     const newId = Math.random().toString(36).substr(2, 9);
     const config = await widget.generateDefaultConfig();
     const [w, h] = widget.defaultSize ?? [3, 1];
+    const [minW, minH] = widget.minSize ?? [undefined, undefined];
     setWidgets((old) => ({
       ...old,
       [newId]: { name: widget.name, config, type: widget.id, color: "default" },
     }));
     setLayouts((old) => {
       for (const key of Object.keys(old)) {
-        old[key].push({ i: newId, x: 0, y: Infinity, w, h });
+        old[key].push({ i: newId, x: 0, y: Infinity, w, h, minW, minH });
       }
       return old;
     });
@@ -87,6 +88,8 @@ export const DashboardContainer: FC<DashboardContainerProps> = ({ id, onUpdate, 
   useEffect(markDirty, [widgets, layouts, name, pinned, markDirty]);
 
   const { dialog: renameDialog, prompt: promptRename } = usePrompt(`Rename Dashboard`, `Dashboard name`, "New name");
+
+  console.log(layouts);
 
   return (
     <>

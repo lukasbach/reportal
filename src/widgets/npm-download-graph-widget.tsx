@@ -81,4 +81,6 @@ export class NpmDownloadGraphWidget extends AbstractWidgetDefinition<NpmDownload
   }
 
   readonly defaultSize = [5, 2] as const;
+
+  readonly minSize = [2, 1] as const;
 }

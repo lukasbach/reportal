@@ -115,6 +115,8 @@ export class OpenIssuesGraphWidget extends AbstractWidgetDefinition<OpenIssuesGr
 
   readonly defaultSize = [5, 2] as const;
 
+  readonly minSize = [2, 1] as const;
+
   static async fetchIssues(repoString: string, octokit: Octokit) {
     const [owner, repo] = repoString.split("/", 2);
     const issues: Item[] = [];

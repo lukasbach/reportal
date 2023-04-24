@@ -77,7 +77,7 @@ export const SettingsPage: FC = () => {
       </Heading>
       <Flash variant="danger">
         <Text as="p" mt={0}>
-          Remove all your data and delete your account.This will remove all your dashboard configurations and filter
+          Remove all your data and delete your account. This will remove all your dashboard configurations and filter
           list queries. This cannot be undone. Export your data first if you want to keep it.
         </Text>
         <Box display="flex" alignItems="center">

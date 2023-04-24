@@ -1,7 +1,14 @@
 import React, { FC } from "react";
 import { ActionList, Box } from "@primer/react";
 import { Link, NavLink } from "react-router-dom";
-import { GearIcon, GraphIcon, PaintbrushIcon, TelescopeFillIcon, TelescopeIcon } from "@primer/octicons-react";
+import {
+  GearIcon,
+  GraphIcon,
+  MarkGithubIcon,
+  PaintbrushIcon,
+  TelescopeFillIcon,
+  TelescopeIcon,
+} from "@primer/octicons-react";
 import { useGetPinnedFilterLists } from "../../firebase/filter-lists";
 import { EndpointIcon } from "./endpoint-icon";
 import { useGetPinnedDashboards } from "../../firebase/dashboards";
@@ -97,6 +104,17 @@ export const Sidebar: FC<SidebarProps> = () => {
                 <GearIcon size={16} />
               </ActionList.LeadingVisual>
               Settings
+            </ActionList.Item>
+          )}
+        </NavLink>
+
+        <NavLink to="https://github.com/lukasbach/reportal" className="unstyled-link" target="_blank" end>
+          {({ isActive }) => (
+            <ActionList.Item active={isActive}>
+              <ActionList.LeadingVisual>
+                <MarkGithubIcon size={16} />
+              </ActionList.LeadingVisual>
+              Star on GitHub
             </ActionList.Item>
           )}
         </NavLink>

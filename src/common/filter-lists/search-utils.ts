@@ -1,5 +1,5 @@
 /* eslint-disable no-continue */
-import { FilterValue, ResponseField, ServerFilter, UnclassifiedFilter } from "./types";
+import { FilterValue, ListField, UnclassifiedFilter } from "./types";
 import { isNotNullish, resolveRecursiveSubitem } from "../../utils";
 import { ListEndpointDefinition } from "./list-endpoint-definition";
 
@@ -61,8 +61,8 @@ export const getSuggestions = (finalPart: string, search: string, endpoint: List
     const [filterKey, filterValuePrefix] = finalPart.split(":", 2);
     const filter =
       endpoint.serverFilters.find((serverFilter) => serverFilter.key === filterKey) ??
-      endpoint.responseFields.find((clientField) => clientField.jsonKey === filterKey);
-    const isClientFilter = !!(filter as ResponseField)?.jsonKey;
+      endpoint.responseFields.find((clientField) => clientField.key === filterKey);
+    const isClientFilter = !!(filter as ListField)?.key;
 
     if (filter?.suggestions) {
       return filter.suggestions
@@ -87,11 +87,11 @@ export const getSuggestions = (finalPart: string, search: string, endpoint: List
       filter,
     }));
   const clientFilterSuggestions = endpoint.responseFields
-    .filter(({ jsonKey }) => testSuggestion(`${jsonKey}:`, finalPart))
-    .filter(({ jsonKey }) => !endpoint.serverFilters.some((serverFilter) => serverFilter.key === jsonKey))
+    .filter(({ key }) => testSuggestion(`${key}:`, finalPart))
+    .filter(({ key }) => !endpoint.serverFilters.some((serverFilter) => serverFilter.key === key))
     .map((filter) => ({
-      text: `${filter.jsonKey}:`,
-      newValue: `${searchPrefix}${filter.jsonKey}:`,
+      text: `${filter.key}:`,
+      newValue: `${searchPrefix}${filter.key}:`,
       isClientFilter: true,
       description: filter.name,
       filter,
@@ -105,7 +105,7 @@ export type Suggestion = ReturnType<typeof getSuggestions>[number];
 export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any>) => {
   const { filters, searchTerms, finalItem } = parseIntoFilters(search);
   const serverFilters = filters
-    .map<FilterValue<ServerFilter> | null>((item) => {
+    .map<FilterValue<ListField> | null>((item) => {
       const filter = endpoint.serverFilters.find((serverFilter) => serverFilter.key === item.key);
       return filter
         ? {
@@ -117,12 +117,12 @@ export const parseSearch = (search: string, endpoint: ListEndpointDefinition<any
     })
     .filter(isNotNullish);
   const clientFilters = filters
-    .map<FilterValue<ResponseField> | null>((item) => {
+    .map<FilterValue<ListField> | null>((item) => {
       if (serverFilters.some((serverFilter) => serverFilter.filter.key === item.key)) {
         return null;
       }
 
-      const filter = endpoint.responseFields.find((clientField) => clientField.jsonKey === item.key);
+      const filter = endpoint.responseFields.find((clientField) => clientField.key === item.key);
       return filter
         ? {
             filter,
@@ -146,7 +146,7 @@ export const reconstructSearchString = (parsedSearch: ParsedSearchResult) => {
   ].join(" ");
 };
 
-export const constructGithubSearch = (searchStrings: string[], filters: FilterValue<ServerFilter>[]) => {
+export const constructGithubSearch = (searchStrings: string[], filters: FilterValue<ListField>[]) => {
   return [
     ...filters.map(({ filter, value, negated }) => `${negated ? "-" : ""}${filter.key}:${value}`),
     ...searchStrings.map((term) => (term.includes(" ") ? `"${term}"` : term)),
@@ -158,7 +158,7 @@ export const filterByClientFilters = <T>(item: T, search: ParsedSearchResult | n
     return true;
   }
   return search.clientFilters.every(({ filter, value, negated }) => {
-    const itemValue = resolveRecursiveSubitem(item, filter.jsonKey);
+    const itemValue = resolveRecursiveSubitem(item, filter.key);
     if (itemValue === undefined) {
       return true;
     }

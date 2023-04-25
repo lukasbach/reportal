@@ -179,18 +179,18 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
   ];
 
   override readonly responseFields = [
-    { jsonKey: "number", name: "Number" },
-    { jsonKey: "closed", name: "Closed" },
-    { jsonKey: "author.login", name: "Author", renderCell: cellRenderers.author("author", "login", "avatarUrl") },
-    { jsonKey: "title", name: "Title", renderCell: cellRenderers.issueTitle() },
+    { key: "number", name: "Number" },
+    { key: "closed", name: "Closed" },
+    { key: "author.login", name: "Author", renderCell: cellRenderers.author("author", "login", "avatarUrl") },
+    { key: "title", name: "Title", renderCell: cellRenderers.issueTitle() },
     ...repositoryResponseFields,
-    { jsonKey: "closedAt", name: "Closed Date", renderCell: cellRenderers.date() },
-    { jsonKey: "comments.totalCount", name: "Comments Count" },
-    { jsonKey: "createdAt", name: "Created Date", renderCell: cellRenderers.date() },
-    { jsonKey: "state", name: "State", renderCell: cellRenderers.issueState() },
-    { jsonKey: "stateReason", name: "State Reason" },
-    { jsonKey: "updatedAt", name: "Updated Date", renderCell: cellRenderers.date() },
-    { jsonKey: "url", name: "URL" },
+    { key: "closedAt", name: "Closed Date", renderCell: cellRenderers.date() },
+    { key: "comments.totalCount", name: "Comments Count" },
+    { key: "createdAt", name: "Created Date", renderCell: cellRenderers.date() },
+    { key: "state", name: "State", renderCell: cellRenderers.issueState() },
+    { key: "stateReason", name: "State Reason" },
+    { key: "updatedAt", name: "Updated Date", renderCell: cellRenderers.date() },
+    { key: "url", name: "URL" },
   ];
 
   override readonly serverFilters = [

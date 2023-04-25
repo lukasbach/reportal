@@ -19,9 +19,9 @@ export const FieldSelector: FC<FieldSelectorProps> = ({ endpoint, fields, setFie
 
   const items = useMemo(
     () =>
-      endpoint.responseFields.map(({ name, jsonKey }) => ({
+      endpoint.responseFields.map(({ name, key }) => ({
         text: name,
-        id: jsonKey,
+        id: key,
       })),
     [endpoint.responseFields]
   );

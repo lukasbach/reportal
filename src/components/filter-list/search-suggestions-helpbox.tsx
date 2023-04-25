@@ -9,7 +9,7 @@ import {
   ListUnorderedIcon,
 } from "@primer/octicons-react";
 import { Suggestion } from "../../common/filter-lists/search-utils";
-import { FieldType, ResponseField, ServerFilter } from "../../common/filter-lists/types";
+import { FieldType, ListField } from "../../common/filter-lists/types";
 
 export type SearchSuggestionsHelpboxProps = {
   suggestion?: Suggestion;
@@ -42,7 +42,7 @@ const Code: FC<PropsWithChildren> = ({ children }) => (
 export const SearchSuggestionsHelpbox: FC<SearchSuggestionsHelpboxProps> = ({ suggestion }) => {
   if (!suggestion) return null;
 
-  const filterKey = (suggestion.filter as ServerFilter).key ?? (suggestion.filter as ResponseField).jsonKey;
+  const filterKey = (suggestion.filter as ListField).key ?? (suggestion.filter as ListField).key;
   return (
     <Box
       borderWidth="1px"

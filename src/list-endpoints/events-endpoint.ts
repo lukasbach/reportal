@@ -1,5 +1,5 @@
 import { Octokit } from "@octokit/rest";
-import { FieldType, FilterValue, SearchQueryDefinition, ServerFilter } from "../common/filter-lists/types";
+import { FieldType, FilterValue, SearchQueryDefinition, ListField } from "../common/filter-lists/types";
 import { cellRenderers } from "../common/filter-lists/cell-renderers";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
@@ -19,9 +19,9 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
   };
 
   override readonly responseFields = [
-    { jsonKey: "id", name: "ID" },
+    { key: "id", name: "ID" },
     {
-      jsonKey: "type",
+      key: "type",
       name: "Event Type",
       suggestions: [
         "CommitCommentEvent",
@@ -44,10 +44,10 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
       ],
       renderCell: cellRenderers.eventType(),
     },
-    { jsonKey: "actor.login", name: "Actor Login", renderCell: cellRenderers.author("actor", "login", "avatar_url") },
-    { jsonKey: "repo.name", name: "Repo Name" },
-    { jsonKey: "public", name: "Public", type: FieldType.Boolean },
-    { jsonKey: "created_at", name: "Created Date", renderCell: cellRenderers.date() },
+    { key: "actor.login", name: "Actor Login", renderCell: cellRenderers.author("actor", "login", "avatar_url") },
+    { key: "repo.name", name: "Repo Name" },
+    { key: "public", name: "Public", type: FieldType.Boolean },
+    { key: "created_at", name: "Created Date", renderCell: cellRenderers.date() },
 
     // TODO https://docs.github.com/en/webhooks-and-events/events/github-event-types#commitcommentevent
   ];
@@ -86,7 +86,7 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
     };
   }
 
-  private fetch(octokit: Octokit, filters: FilterValue<ServerFilter>[], page: { page: number; per_page: number }) {
+  private fetch(octokit: Octokit, filters: FilterValue<ListField>[], page: { page: number; per_page: number }) {
     const filterMap = this.getFiltersAsMap(filters);
     console.log("!", filterMap);
     // TODO replace @me with my username, maybe even globally in all queries

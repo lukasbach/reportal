@@ -2,7 +2,7 @@ import { RelativeTime } from "@primer/react";
 import React from "react";
 import byteSize from "byte-size";
 import { CheckCircleFillIcon } from "@primer/octicons-react";
-import { ResponseField } from "./types";
+import { ListField } from "./types";
 import { IssueStateIcon } from "../../components/common/issue-state-icon";
 import { CellContentWithIcon } from "../../components/common/cell-content-with-icon";
 import { EventTypeDescriptor } from "../../components/common/event-type-descriptor";
@@ -24,11 +24,11 @@ export const cellRenderers = {
     ),
   eventType: () => (value, data) => <EventTypeDescriptor eventType={value} data={data} />,
   date: () => (value) => <RelativeTime datetime={value} />,
-  author: (jsonKey: string, userField: string, avatarField: string) => (value, data) =>
+  author: (key: string, userField: string, avatarField: string) => (value, data) =>
     (
       <GhUserName
-        login={resolveRecursiveSubitem(data, jsonKey)?.[userField]}
-        avatar={resolveRecursiveSubitem(data, jsonKey)?.[avatarField]}
+        login={resolveRecursiveSubitem(data, key)?.[userField]}
+        avatar={resolveRecursiveSubitem(data, key)?.[avatarField]}
       />
     ),
   diskUsage: () => (str) => {
@@ -41,4 +41,4 @@ export const cellRenderers = {
     );
   },
   boolean: () => (value) => value ? <CheckCircleFillIcon size={16} /> : <span />,
-} satisfies Record<string, (...args: any[]) => ResponseField["renderCell"]>;
+} satisfies Record<string, (...args: any[]) => ListField["renderCell"]>;

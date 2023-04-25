@@ -18,12 +18,12 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
   };
 
   override readonly responseFields = [
-    { jsonKey: "id", name: "ID" },
-    { jsonKey: "subject.title", name: "Title" },
-    { jsonKey: "subject.type", name: "Type", suggestions: ["Issue", "PullRequest", "CheckSuite"] },
-    { jsonKey: "unread", name: "Unread", type: FieldType.Boolean },
+    { key: "id", name: "ID" },
+    { key: "subject.title", name: "Title" },
+    { key: "subject.type", name: "Type", suggestions: ["Issue", "PullRequest", "CheckSuite"] },
+    { key: "unread", name: "Unread", type: FieldType.Boolean },
     {
-      jsonKey: "reason",
+      key: "reason",
       name: "Reason",
       suggestions: [
         "assign",
@@ -40,12 +40,12 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
         "team_mention",
       ],
     },
-    { jsonKey: "updated_at", name: "Updated Date", renderCell: cellRenderers.date() },
-    { jsonKey: "last_read_at", name: "Last Read Date", renderCell: cellRenderers.date() },
-    { jsonKey: "repository.full_name", name: "Repo Name with Owner" },
-    { jsonKey: "repository.description", name: "Repo Description" },
-    { jsonKey: "repository.name", name: "Repo Name" },
-    { jsonKey: "repository.owner.login", name: "Repo Owner Login" },
+    { key: "updated_at", name: "Updated Date", renderCell: cellRenderers.date() },
+    { key: "last_read_at", name: "Last Read Date", renderCell: cellRenderers.date() },
+    { key: "repository.full_name", name: "Repo Name with Owner" },
+    { key: "repository.description", name: "Repo Description" },
+    { key: "repository.name", name: "Repo Name" },
+    { key: "repository.owner.login", name: "Repo Owner Login" },
   ];
 
   override readonly serverFilters = [

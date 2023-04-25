@@ -23,7 +23,7 @@ export const useListTable = (
   const columnConfig = useMemo(() => {
     const columnHelper = createColumnHelper();
     return fields.map((field) => {
-      const fieldDef = endpoint.responseFields.find((responseField) => responseField.jsonKey === field);
+      const fieldDef = endpoint.responseFields.find((responseField) => responseField.key === field);
       return columnHelper.accessor(
         (row) => {
           const value = resolveRecursiveSubitem(row, field);

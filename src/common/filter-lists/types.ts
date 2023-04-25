@@ -11,19 +11,12 @@ export enum FieldType {
   Range = "range",
 }
 
-export type ResponseField = {
-  jsonKey: string;
+export type ListField = {
+  key: string;
   name: string;
   suggestions?: string[];
   type?: FieldType;
   renderCell?: (value: string, dataObject: any) => JSX.Element | string;
-};
-
-export type ServerFilter = {
-  key: string;
-  name?: string;
-  suggestions?: string[];
-  type?: FieldType;
   multiple?: boolean;
 };
 
@@ -47,7 +40,7 @@ export type UnclassifiedFilter = {
 
 export type ListSearchProps = {
   octokit: Octokit;
-  filters: FilterValue<ServerFilter>[];
+  filters: FilterValue<ListField>[];
   pageSize: number;
   searchStrings: string[];
 };

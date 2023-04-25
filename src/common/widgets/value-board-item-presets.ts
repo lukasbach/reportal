@@ -41,6 +41,7 @@ export const valueBoardPresetsList: Preset[] = [
   defineGhPreset("openIssues", "Open Issues", "openIssues.totalCount"),
   defineGhPreset("closedIssues", "Closed Issues", "closedIssues.totalCount"),
   defineGhPreset("openPullRequests", "Open Pull Requests", "openPullRequests.totalCount"),
+  defineGhPreset("mergedPullRequests", "Merged Pull Requests", "mergedPullRequests.totalCount"),
   defineGhPreset("closedPullRequests", "Closed Pull Requests", "closedPullRequests.totalCount"),
   defineGhPreset("releasesCount", "Releases Count", "releases.totalCount"),
   defineGhPreset("starsCount", "Stars", "stargazerCount"),

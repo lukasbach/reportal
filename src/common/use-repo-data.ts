@@ -18,6 +18,9 @@ const query = `
       openPullRequests: pullRequests(states: OPEN) {
         totalCount
       }
+      mergedPullRequests: pullRequests(states: MERGED) {
+        totalCount
+      }
       closedPullRequests: pullRequests(states: CLOSED) {
         totalCount
       }
@@ -42,6 +45,7 @@ type Result = {
   openIssues: { totalCount: number };
   closedIssues: { totalCount: number };
   openPullRequests: { totalCount: number };
+  mergedPullRequests: { totalCount: number };
   closedPullRequests: { totalCount: number };
   releases: { totalCount: number };
   stargazerCount: number;

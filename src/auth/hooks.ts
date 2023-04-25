@@ -101,7 +101,7 @@ export const useTokenLogin = () => {
   const signIn = useCallback(
     async (email: string, token: string) => {
       const actionCodeSettings = {
-        url: "http://localhost:5173/", // TODO
+        url: import.meta.env.DEV ? "http://localhost:5173/" : "https://reportal.lukasbach.com", // TODO
         handleCodeInApp: true,
       };
       const success = await sendSignInLinkToEmail(email, actionCodeSettings);
@@ -130,6 +130,13 @@ export const useAttemptToCompleteTokenLogin = () => {
       if (email) {
         signInWithEmailLink(email).then((result) => {
           const token = localStorage.getItem("___ght");
+
+          // remove apiKey from query params
+          const url = new URL(window.location.href);
+          url.searchParams.delete("apiKey");
+          url.searchParams.delete("oobCode");
+          window.history.replaceState({}, document.title, url.toString());
+
           if (!token || !result) {
             throw new Error("Login failed");
           }

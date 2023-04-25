@@ -18,41 +18,37 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
   };
 
   override readonly responseFields = [
-    { key: "id", name: "ID" },
-    { key: "subject.title", name: "Title" },
-    { key: "subject.type", name: "Type", suggestions: ["Issue", "PullRequest", "CheckSuite"] },
-    { key: "unread", name: "Unread", type: FieldType.Boolean },
-    {
-      key: "reason",
-      name: "Reason",
-      suggestions: [
-        "assign",
-        "author",
-        "comment",
-        "ci_activity",
-        "invitation",
-        "manual",
-        "mention",
-        "review_requested",
-        "security_alert",
-        "state_change",
-        "subscribed",
-        "team_mention",
-      ],
-    },
-    { key: "updated_at", name: "Updated Date", renderCell: cellRenderers.date() },
-    { key: "last_read_at", name: "Last Read Date", renderCell: cellRenderers.date() },
-    { key: "repository.full_name", name: "Repo Name with Owner" },
-    { key: "repository.description", name: "Repo Description" },
-    { key: "repository.name", name: "Repo Name" },
-    { key: "repository.owner.login", name: "Repo Owner Login" },
+    this.f("id", "ID").text().f,
+    this.f("subject.title", "Title").text().f,
+    this.f("subject.type", "Type").enum("Issue", "PullRequest", "CheckSuite").f,
+    this.f("unread", "Unread").boolean().f,
+    this.f("reason", "Reason").enum(
+      "assign",
+      "author",
+      "comment",
+      "ci_activity",
+      "invitation",
+      "manual",
+      "mention",
+      "review_requested",
+      "security_alert",
+      "state_change",
+      "subscribed",
+      "team_mention"
+    ).f,
+    this.f("updated_at", "Updated Date").date().f,
+    this.f("last_read_at", "Last Read Date").date().f,
+    this.f("repository.full_name", "Repo Name").repoName().f,
+    this.f("repository.description", "Repo Description").text().f,
+    this.f("repository.name", "Repo Name").repoName().f,
+    this.f("repository.owner", "Repo Owner").user().f,
   ];
 
   override readonly serverFilters = [
-    { key: "all", type: FieldType.Boolean },
-    { key: "participating", type: FieldType.Boolean },
-    { key: "since" },
-    { key: "before" },
+    this.f("all", "Show all").boolean().withDescription("Show all notifications, not only unread ones?").f,
+    this.f("participating", "Participating").boolean().f,
+    this.f("since", "Notifications since date").date().f,
+    this.f("before", "Notifications before date").date().f,
   ];
 
   override orderByOptions = undefined;

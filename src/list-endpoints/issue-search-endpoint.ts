@@ -179,31 +179,31 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
   ];
 
   override readonly responseFields = [
-    { key: "number", name: "Number" },
-    { key: "closed", name: "Closed" },
-    { key: "author.login", name: "Author", renderCell: cellRenderers.author("author", "login", "avatarUrl") },
-    { key: "title", name: "Title", renderCell: cellRenderers.issueTitle() },
+    this.f("number", "Number").text().f,
+    this.f("closed", "Closed").boolean().f,
+    this.f("author", "Author").user().f,
+    this.f("title", "Title").issueTitle().f,
     ...repositoryResponseFields,
-    { key: "closedAt", name: "Closed Date", renderCell: cellRenderers.date() },
-    { key: "comments.totalCount", name: "Comments Count" },
-    { key: "createdAt", name: "Created Date", renderCell: cellRenderers.date() },
-    { key: "state", name: "State", renderCell: cellRenderers.issueState() },
-    { key: "stateReason", name: "State Reason" },
-    { key: "updatedAt", name: "Updated Date", renderCell: cellRenderers.date() },
-    { key: "url", name: "URL" },
+    this.f("closedAt", "Closed Date").date().f,
+    this.f("comments.totalCount", "Comments Count").number().f,
+    this.f("createdAt", "Created Date").date().f,
+    this.f("state", "State").issueState().f,
+    this.f("stateReason", "State Reason").text().f,
+    this.f("updatedAt", "Updated Date").date().f,
+    this.f("url", "URL").url().f,
   ];
 
   override readonly serverFilters = [
-    { key: "type", suggestions: ["issue", "pr"] },
-    { key: "in", suggestions: ["title", "body", "comments"], multiple: true },
-    { key: "user" },
-    { key: "assignee" },
-    { key: "author" }, // TODO ?
-    { key: "org" },
-    { key: "repo" },
-    { key: "state", suggestions: ["open", "closed"] },
-    { key: "is", suggestions: ["open", "closed", "queued", "public", "private"], multiple: true },
-    { key: "reason", suggestions: ["completed", "not planned"] },
+    this.f("type", "Type").enum("issue", "pr").f,
+    this.f("in", "Search in").enum("title", "body", "comments").multiple().f,
+    this.f("user", "User").user().f,
+    this.f("assignee", "Assignee").user().f,
+    this.f("author", "Author").user().f, // TODO ?
+    this.f("org", "Organization").text().f,
+    this.f("repo", "Repository").repoName().f,
+    this.f("state", "State").enum("open", "closed").f,
+    this.f("is", "Is").enum("open", "closed", "queued", "public", "private").multiple().f,
+    this.f("reason", "Reason").enum("completed", "not planned").f,
     ...this.getOrderByFilterKeys(this.orderByOptions),
   ];
 

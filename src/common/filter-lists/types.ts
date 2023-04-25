@@ -14,6 +14,7 @@ export enum FieldType {
 export type ListField = {
   key: string;
   name: string;
+  description?: string;
   suggestions?: string[];
   type?: FieldType;
   renderCell?: (value: string, dataObject: any) => JSX.Element | string;

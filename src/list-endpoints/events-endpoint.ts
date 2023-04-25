@@ -19,45 +19,40 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
   };
 
   override readonly responseFields = [
-    { key: "id", name: "ID" },
-    {
-      key: "type",
-      name: "Event Type",
-      suggestions: [
-        "CommitCommentEvent",
-        "CreateEvent",
-        "DeleteEvent",
-        "ForkEvent",
-        "GollumEvent",
-        "IssueCommentEvent",
-        "IssuesEvent",
-        "MemberEvent",
-        "PublicEvent",
-        "PullRequestEvent",
-        "PullRequestReviewEvent",
-        "PullRequestReviewCommentEvent",
-        "PullRequestReviewThreadEvent",
-        "PushEvent",
-        "ReleaseEvent",
-        "SponsorshipEvent",
-        "WatchEvent",
-      ],
-      renderCell: cellRenderers.eventType(),
-    },
-    { key: "actor.login", name: "Actor Login", renderCell: cellRenderers.author("actor", "login", "avatar_url") },
-    { key: "repo.name", name: "Repo Name" },
-    { key: "public", name: "Public", type: FieldType.Boolean },
-    { key: "created_at", name: "Created Date", renderCell: cellRenderers.date() },
+    this.f("id", "ID").text().f,
+    this.f("type", "Event Type").enum(
+      "CommitCommentEvent",
+      "CreateEvent",
+      "DeleteEvent",
+      "ForkEvent",
+      "GollumEvent",
+      "IssueCommentEvent",
+      "IssuesEvent",
+      "MemberEvent",
+      "PublicEvent",
+      "PullRequestEvent",
+      "PullRequestReviewEvent",
+      "PullRequestReviewCommentEvent",
+      "PullRequestReviewThreadEvent",
+      "PushEvent",
+      "ReleaseEvent",
+      "SponsorshipEvent",
+      "WatchEvent"
+    ).f,
+    this.f("actor", "Actor Login").user().f,
+    this.f("repo.name", "Repo Name").text().f,
+    this.f("public", "Public").boolean().f,
+    this.f("created_at", "Created Date").date().f,
 
     // TODO https://docs.github.com/en/webhooks-and-events/events/github-event-types#commitcommentevent
   ];
 
   override readonly serverFilters = [
-    { key: "user" },
-    { key: "receivedby" },
-    { key: "repo" },
-    { key: "org" },
-    { key: "public", type: FieldType.Boolean },
+    this.f("user", "User").user().f,
+    this.f("receivedby", "Received By").date().f,
+    this.f("repo", "Repo").repoName().f,
+    this.f("org", "Org").text().f,
+    this.f("public", "Public").boolean().f,
   ];
 
   override orderByOptions = undefined;

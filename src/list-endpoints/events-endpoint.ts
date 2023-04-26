@@ -2,6 +2,7 @@ import { Octokit } from "@octokit/rest";
 import { FilterValue, SearchQueryDefinition, ListField } from "../common/filter-lists/types";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
+import { cellRenderers } from "../common/filter-lists/cell-renderers";
 
 export class EventsEndpoint extends ListEndpointDefinition<any> {
   override readonly id = EndpointId.Events;
@@ -19,25 +20,27 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
 
   override readonly responseFields = [
     this.f("id", "ID").text().f,
-    this.f("type", "Event Type").enum(
-      "CommitCommentEvent",
-      "CreateEvent",
-      "DeleteEvent",
-      "ForkEvent",
-      "GollumEvent",
-      "IssueCommentEvent",
-      "IssuesEvent",
-      "MemberEvent",
-      "PublicEvent",
-      "PullRequestEvent",
-      "PullRequestReviewEvent",
-      "PullRequestReviewCommentEvent",
-      "PullRequestReviewThreadEvent",
-      "PushEvent",
-      "ReleaseEvent",
-      "SponsorshipEvent",
-      "WatchEvent"
-    ).f,
+    this.f("type", "Event Type")
+      .enum(
+        "CommitCommentEvent",
+        "CreateEvent",
+        "DeleteEvent",
+        "ForkEvent",
+        "GollumEvent",
+        "IssueCommentEvent",
+        "IssuesEvent",
+        "MemberEvent",
+        "PublicEvent",
+        "PullRequestEvent",
+        "PullRequestReviewEvent",
+        "PullRequestReviewCommentEvent",
+        "PullRequestReviewThreadEvent",
+        "PushEvent",
+        "ReleaseEvent",
+        "SponsorshipEvent",
+        "WatchEvent"
+      )
+      .withRenderer(cellRenderers.eventType()).f,
     this.f("actor", "Actor Login").user("login", "avatar_url").f,
     this.f("repo.name", "Repo Name").text().f,
     this.f("public", "Public").boolean().f,

@@ -34,12 +34,7 @@ export const IssueDetailsComment: FC<IssueDetailsCommentProps> = ({ comment }) =
           fontSize: 1,
         }}
       >
-        <GhUserName
-          login={comment.author?.login}
-          avatar={comment.author?.avatarUrl}
-          avatarSize={20}
-          fontWeight="bold"
-        />{" "}
+        <GhUserName text={comment.author?.login} avatar={comment.author?.avatarUrl} avatarSize={20} fontWeight="bold" />{" "}
         <Text color="fg.muted">
           commented <RelativeTime datetime={comment.createdAt} />
         </Text>

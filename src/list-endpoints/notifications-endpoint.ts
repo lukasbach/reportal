@@ -37,9 +37,9 @@ export class NotificationsEndpoint extends ListEndpointDefinition<any> {
     ).f,
     this.f("updated_at", "Updated Date").date().f,
     this.f("last_read_at", "Last Read Date").date().f,
-    this.f("repository.full_name", "Repo Name").repoName().f,
+    this.f("repository.full_name", "Repo Name").repoName("author.avatarUrl").f,
+    this.f("repository.name", "Repo Name").repoName("author.avatarUrl").f,
     this.f("repository.description", "Repo Description").text().f,
-    this.f("repository.name", "Repo Name").repoName().f,
     this.f("repository.owner", "Repo Owner").user().f,
   ];
 

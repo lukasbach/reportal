@@ -1,6 +1,8 @@
 import React from "react";
 import { FieldType, ListField } from "./types";
 import { cellRenderers } from "./cell-renderers";
+import { GhUserName } from "../../components/common/gh-user-name";
+import { resolveRecursiveSubitem } from "../../utils";
 
 export class ListFieldBuilder {
   #field: ListField;
@@ -25,7 +27,10 @@ export class ListFieldBuilder {
     return this;
   }
 
-  repoName() {
+  repoName(avatarPath?: string) {
+    this.withRenderer((value: string, data: any) =>
+      avatarPath ? <GhUserName text={value} avatar={resolveRecursiveSubitem(data, avatarPath)} /> : value
+    );
     return this;
   }
 

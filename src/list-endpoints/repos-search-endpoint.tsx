@@ -102,8 +102,8 @@ export class ReposSearchEndpoint extends ListEndpointDefinition {
   ];
 
   override readonly responseFields = [
-    this.f("name", "Name").repoName().f,
-    this.f("nameWithOwner", "Name with Owner").repoName().f,
+    this.f("name", "Name").repoName("owner.avatarUrl").f,
+    this.f("nameWithOwner", "Name with Owner").repoName("owner.avatarUrl").f,
     this.f("description", "Description").text().f,
     this.f("createdAt", "Created Date").date().f,
     this.f("diskUsage", "Disk Usage").diskUsage().f,

@@ -50,7 +50,7 @@ export const IssueDetails: FC<IssueDetailsProps> = ({ issueProps }) => {
             <Text m={0} ml={2} fontSize={1} color="fg.muted">
               {issue?.assignees?.nodes?.length === 0 && <>No one</>}
               <GhUserName
-                login={issue?.assignees?.nodes?.[0]?.login}
+                text={issue?.assignees?.nodes?.[0]?.login}
                 avatar={issue?.assignees?.nodes?.[0]?.avatarUrl}
               />{" "}
               {(issue?.assignees?.nodes?.length ?? 0) > 1 && `and ${(issue?.assignees?.nodes?.length ?? 0) - 1} more`}{" "}

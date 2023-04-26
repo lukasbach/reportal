@@ -27,7 +27,7 @@ export const cellRenderers = {
   author: (key: string, userField: string, avatarField: string) => (value, data) =>
     (
       <GhUserName
-        login={resolveRecursiveSubitem(data, key)?.[userField]}
+        text={resolveRecursiveSubitem(data, key)?.[userField]}
         avatar={resolveRecursiveSubitem(data, key)?.[avatarField]}
       />
     ),

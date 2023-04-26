@@ -119,8 +119,8 @@ export class DiscussionSearchEndpoint extends ListEndpointDefinition {
     this.f("upvoteCount", "Upvote Count").number().f,
     this.f("url", "URL").url().f,
     this.f("stateReason", "State Reason").text().f,
-    this.f("repository.name", "Repository Name").repoName().f,
-    this.f("repository.nameWithOwner", "Repository Name With Owner").repoName().f,
+    this.f("repository.name", "Repository Name").repoName("repository.owner.avatarUrl").f,
+    this.f("repository.nameWithOwner", "Repository Name With Owner").repoName("repository.owner.avatarUrl").f,
     this.f("repository.owner", "Repository Owner").user().f,
   ];
 

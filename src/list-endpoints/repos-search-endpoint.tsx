@@ -1,10 +1,7 @@
-import React from "react";
-import { Avatar } from "@primer/react";
 import { SearchQueryDefinition } from "../common/filter-lists/types";
 import { constructGithubSearch, ParsedSearchResult } from "../common/filter-lists/search-utils";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
-import { CellContentWithIcon } from "../components/common/cell-content-with-icon";
 
 const repoSearchQuery = `
 query repoSearchQuery($search: String!, $first: Int!, $after: String) {

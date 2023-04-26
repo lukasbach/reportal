@@ -1,4 +1,3 @@
-import React from "react";
 import { SearchQueryDefinition } from "../common/filter-lists/types";
 import { constructGithubSearch, ParsedSearchResult } from "../common/filter-lists/search-utils";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";

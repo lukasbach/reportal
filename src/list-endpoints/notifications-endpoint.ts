@@ -1,5 +1,4 @@
-import { FieldType, SearchQueryDefinition } from "../common/filter-lists/types";
-import { cellRenderers } from "../common/filter-lists/cell-renderers";
+import { SearchQueryDefinition } from "../common/filter-lists/types";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
 

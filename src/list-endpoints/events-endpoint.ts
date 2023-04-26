@@ -1,6 +1,5 @@
 import { Octokit } from "@octokit/rest";
-import { FieldType, FilterValue, SearchQueryDefinition, ListField } from "../common/filter-lists/types";
-import { cellRenderers } from "../common/filter-lists/cell-renderers";
+import { FilterValue, SearchQueryDefinition, ListField } from "../common/filter-lists/types";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
 
@@ -39,7 +38,7 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
       "SponsorshipEvent",
       "WatchEvent"
     ).f,
-    this.f("actor", "Actor Login").user().f,
+    this.f("actor", "Actor Login").user("login", "avatar_url").f,
     this.f("repo.name", "Repo Name").text().f,
     this.f("public", "Public").boolean().f,
     this.f("created_at", "Created Date").date().f,
@@ -48,7 +47,7 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
   ];
 
   override readonly serverFilters = [
-    this.f("user", "User").user().f,
+    this.f("user", "User").user("login", "avatar_url").f,
     this.f("receivedby", "Received By").date().f,
     this.f("repo", "Repo").repoName().f,
     this.f("org", "Org").text().f,
@@ -112,7 +111,7 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
     if (filterMap.user) {
       if (filterMap.public?.value === "true") {
         return octokit.request("GET /users/{username}/events", {
-          username: filterMap.org.value,
+          username: filterMap.user.value,
           ...page,
         });
       }

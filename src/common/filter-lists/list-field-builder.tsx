@@ -30,7 +30,6 @@ export class ListFieldBuilder {
   }
 
   user(login = "login", avatarUrl = "avatarUrl") {
-    this.#field.key = `${this.#field.key}.${login}`;
     this.#field.type = FieldType.User;
     this.#field.renderCell = cellRenderers.author(this.#field.key, login, avatarUrl);
     return this;

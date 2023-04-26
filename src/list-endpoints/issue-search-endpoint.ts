@@ -1,6 +1,5 @@
 import { SearchQueryDefinition } from "../common/filter-lists/types";
 import { constructGithubSearch, ParsedSearchResult } from "../common/filter-lists/search-utils";
-import { cellRenderers } from "../common/filter-lists/cell-renderers";
 import { repositoryResponseFields } from "../common/filter-lists/common-response-fields";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";

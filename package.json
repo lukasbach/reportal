@@ -1,12 +1,12 @@
 {
-  "name": "hellogh",
+  "name": "reportal",
   "version": "0.0.1",
-  "description": "TODO",
+  "description": "Dashboarding software for GitHub",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "esnext": "lib/esnext/index.js",
   "typings": "lib/esm/index.d.ts",
-  "repository": "https://github.com/lukasbach/hellogh",
+  "repository": "https://github.com/lukasbach/reportal",
   "author": "Lukas Bach <npm@lukasbach.com>",
   "license": "MIT",
   "files": [

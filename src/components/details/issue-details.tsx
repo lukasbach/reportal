@@ -63,6 +63,20 @@ export const IssueDetails: FC<IssueDetailsProps> = ({ issueProps }) => {
         </Box>
       </Box>
       <Box bg="canvas.subtle" flexGrow={1}>
+        {issueProps.isPr && (
+          <Timeline sx={{ ml: 6 }}>
+            <Timeline.Item>
+              <Timeline.Badge>
+                <KebabHorizontalIcon />
+              </Timeline.Badge>
+              <Timeline.Body>
+                <Link href={issue.url} target="_blank" sx={{ fontWeight: "bold", color: "fg.default", mr: 1 }} muted>
+                  Code events and references are hidden. Open on GitHub to view.
+                </Link>
+              </Timeline.Body>
+            </Timeline.Item>
+          </Timeline>
+        )}
         <IssueDetailsComment comment={issue as any} />
         {issue.comments.totalCount > 50 && (
           <Timeline sx={{ ml: 6 }}>

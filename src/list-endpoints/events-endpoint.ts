@@ -144,13 +144,24 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
 
   override clickAction(item: components["schemas"]["event"]) {
     const [owner, repo] = item.repo.name.split("/");
-
-    // TODO scroll to comment if item.payload.comment
+    const payloadAny = item.payload as any;
 
     if (item.payload.issue) {
       useDetailsStore
         .getState()
         .openIssue(owner, repo, item.payload.issue.number, false, item.payload.comment?.node_id);
+      return;
+    }
+
+    if (payloadAny.pull_request) {
+      useDetailsStore
+        .getState()
+        .openIssue(owner, repo, payloadAny.pull_request.number, true, item.payload.comment?.node_id);
+      return;
+    }
+
+    if (payloadAny.release?.html_url) {
+      window.open(payloadAny.release?.html_url, "_blank");
       return;
     }
 

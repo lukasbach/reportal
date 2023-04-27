@@ -1,5 +1,5 @@
 import { SearchQueryDefinition } from "../common/filter-lists/types";
-import { constructGithubSearch, ParsedSearchResult } from "../common/filter-lists/search-utils";
+import { constructGithubSearch } from "../common/filter-lists/search-utils";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
 import { ReposSearchEndpoint } from "./repos-search-endpoint";

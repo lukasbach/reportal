@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Button, Heading } from "@primer/react-brand";
 import { Box } from "@primer/react";
-import { ChevronLeftIcon, PersonFillIcon, PersonIcon, RelFilePathIcon } from "@primer/octicons-react";
+import { ChevronLeftIcon, MarkGithubIcon, RelFilePathIcon } from "@primer/octicons-react";
 import { useNavigate } from "react-router";
 import { HomeContainer } from "./home-container";
 import { NarrowContainer } from "./narrow-container";
@@ -23,7 +23,7 @@ export const LoginPage: FC = () => {
           description={
             'Login through GitHub, and give reportal "repo" and "user" read access. You can see private repos in reportal.'
           }
-          icon={<PersonFillIcon size={24} />}
+          icon={<MarkGithubIcon size={24} />}
           onClick={() => signIn(["repo", "user"])}
         />
         <SignInOption
@@ -31,7 +31,7 @@ export const LoginPage: FC = () => {
           description={
             "Login through GitHub, and don't give reportal any access scopes. You can only see public repos in reportal."
           }
-          icon={<PersonIcon size={24} />}
+          icon={<MarkGithubIcon size={24} />}
           onClick={() => signIn([])}
         />
         <SignInOption

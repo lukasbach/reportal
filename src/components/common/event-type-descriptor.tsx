@@ -4,9 +4,12 @@ import {
   CodeReviewIcon,
   CommentIcon,
   GitBranchIcon,
+  GitPullRequestClosedIcon,
   GitPullRequestIcon,
+  IssueClosedIcon,
   IssueOpenedIcon,
   PersonAddIcon,
+  PersonIcon,
   PlusIcon,
   QuestionIcon,
   RepoForkedIcon,
@@ -15,166 +18,141 @@ import {
   RocketIcon,
   SponsorTiersIcon,
   StarIcon,
+  SyncIcon,
   TagIcon,
   TrashIcon,
 } from "@primer/octicons-react";
+import { Icon } from "@primer/octicons-react/dist/icons";
 import { CellContentWithIcon } from "./cell-content-with-icon";
 
 export type EventTypeDescriptorProps = { eventType: string; data: any };
 
+const define = (text: string, icon?: Icon) => (
+  <CellContentWithIcon text={text}>{(icon ?? QuestionIcon)({})}</CellContentWithIcon>
+);
+
 export const EventTypeDescriptor: FC<EventTypeDescriptorProps> = ({ eventType, data }) => {
   switch (eventType) {
     case "CommitCommentEvent":
-      return (
-        <CellContentWithIcon text="Commented">
-          <CommentIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Commented", CommentIcon);
     case "CreateEvent":
       if (data?.payload?.ref_type === "tag") {
-        return (
-          <CellContentWithIcon text="Created Tag">
-            <TagIcon size={16} />
-          </CellContentWithIcon>
-        );
+        return define("Created Tag", TagIcon);
       }
       if (data?.payload?.ref_type === "branch") {
-        return (
-          <CellContentWithIcon text="Created Branch">
-            <TagIcon size={16} />
-          </CellContentWithIcon>
-        );
+        return define("Created Branch", TagIcon);
       }
       if (data?.payload?.ref_type === "repository") {
-        return (
-          <CellContentWithIcon text="Created Repo">
-            <RepoIcon size={16} />
-          </CellContentWithIcon>
-        );
+        return define("Created Repo", RepoIcon);
       }
-      return (
-        <CellContentWithIcon text="Created">
-          <PlusIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Created", PlusIcon);
     case "DeleteEvent":
       if (data?.payload?.ref_type === "tag") {
-        return (
-          <CellContentWithIcon text="Deleted Tag">
-            <TagIcon size={16} />
-          </CellContentWithIcon>
-        );
+        return define("Deleted Tag", TagIcon);
       }
       if (data?.payload?.ref_type === "branch") {
-        return (
-          <CellContentWithIcon text="Deleted Branch">
-            <GitBranchIcon size={16} />
-          </CellContentWithIcon>
-        );
+        return define("Deleted Branch", GitBranchIcon);
       }
       if (data?.payload?.ref_type === "repository") {
-        return (
-          <CellContentWithIcon text="Deleted Repo">
-            <RepoIcon size={16} />
-          </CellContentWithIcon>
-        );
+        return define("Deleted Repo", RepoIcon);
       }
-      return (
-        <CellContentWithIcon text="Deleted">
-          <TrashIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Deleted", TrashIcon);
     case "ForkEvent":
-      return (
-        <CellContentWithIcon text={eventType}>
-          <RepoForkedIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define(eventType, RepoForkedIcon);
     case "GollumEvent":
-      return (
-        <CellContentWithIcon text={eventType}>
-          <BookIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define(eventType, BookIcon);
     case "IssueCommentEvent":
-      return (
-        <CellContentWithIcon text={eventType}>
-          <CommentIcon size={16} />
-        </CellContentWithIcon>
-      );
+      if (data?.payload?.action === "created") {
+        return define("Commented Issue", CommentIcon);
+      }
+      if (data?.payload?.action === "edited") {
+        return define("Edited Comment", CommentIcon);
+      }
+      if (data?.payload?.action === "deleted") {
+        return define("Deleted Comment", CommentIcon);
+      }
+      return define(eventType, CommentIcon);
     case "IssuesEvent":
-      // TODO look into .action property
-      return (
-        <CellContentWithIcon text="Changed Issue">
-          <IssueOpenedIcon size={16} />
-        </CellContentWithIcon>
-      );
+      if (data?.payload?.action === "opened") {
+        return define("Opened Issue", IssueOpenedIcon);
+      }
+      if (data?.payload?.action === "edited") {
+        return define("Edited Issue", IssueOpenedIcon);
+      }
+      if (data?.payload?.action === "closed") {
+        return define("Closed Issue", IssueClosedIcon);
+      }
+      if (data?.payload?.action === "reopened") {
+        return define("Reopened Issue", IssueOpenedIcon);
+      }
+      if (data?.payload?.action === "assigned") {
+        return define("Assigned to Issue", PersonAddIcon);
+      }
+      if (data?.payload?.action === "unassigned") {
+        return define("Unassigned from Issue", PersonIcon);
+      }
+      if (data?.payload?.action === "labeled") {
+        return define("Labeled Issue", TagIcon);
+      }
+      if (data?.payload?.action === "unlabeled") {
+        return define("Unlabeled Issue", TagIcon);
+      }
+      return define("Changed Issue", IssueOpenedIcon);
     case "MemberEvent":
-      return (
-        <CellContentWithIcon text="Changed Collaborators">
-          <PersonAddIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Changed Collaborators", PersonAddIcon);
     case "PublicEvent":
-      return (
-        <CellContentWithIcon text="Made public">
-          <RocketIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Made public", RocketIcon);
     case "PullRequestEvent":
+      if (data?.payload?.action === "opened") {
+        return define("Opened PR", GitPullRequestIcon);
+      }
+      if (data?.payload?.action === "edited") {
+        return define("Edited PR", GitPullRequestIcon);
+      }
+      if (data?.payload?.action === "closed") {
+        return define("Closed PR", GitPullRequestClosedIcon);
+      }
+      if (data?.payload?.action === "reopened") {
+        return define("Reopened PR", GitPullRequestIcon);
+      }
+      if (data?.payload?.action === "assigned") {
+        return define("Assigned to PR", PersonAddIcon);
+      }
+      if (data?.payload?.action === "unassigned") {
+        return define("Unassigned from PR", PersonIcon);
+      }
+      if (data?.payload?.action === "review_requested") {
+        return define("Requested Review", GitPullRequestIcon);
+      }
+      if (data?.payload?.action === "review_request_removed") {
+        return define("Removed Request for Review", GitPullRequestIcon);
+      }
+      if (data?.payload?.action === "labeled") {
+        return define("Labeled PR", TagIcon);
+      }
+      if (data?.payload?.action === "unlabeled") {
+        return define("Unlabeled PR", TagIcon);
+      }
+      if (data?.payload?.action === "synchronize") {
+        return define("Synced PR", SyncIcon);
+      }
       // TODO look into .action property
-      return (
-        <CellContentWithIcon text="Changed PR">
-          <GitPullRequestIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Changed PR", GitPullRequestIcon);
     case "PullRequestReviewEvent":
-      return (
-        <CellContentWithIcon text="Reviewed">
-          <CodeReviewIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Reviewed", CodeReviewIcon);
     case "PullRequestReviewCommentEvent":
-      return (
-        <CellContentWithIcon text="Commented on PR">
-          <CodeReviewIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Commented on PR", CodeReviewIcon);
     case "PullRequestReviewThreadEvent":
-      return (
-        <CellContentWithIcon text="Updated PR Thread">
-          <CodeReviewIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Updated PR Thread", CodeReviewIcon);
     case "PushEvent":
-      return (
-        <CellContentWithIcon text="Pushed">
-          <RepoPushIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Pushed", RepoPushIcon);
     case "ReleaseEvent":
-      return (
-        <CellContentWithIcon text="Released">
-          <RocketIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Released", RocketIcon);
     case "SponsorshipEvent":
-      return (
-        <CellContentWithIcon text="Sponsored">
-          <SponsorTiersIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Sponsored", SponsorTiersIcon);
     case "WatchEvent":
-      return (
-        <CellContentWithIcon text="Starred">
-          <StarIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define("Starred", StarIcon);
     default:
-      return (
-        <CellContentWithIcon text={eventType}>
-          <QuestionIcon size={16} />
-        </CellContentWithIcon>
-      );
+      return define(eventType, QuestionIcon);
   }
 };

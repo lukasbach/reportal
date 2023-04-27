@@ -5,6 +5,7 @@ export type DetailsState =
       repo: string;
       issue: number;
       isPr?: boolean;
+      comment?: string;
     }
   | {
       type: "unset";

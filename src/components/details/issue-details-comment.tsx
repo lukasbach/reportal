@@ -1,8 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import { Box, RelativeTime, Text, Token } from "@primer/react";
 import { MarkdownViewer } from "@primer/react/drafts";
 import { IssueComment } from "../../gql/graphql";
 import { GhUserName } from "../common/gh-user-name";
+import { useDetailsStore } from "./use-details-store";
 
 export type IssueDetailsCommentProps = {
   comment: IssueComment;
@@ -20,8 +21,28 @@ const reactions = {
 };
 
 export const IssueDetailsComment: FC<IssueDetailsCommentProps> = ({ comment }) => {
+  const highlightedComment = useDetailsStore(({ state }) => (state.type === "issue" ? state.comment : undefined));
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const isHighlighted = highlightedComment === comment.id;
+  console.log("isHighlighted", isHighlighted, highlightedComment, comment);
+
+  useEffect(() => {
+    if (isHighlighted) {
+      boxRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isHighlighted]);
+
   return (
-    <Box sx={{ borderRadius: "8px", border: "1px solid", borderColor: "border.default", m: 2, overflowX: "auto" }}>
+    <Box
+      sx={{
+        borderRadius: "8px",
+        border: "1px solid",
+        borderColor: isHighlighted ? "accent.emphasis" : "border.default",
+        m: 2,
+        overflowX: "auto",
+      }}
+      ref={boxRef}
+    >
       <Box
         sx={{
           borderBottom: "1px solid",

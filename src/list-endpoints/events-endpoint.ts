@@ -1,8 +1,10 @@
 import { Octokit } from "@octokit/rest";
+import type { components } from "@octokit/openapi-types";
 import { FilterValue, SearchQueryDefinition, ListField } from "../common/filter-lists/types";
 import { ListEndpointDefinition } from "../common/filter-lists/list-endpoint-definition";
 import { EndpointId } from "./endpoints";
 import { cellRenderers } from "../common/filter-lists/cell-renderers";
+import { useDetailsStore } from "../components/details/use-details-store";
 
 export class EventsEndpoint extends ListEndpointDefinition<any> {
   override readonly id = EndpointId.Events;
@@ -138,5 +140,25 @@ export class EventsEndpoint extends ListEndpointDefinition<any> {
     }
 
     return octokit.request("GET /events", page);
+  }
+
+  override clickAction(item: components["schemas"]["event"]) {
+    const [owner, repo] = item.repo.name.split("/");
+
+    // TODO scroll to comment if item.payload.comment
+
+    if (item.payload.issue) {
+      useDetailsStore
+        .getState()
+        .openIssue(owner, repo, item.payload.issue.number, false, item.payload.comment?.node_id);
+      return;
+    }
+
+    if (item.payload.pages?.[0]?.html_url) {
+      window.open(item.payload.pages?.[0]?.html_url, "_blank");
+      return;
+    }
+
+    window.open(`https://github.com/${item.repo.name}`, "_blank");
   }
 }

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { CommentDiscussionIcon, InboxIcon, IssueOpenedIcon, RepoIcon, RssIcon } from "@primer/octicons-react";
+import { CommentDiscussionIcon, InboxIcon, IssueOpenedIcon, RepoIcon, RssIcon, StarIcon } from "@primer/octicons-react";
 import { EndpointId } from "../../list-endpoints/endpoints";
 
 export type EndpointIconProps = {
@@ -22,6 +22,10 @@ export const EndpointIcon: FC<EndpointIconProps> = ({ endpointId, size }) => {
 
   if (endpointId === EndpointId.Repos) {
     return <RepoIcon size={size} />;
+  }
+
+  if (endpointId === EndpointId.StarredRepos) {
+    return <StarIcon size={size} />;
   }
 
   if (endpointId === EndpointId.Discussions) {

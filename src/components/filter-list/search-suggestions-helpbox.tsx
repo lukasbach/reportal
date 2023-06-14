@@ -6,6 +6,7 @@ import {
   CloudIcon,
   CloudOfflineIcon,
   EyeClosedIcon,
+  InfoIcon,
   ListUnorderedIcon,
 } from "@primer/octicons-react";
 import { Suggestion } from "../../common/filter-lists/search-utils";
@@ -59,6 +60,10 @@ export const SearchSuggestionsHelpbox: FC<SearchSuggestionsHelpboxProps> = ({ su
       <Text as="p" fontSize={3} fontWeight="bold">
         {suggestion.description}
       </Text>
+
+      <Section if={!!suggestion.filter.description} heading="Description" icon={InfoIcon}>
+        {suggestion.filter.description ?? ""}
+      </Section>
 
       <Section if={suggestion.filter.type === FieldType.Boolean} icon={CheckCircleIcon} heading="Boolean type">
         Supports values <Code>true</Code> and <Code>false</Code>.

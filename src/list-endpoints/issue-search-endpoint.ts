@@ -197,7 +197,11 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
     this.f("in", "Search in").enum("title", "body", "comments").multiple().f,
     this.f("user", "User").user().f,
     this.f("assignee", "Assignee").user().f,
-    this.f("author", "Author").user().f, // TODO ?
+    this.f("author", "Author")
+      .user()
+      .withDescription(
+        'The author of the issue or PR. If it is a bot user, you need to prepend it with "app/", i.e. "app/githubbot".'
+      ).f,
     this.f("org", "Organization").text().f,
     this.f("repo", "Repository").repoName().f,
     this.f("state", "State").enum("open", "closed").f,

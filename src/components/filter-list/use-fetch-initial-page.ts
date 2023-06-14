@@ -22,7 +22,6 @@ export const useFetchInitialPage = (
       return;
     }
 
-    console.log("initial load", pageSize, totalItems);
     fetchUntil(pageSize);
 
     done.current = true;

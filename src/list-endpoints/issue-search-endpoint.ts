@@ -229,4 +229,8 @@ export class IssueSearchEndpoint extends ListEndpointDefinition<IssueData> {
     const isPr = item.url.includes("/pull/"); // TODO
     useDetailsStore.getState().openIssue(item.repository.owner.login, item.repository.name, item.number, isPr);
   }
+
+  override getUrlTarget(item: IssueData) {
+    return item.url;
+  }
 }

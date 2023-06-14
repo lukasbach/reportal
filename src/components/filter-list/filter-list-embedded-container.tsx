@@ -47,6 +47,15 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
         onClickRow={(item) => {
           endpoint.clickAction?.(item);
         }}
+        onMiddleClickRow={(item) => {
+          const url = endpoint.getUrlTarget(item);
+          if (url) {
+            const newWindow = window.open(url, "_blank");
+            newWindow?.blur();
+            window.focus();
+          }
+          return false;
+        }}
       />
       {actionsRef.current &&
         createPortal(

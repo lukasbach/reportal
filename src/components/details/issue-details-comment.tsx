@@ -24,7 +24,6 @@ export const IssueDetailsComment: FC<IssueDetailsCommentProps> = ({ comment }) =
   const highlightedComment = useDetailsStore(({ state }) => (state.type === "issue" ? state.comment : undefined));
   const boxRef = useRef<HTMLDivElement | null>(null);
   const isHighlighted = highlightedComment === comment.id;
-  console.log("isHighlighted", isHighlighted, highlightedComment, comment);
 
   useEffect(() => {
     if (isHighlighted) {

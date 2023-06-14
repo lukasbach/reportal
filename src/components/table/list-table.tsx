@@ -10,9 +10,17 @@ export type ListTableProps = {
   canSelect?: boolean;
   table: Table<any>;
   onClickRow?: (item: any) => void;
+  onMiddleClickRow?: (item: any) => void;
 };
 
-export const ListTable: FC<ListTableProps> = ({ scrollRef, expandItems, onClickRow, canSelect, table }) => {
+export const ListTable: FC<ListTableProps> = ({
+  scrollRef,
+  expandItems,
+  onClickRow,
+  canSelect,
+  table,
+  onMiddleClickRow,
+}) => {
   return (
     <Box as="table" sx={tableStyles.table}>
       <thead>
@@ -27,7 +35,20 @@ export const ListTable: FC<ListTableProps> = ({ scrollRef, expandItems, onClickR
       </thead>
       <Box as="tbody" sx={tableStyles.tableBody} ref={scrollRef}>
         {table.getRowModel().rows.map((row) => (
-          <Box as="tr" key={row.id} sx={tableStyles.row} onClick={() => onClickRow?.(row.original)}>
+          <Box
+            as="tr"
+            key={row.id}
+            sx={tableStyles.row}
+            onClick={() => {
+              onClickRow?.(row.original);
+            }}
+            onMouseDown={(e) => {
+              if (e.button === 1) {
+                e.preventDefault();
+                onMiddleClickRow?.(row.original);
+              }
+            }}
+          >
             {canSelect && (
               <Box as="td" sx={tableStyles.checkboxCell} className="checkbox-cell">
                 <Checkbox

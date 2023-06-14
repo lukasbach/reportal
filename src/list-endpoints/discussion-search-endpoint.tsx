@@ -163,4 +163,8 @@ export class DiscussionSearchEndpoint extends ListEndpointDefinition {
   override clickAction(item) {
     window.open(item.url, "_blank");
   }
+
+  override getUrlTarget(item) {
+    return item.url;
+  }
 }

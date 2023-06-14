@@ -1,5 +1,5 @@
 import { FilterListState } from "../../components/filter-list/types";
-import { FilterValue, ListSearchProps, OrderByOption, SearchQueryDefinition, ListField } from "./types";
+import { FilterValue, ListField, ListSearchProps, OrderByOption, SearchQueryDefinition } from "./types";
 import { ParsedSearchResult } from "./search-utils";
 import { ListFieldBuilder } from "./list-field-builder";
 
@@ -35,6 +35,11 @@ export abstract class ListEndpointDefinition<T = any> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   clickAction(item: T) {}
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getUrlTarget(item: T): string | null {
+    return null;
+  }
 
   protected getFiltersAsMap(filters: FilterValue<ListField>[]) {
     return filters.reduce<Record<string, FilterValue<ListField>>>((acc, filter) => {

@@ -28,7 +28,7 @@ export const TableHead: FC<DataTableHeadProps> = ({ header }) => {
     accept: "column",
     drop: (draggedColumn: Column<RowData>) => {
       const newColumnOrder = reorderColumn(draggedColumn.id, column.id, fields);
-      onChangeFields(newColumnOrder);
+      onChangeFields?.(newColumnOrder);
     },
   });
 
@@ -50,9 +50,11 @@ export const TableHead: FC<DataTableHeadProps> = ({ header }) => {
       sx={{ ...tableStyles.tableHeadCell, ...(isOver && tableStyles.tableHeadCellDropping) }}
     >
       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-      <Box as="span" sx={tableStyles.grabber} ref={dragRef} className="grab-handle">
-        <GrabberIcon size={16} />
-      </Box>
+      {onChangeFields && (
+        <Box as="span" sx={tableStyles.grabber} ref={dragRef} className="grab-handle">
+          <GrabberIcon size={16} />
+        </Box>
+      )}
       <Box
         onMouseDown={header.getResizeHandler()}
         onTouchStart={header.getResizeHandler()}

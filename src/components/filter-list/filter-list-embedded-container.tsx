@@ -38,7 +38,7 @@ export const FilterListEmbeddedContainer: FC<FilterListEmbeddedContainerProps> =
   }
 
   return (
-    <FilterListProvider onChangeFields={() => {}} data={fetchData.list} fields={data.fields} endpoint={endpoint}>
+    <FilterListProvider data={fetchData.list} fields={data.fields} endpoint={endpoint}>
       <ListTable
         scrollRef={listContainerRef}
         expandItems={pagination.hasNextPage && !fetchData.isFetching}

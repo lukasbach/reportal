@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { FC } from "react";
 import { Box } from "@primer/react";
 import { Heading } from "@primer/react-brand";
@@ -212,6 +213,13 @@ export const PrivacyPolicy: FC = () => (
         <p>
           For more information about the cookies we use and your choices regarding cookies, please visit our Cookies
           Policy or the Cookies section of our Privacy Policy.
+        </p>
+        <h2>Firebase</h2>
+        <p>
+          We use Google Firebase for storing user data. We do not use any analytical tracking services. Processing is
+          necessary to safeguard the prevailing, legitimate interests of the data controller (Art. 6, para 1 (f) GDPR).
+          Our legitimate interest consists in offering our customers a user-friendly product and refining this on an
+          ongoing basis. Our use of Firebase is necessary in providing the Service.
         </p>
         <h2>Use of Your Personal Data</h2>
         <p>The Company may use Personal Data for the following purposes:</p>

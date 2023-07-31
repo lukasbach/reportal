@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Box, Link } from "@primer/react";
+import { NavLink } from "react-router-dom";
 
 export const Footer: FC = () => {
   return (
@@ -10,8 +11,11 @@ export const Footer: FC = () => {
       </Link>
       . This project is not affiliated with GitHub.{" "}
       <Link href="https://github.com/lukasbach/reportal" target="blank">
-        Star this project on Github
-      </Link>
+        Star this project on Github.
+      </Link>{" "}
+      <NavLink to="/privacy" className="unstyled-link">
+        <Link>Privacy Policy</Link>
+      </NavLink>
     </Box>
   );
 };

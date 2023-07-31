@@ -13,11 +13,16 @@ import { LoginPage } from "./components/home/login-page";
 import { LoginViaTokenPage } from "./components/home/login-via-token-page";
 import { LoginViaTokenSuccessPage } from "./components/home/login-via-token-success-page";
 import { ProvisionPage } from "./provision/provision-page";
+import { PrivacyPolicy } from "./components/home/privacy-policy";
 
 export const router = createHashRouter([
   {
     path: "/",
     element: <HomePage />,
+  },
+  {
+    path: "/privacy",
+    element: <PrivacyPolicy />,
   },
   {
     path: "/login",

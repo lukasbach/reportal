@@ -51,7 +51,9 @@ const useRecentPushes = () => {
       data?.data.filter(
         (item) =>
           item.type === "PushEvent" ||
-          (item.type === "CreateEvent" && item.payload.ref_type === "branch" && item.payload.pusher_type === "user")
+          (item.type === "CreateEvent" &&
+            (item.payload as any).ref_type === "branch" &&
+            (item.payload as any).pusher_type === "user")
       ),
     [data]
   );

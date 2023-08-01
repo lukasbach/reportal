@@ -73,8 +73,9 @@ const usePrOptions = () => {
       const maybePrs: (PrOption | null)[] = await Promise.all(
         recentPushes.map<Promise<PrOption | null>>(async (push) => {
           const [owner, repo] = push.repo.name.split("/");
-          const pushRef = (push.payload as any).ref;
-          const shortenedPushRef = `${pushRef}`.slice("refs/heads/".length);
+          const pushRef = `${(push.payload as any).ref}`;
+          const refsHead = "refs/heads/";
+          const shortenedPushRef = pushRef.startsWith(refsHead) ? pushRef.slice(refsHead.length) : pushRef;
           const specificData: any = await kit.graphql(prDataQuery, {
             owner,
             repo,

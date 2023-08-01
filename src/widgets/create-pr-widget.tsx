@@ -46,7 +46,15 @@ const useRecentPushes = () => {
       }),
     { refetchOnWindowFocus: false }
   );
-  return useMemo(() => data?.data.filter((item) => item.type === "PushEvent"), [data]);
+  return useMemo(
+    () =>
+      data?.data.filter(
+        (item) =>
+          item.type === "PushEvent" ||
+          (item.type === "CreateEvent" && item.payload.ref_type === "branch" && item.payload.pusher_type === "user")
+      ),
+    [data]
+  );
 };
 
 const usePrOptions = () => {

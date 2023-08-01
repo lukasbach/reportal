@@ -14,6 +14,7 @@ export const Footer: FC = () => {
         Star this project on Github.
       </Link>{" "}
       <NavLink to="/privacy" className="unstyled-link">
+        {/* eslint-disable-next-line */}
         <Link>Privacy Policy</Link>
       </NavLink>
     </Box>
